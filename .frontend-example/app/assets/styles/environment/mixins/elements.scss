@@ -1,0 +1,12 @@
+@mixin tab {
+    display: flex;
+    height: steps(3.5);
+
+    border-radius: $element-border-radius $element-border-radius 0 0;
+    padding: 0 steps(1.5);
+    align-items: center;
+
+    @include normal-medium-text;
+    color: $color-text-lighter;
+    text-decoration: none;
+}

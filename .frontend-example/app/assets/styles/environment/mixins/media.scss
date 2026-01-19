@@ -1,0 +1,60 @@
+@mixin for-at-least($min-width ) {
+    @media all and (min-width: #{$min-width}) {
+        @content;
+    }
+}
+
+@mixin for-at-most($max-width ) {
+    @media all and (max-width: #{$max-width}) {
+        @content;
+    }
+}
+
+@mixin for-at-least-tablets() {
+    @include for-at-least($tablet-breakpoint) {
+        @content;
+    }
+}
+
+@mixin for-less-than-tablets() {
+    @include for-at-most($tablet-breakpoint - 1px) {
+        @content;
+    }
+}
+
+
+@mixin for-desktops() {
+    @include for-at-least($desktop-breakpoint) {
+        @content;
+    }
+}
+
+@mixin for-at-least-normal-desktops() {
+    @include for-at-least($normal-desktop-breakpoint) {
+        @content;
+    }
+}
+
+@mixin for-large-desktops() {
+    @include for-at-least($large-desktop-breakpoint) {
+        @content;
+    }
+}
+
+@mixin for-less-than-desktops() {
+    @include for-at-most($desktop-breakpoint - 1px) {
+        @content;
+    }
+}
+
+@mixin for-very-small-phones() {
+    @include for-at-most($normal-phone-breakpoint - 1px) {
+        @content;
+    }
+}
+
+@mixin for-reduced-motion {
+    @media (prefers-reduced-motion: reduce) {
+        @content;
+    }
+}

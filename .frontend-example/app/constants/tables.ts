@@ -1,0 +1,1 @@
+export const MAX_NUMBER_OF_TABLE_ROWS = 50_000;

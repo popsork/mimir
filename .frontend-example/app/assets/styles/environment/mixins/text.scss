@@ -1,0 +1,283 @@
+@mixin font-dimensions($font-size, $line-height, $letter-spacing: normal) {
+    font-size: $font-size;
+    line-height: $line-height;
+    letter-spacing: $letter-spacing;
+}
+
+// mixins for body text:
+
+// {size}-{weight}-text:
+// size: 9px - tiny, 10px - small, 12px - normal, 15px - large
+// weight: 420 - regular (not mentioned), 500 - medium, 650 - strong
+
+
+@mixin tiny-medium-text {
+    // 9px 500
+    @include small-caption-text;
+}
+
+@mixin small-text {
+    // 10px 420
+    @include body-tiny-text;
+}
+
+@mixin small-medium-text {
+    // 10px 500
+    @include body-tiny-strong-text;
+}
+
+@mixin small-strong-text {
+    // 10px 650
+    @include body-tiny-extra-strong-text;
+}
+
+@mixin normal-text {
+    // 12px 420
+    @include body-base-text;
+}
+
+@mixin normal-medium-text {
+    // 12px 500
+    @include body-base-strong-text;
+}
+
+@mixin normal-strong-text {
+    // 12px 650
+    @include body-base-extra-strong-text;
+}
+
+@mixin large-medium-text {
+    // 15px 500
+    @include body-medium-strong-text;
+}
+
+
+
+
+// mixins for headings:
+
+// {size}-heading:
+// size: 15px - small, 18px - normal, 20px - large
+
+@mixin small-heading {
+    // 15px 500
+    @include small-heading-text;
+}
+
+@mixin normal-heading {
+    // 18px 500
+    @include medium-heading-text;
+}
+
+@mixin large-heading {
+    // 20px 500
+    @include heading-text;
+}
+
+// mixins for titles (even larger headings):
+
+// {size}-title:
+// size: 32px - small, 40px - normal, 64px - large
+
+@mixin small-title {
+    // 32px 420
+    @include subtitle-text;
+}
+
+@mixin normal-title {
+    // 40px 500
+    @include title-page-text;
+}
+
+@mixin large-title {
+    // 64px 500
+    @include title-hero-text;
+}
+
+
+@mixin logo-text {
+    // this is a special custom text style for the text near the logo in the page header.
+    // it does not have a name in the design system and does not appear elsewhere.
+    @include font-dimensions(18px, steps(3), 0);
+    font-weight: 650;
+}
+
+
+
+// the following are mixins taken directly from figma design system
+// and named according to their style names in figma.
+// these should not be used directly elsewhere in the codebase,
+// but instead should be added to the above mixins as needed.
+@mixin body-medium-text {
+    @include font-dimensions(15px, steps(3), -0.005em);
+    font-weight: 420;
+}
+
+@mixin body-medium-strong-text {
+    @include font-dimensions(15px, steps(3), -0.005em);
+    font-weight: 500;
+}
+
+@mixin body-medium-extra-strong-text {
+    @include font-dimensions(15px, steps(3), -0.005em);
+    font-weight: 650;
+}
+
+@mixin body-base-text {
+    @include font-dimensions(12px, steps(2), -0.002em);
+    font-weight: 420;
+}
+
+@mixin body-base-strong-text {
+    @include font-dimensions(12px, steps(2), -0.002em);
+    font-weight: 500;
+}
+
+@mixin body-base-extra-strong-text {
+    @include font-dimensions(12px, steps(2), -0.002em);
+    font-weight: 650;
+}
+
+// body-base and body-small styles have been made identical in figma, so the small version should not be used anymore
+@mixin body-small-text {
+    @include font-dimensions(12px, steps(2), -0.002em);
+    font-weight: 420;
+}
+
+@mixin body-small-strong-text {
+    @include font-dimensions(12px, steps(2), -0.002em);
+    font-weight: 500;
+}
+
+@mixin body-small-extra-strong-text {
+    @include font-dimensions(12px, steps(2), -0.002em);
+    font-weight: 650;
+}
+
+@mixin body-tiny-text {
+    @include font-dimensions(10px, 14px, normal);
+    font-weight: 420;
+}
+
+@mixin body-tiny-strong-text {
+    @include font-dimensions(10px, 14px, normal);
+    font-weight: 500;
+}
+
+@mixin body-tiny-extra-strong-text {
+    @include font-dimensions(10px, 14px, normal);
+    font-weight: 650;
+}
+
+
+// it is recommended to avoid using the single-line- versions if possible and use the body- versions instead.
+// these are here only for reference
+@mixin single-line-body-medium-text {
+    @include font-dimensions(15px, 15px, -0.005em);
+    font-weight: 420;
+}
+
+@mixin single-line-body-medium-strong-text {
+    @include font-dimensions(15px, 15px, -0.005em);
+    font-weight: 500;
+}
+
+@mixin single-line-body-base-text {
+    @include font-dimensions(12px, 12px, -0.002em);
+    font-weight: 420;
+}
+
+@mixin single-line-body-base-strong-text {
+    @include font-dimensions(12px, 12px, -0.002em);
+    font-weight: 500;
+}
+
+@mixin single-line-body-base-extra-strong-text {
+    @include font-dimensions(12px, 12px, -0.002em);
+    font-weight: 650;
+}
+
+@mixin single-line-body-small-text {
+    @include font-dimensions(12px, 12px, -0.002em);
+    font-weight: 420;
+}
+
+@mixin single-line-body-small-strong-text {
+    @include font-dimensions(12px, 12px, -0.002em);
+    font-weight: 500;
+}
+
+@mixin single-line-body-small-extra-strong-text {
+    @include font-dimensions(12px, 12px, -0.002em);
+    font-weight: 650;
+}
+
+@mixin single-line-body-tiny-text {
+    @include font-dimensions(10px, 10px, normal);
+    font-weight: 420;
+}
+
+@mixin single-line-body-tiny-strong-text {
+    @include font-dimensions(10px, 10px, normal);
+    font-weight: 500;
+}
+
+@mixin small-caption-text {
+    @include font-dimensions(9px, 9px, normal);
+    font-weight: 500;
+}
+
+
+@mixin heading-text {
+    @include font-dimensions(20px, steps(3), -0.02em);
+    font-weight: 500;
+}
+
+@mixin medium-heading-text {
+    @include font-dimensions(18px, steps(3), -0.01em);
+    font-weight: 500;
+}
+
+@mixin small-heading-text {
+    @include font-dimensions(15px, steps(2.5), -0.005em);
+    font-weight: 500;
+}
+
+
+@mixin title-hero-text {
+    @include font-dimensions(64px, steps(9), -0.04em);
+    font-weight: 500;
+}
+
+@mixin title-page-text {
+    @include font-dimensions(40px, steps(4), -0.03em);
+    font-weight: 500;
+}
+
+@mixin subtitle-text {
+    @include font-dimensions(32px, steps(4), -0.01em);
+    font-weight: 420;
+}
+
+
+
+// text utility mixins
+
+@mixin word-break {
+    word-wrap: break-word;
+    overflow-wrap: break-word; // alias for older browsers
+    overflow-wrap: anywhere;
+    hyphens: auto;
+}
+
+@mixin word-clip {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+@mixin hidden-text {
+    overflow: hidden;
+    text-indent: 100%;
+    white-space: nowrap;
+}

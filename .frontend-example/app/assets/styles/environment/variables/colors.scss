@@ -1,0 +1,161 @@
+// stylelint-disable color-no-hex
+$color-brand: #164DA7;
+$color-brand-darker: #113D83;
+$color-brand-light: #93B7F1;
+$color-brand-lighter: #BBD2F6;
+$color-brand-lightest: #EDF3FD;
+
+
+$color-background-lightest: #FFFFFF;
+$color-background-lighter: #F7F7F8;
+$color-background-light: #EEEEF0;
+$color-background-darker: #DADCE1;
+$color-background-darkest: #C1C3CD;
+
+$color-background-accent: $color-brand-lightest;
+$color-background-accent-darker: $color-brand-lighter;
+
+$color-background-inverted: #4C505D;
+$color-background-inverted-dark: #272930;
+$color-background-inverted-darker: #202227;
+
+$color-background-inverted-highlight: $color-brand;
+$color-background-inverted-highlight-darker: $color-brand-darker;
+
+$color-background-translucent: rgba(0, 0, 0, 0.7);
+
+$color-background-info: #BBD2F6;
+$color-background-success: #B7EBC1;
+$color-background-warning: #FDD8A0;
+$color-background-error: #FCD4D4;
+$color-background-error-lighter: #FCD4D466;
+
+// status colors are also duplicated in OrderStatusColor enum for use in scripts
+$color-background-order-status-pending: #FDD8A0; // "pending" in figma
+$color-background-order-status-planned: #DAB1DC; // "alternative two" in figma
+$color-background-order-status-dispatched: #F8EF87; // "alternative five" in figma
+$color-background-order-status-accepted: #93B7F1; // "accepted" in figma
+$color-background-order-status-started: #94E1A4; // "dispatched" in figma
+$color-background-order-status-completed: #C1C3CD; // "delivered" in figma
+$color-background-order-status-denied: #F37676;
+
+$color-background-calendar-blocked-time-period: #DADCE1;
+
+$color-danger: #B32222;
+$color-danger-darker: #942020;
+$color-danger-light: #F9A8A8;
+$color-danger-lighter: #FCC5C5;
+$color-danger-lightest: #FCD4D4;
+
+$color-deviation-status-new: #FDD8A0; // "pending" in figma
+$color-deviation-status-open: #F8EF87; // "alternative five" in figma
+
+$color-audit-event-deleted: #F0B2B2; // "alternative one" in figma
+$color-audit-event-updated: #93B7F1; // "accepted" in figma
+$color-audit-event-created: #F8EF87; // "alternative five" in figma
+
+$color-invoicing-process-status-pending: #FDD8A0; // "pending" in figma
+$color-invoicing-process-status-running: #94E1A4; // "dispatched" in figma
+$color-invoicing-process-status-completed: #C1C3CD;
+$color-invoicing-process-status-failed: #F0B2B2;
+$color-invoicing-process-status-cancelled: #DADCE1; // used as a border
+
+$color-invoicing-process-step-status-pending: #8D92A3;
+$color-invoicing-process-step-status-started: #249553;
+$color-invoicing-process-step-status-stopped: $color-danger;
+$color-invoicing-process-step-status-completed: $color-brand;
+
+
+$color-location-accuracy-high: #249553;
+$color-location-accuracy-moderate: #DB610F;
+$color-location-accuracy-low: #D52D2D;
+
+
+$color-background-danger: $color-danger-lighter;
+$color-background-danger-lighter: $color-danger-lightest;
+
+
+$color-text-normal: #272930;
+$color-text-lighter: #373B43;
+$color-text-lightest: #5E6373;
+
+$color-text-disabled: #C1C3CD;
+
+$color-text-highlight: $color-brand;
+
+$color-text-error: $color-danger;
+$color-text-info: #087EFD;
+
+$color-text-inverted: #EEEEF0;
+
+$color-text-changed: $color-text-info;
+
+
+$color-border-light: #EEEEF0;
+$color-border-normal: #DADCE1;
+$color-border-dark: #C1C3CD;
+$color-border-darker: #8D92A3;
+$color-border-darkest: #5E6373;
+
+$color-border-hover: $color-border-darkest;
+$color-border-active: #4C505D;
+$color-border-highlight: $color-brand;
+$color-border-accent: $color-brand-light;
+
+$color-border-error: $color-danger;
+
+
+$color-darken: #000000; // only for use in color-mix() to darken other colors
+
+$color-shadow: rgba(24, 24, 27, 0.05);
+
+$color-outline-accent: #638CCF;
+
+
+// dashboard charts
+$color-charts-info: $color-brand;
+$color-charts-overdue: $color-danger-lighter;
+$color-charts-split-line: #DADCE1;
+$color-charts-hover-info: $color-brand-darker;
+$color-charts-hover-overdue: $color-danger-light;
+
+// map colors
+$color-map-marker-default: $color-brand;
+$color-map-marker-spiderfied: $color-brand-light;
+
+$color-map-cluster-many: $color-danger;
+$color-map-cluster-few: #313236; // $color-brand;
+
+$color-map-connection-default: #8D92A3;
+$color-map-connection-planned: $color-brand;
+$color-map-connection-error: #F37676;
+
+
+
+// dummy colors for debugging
+// stylelint-disable color-named
+
+$color-dummy-1: springgreen;
+$color-dummy-2: deepskyblue;
+$color-dummy-3: bisque;
+$color-dummy-4: gold;
+$color-dummy-5: turquoise;
+$color-dummy-6: khaki;
+
+$color-dummy-7: lightblue;
+$color-dummy-8: lawngreen;
+$color-dummy-9: aqua;
+$color-dummy-10: aquamarine;
+$color-dummy-11: dodgerblue;
+$color-dummy-12: burlywood;
+
+$color-dummy-13: cadetblue;
+$color-dummy-14: mediumseagreen;
+$color-dummy-15: darkorange;
+$color-dummy-16: peru;
+
+// stylelint-enable color-named
+
+$color-dummy-transparent: transparent;
+
+$color-dummy-translucent: rgba(0, 0, 0, 0.2);

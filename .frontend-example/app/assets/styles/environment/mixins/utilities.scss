@@ -1,0 +1,56 @@
+@mixin visually-hidden {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+
+    // unwanted scrollbar fix for some browsers
+    overflow: hidden;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    border: 0;
+    margin: -1px;
+}
+
+@mixin placeholder {
+    $prefixes: ":-webkit-input" ":-moz";
+
+    @each $prefix in $prefixes {
+        &:#{$prefix}-placeholder {
+            @content;
+        }
+    }
+}
+
+@mixin transition($property: $transition-properties, $duration: $transition-duration, $curve: $transition-curve) {
+    transition: $duration $curve;
+    transition-property: #{$property};
+}
+
+@mixin for-autofill {
+    &:autofill,
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active,
+    &:-webkit-autofill::first-line,
+    &:-internal-autofill-selected,
+    &:-internal-autofill-previewed {
+        @content;
+    }
+}
+
+@mixin no-autofill-background {
+    // a workaround to remove the light blue background that chrome adds on autofilled login fields
+    @include for-autofill {
+        transition: background-color 1s 9999s;
+    }
+}
+
+@mixin autofill-detection {
+    // mark autofill state with a custom unused attribute value to allow detecting it via getComputedStyle()
+    background-attachment: scroll;
+
+    @include for-autofill {
+        background-attachment: fixed;
+    }
+}

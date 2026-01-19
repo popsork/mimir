@@ -1,0 +1,5 @@
+$font-stack: geist, arial, helvetica neue, helvetica, sans-serif;
+
+$transition-duration: 300ms; // copied from naive ui defaults
+$transition-curve: cubic-bezier(.4, 0, .2, 1); // copied from naive ui defaults
+$transition-properties: color, background-color, border;

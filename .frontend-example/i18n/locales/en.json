@@ -1,0 +1,1554 @@
+{
+    "general": {
+        "MOTUS TMS": "MOTUS TMS",
+        "Close": "Close",
+        "Apply": "Apply",
+        "Confirm": "Confirm",
+        "Cancel": "Cancel",
+        "Save": "Save",
+        "Add": "Add",
+        "Remove": "Remove",
+        "Clear": "Clear",
+        "Clear all": "Clear all",
+        "Expand": "Expand",
+        "Collapse": "Collapse",
+        "Move": "Move",
+        "error": {
+            "Something has gone wrong": "Something has gone wrong",
+            "Show technical details": "Show technical details",
+            "Hide technical details": "Hide technical details",
+            "Please reload the page": "Please, reload the page"
+        },
+        "boolean": {
+            "true": "Yes",
+            "false": "No"
+        },
+        "units": {
+            "km": "km",
+            "h": "h",
+            "min": "min",
+            "pieces": "pieces",
+            "kg": "kg",
+            "m3": "m³",
+            "ldm": "ldm",
+            "ppl": "ppl"
+        }
+    },
+    "navigation": {
+        "Home": "Home",
+        "Help": "Help",
+        "Admin": "Admin",
+        "pages": {
+            "Orders": "Orders",
+            "Invoicing": "Invoicing",
+            "Clients": "Clients",
+            "Vehicles": "Vehicles",
+            "Routes": "Routes",
+            "Settings": "Settings",
+            "Self billing": "Self billing",
+            "orders": {
+                "List": "List",
+                "Calendar": "Calendar",
+                "Map": "Map"
+            },
+            "Templates": "Templates",
+            "invoicing": {
+                "Invoiceable orders": "Invoiceable orders",
+                "Active processes": "Active processes",
+                "Finished processes": "Finished processes"
+            },
+            "self_billing": {
+                "Self billing orders": "Self billing orders"
+            }
+        },
+        "locales": {
+            "en": "English",
+            "sv": "Svenska"
+        },
+        "actions": {
+            "Log out": "Log out"
+        }
+    },
+    "pages": {
+        "titles": {
+            "Clients": "Clients",
+            "Vehicles": "Vehicles",
+            "Settings": "Settings",
+            "List view": "List view",
+            "Calendar view": "Calendar view",
+            "Map view": "Map view",
+            "New order": "New order",
+            "Order": "Order {number}",
+            "Routes": "Routes",
+            "New route": "New route",
+            "Route": "Route {name}",
+            "Templates": "Templates",
+            "Search": "Search",
+            "Style page": "Style page",
+            "Invoicing": "Invoicing",
+            "Invoiceable orders": "Invoiceable orders",
+            "Active processes": "Active processes",
+            "Finished processes": "Finished processes",
+            "Invoicing process": "Invoicing process",
+            "Self billing": "Self billing",
+            "Self billing orders": "Self billing orders"
+        }
+    },
+    "search": {
+        "header": {
+            "Search": "Search",
+            "placeholder": "Search Order No., Client No."
+        },
+        "scopes": {
+            "orders": "Orders",
+            "customers": "Customers",
+            "articles": "Articles",
+            "specifications": "Specifications",
+            "deviations": "Deviations"
+        },
+        "filter": {
+            "keywords": {
+                "title": "Keyword",
+                "placeholder": "Enter additional keyword",
+                "label": "keyword"
+            },
+            "builder": {
+                "title": "Additional filters"
+            }
+        },
+        "table": {
+            "customers": {
+                "name": "Name",
+                "short_name": "Short name",
+                "number": "Number",
+                "vat": "VAT",
+                "order_count": "#orders"
+            },
+            "articles": {
+                "name": "Name",
+                "code": "Code",
+                "number": "Number",
+                "article_group_name": "Group"
+            },
+            "specifications": {
+                "order_number": "Order number",
+                "transport_order_number": "Transport order #",
+                "unit_number": "Unit number",
+                "started_at": "Started at",
+                "ended_at": "Ended at",
+                "start_point_name": "Start point name",
+                "end_point_name": "End point name",
+                "activity": "Specification",
+                "notes": "Notes",
+                "quantity": "Quantity",
+                "quantity_type_name": "Quantity type name",
+                "hours": "Hours",
+                "executions": "Executions"
+            },
+            "deviations": {
+                "deviation_cause_code": "Deviation cause code",
+                "deviation_type_code": "Deviation type code",
+                "deviation_status": "Deviation status",
+                "deviation_cause_description": "Deviation cause description",
+                "deviation_type_description": "Deviation type description",
+                "deviation_description": "Deviation description",
+                "number_of_images": "Number of images",
+                "user": "User",
+                "registered_by": "Registered by",
+                "driver": "Driver",
+                "unit_number": "Unit number",
+                "customer_short_name": "Customer short name",
+                "customer_name": "Customer name",
+                "order_number": "Order number",
+                "order_status": "Order status",
+                "transport_order_number": "Transport order number",
+                "littera": "Littera",
+                "action_type": "Action type",
+                "action_description": "Action description"
+            }
+        },
+        "Apply": "Apply",
+        "Clear all": "Clear all",
+        "Search results for": "Search results for"
+    },
+    "filter": {
+        "condition": {
+            "Property": "Property",
+            "Value": "Value",
+            "Enter value": "Enter value",
+            "Select": "Select",
+            "Operator": "Operator"
+        },
+        "Add filter group": "Add filter group",
+        "logical_operator": {
+            "and": "and",
+            "or": "or"
+        },
+        "Remove filter": "Remove filter",
+        "Group operator": "Group operator",
+        "comparison_operator": {
+            "matches": "Matches",
+            "equals": "Equals",
+            "not-matches": "Not matches",
+            "not-equals": "Not equals",
+            "blank": "Is blank",
+            "not-blank": "Is not blank",
+            "greater-than": "Greater than",
+            "greater-than-or-equal": "Greater than or equal",
+            "less-than": "Less than",
+            "less-than-or-equal": "Less than or equal",
+            "relative": "Relative"
+        }
+    },
+    "orders": {
+        "actions": {
+            "Create new order": "Create new order"
+        },
+        "add_to_route": {
+            "fields": {
+                "Route": "Route"
+            },
+            "messages": {
+                "Add to route": "Add to route",
+                "Failed to add orders to route": "Failed to add orders to route",
+                "Missing route": "Missing route"
+            }
+        },
+        "context_menu": {
+            "Add to a route": "Add to a route",
+            "Filter on": "Filter on \"{text}\"",
+            "Filter out": "Filter out \"{text}\"",
+            "Reset filters": "Reset filters",
+            "Group on": "Group on \"{text}\"",
+            "Ungroup": "Ungroup",
+            "Edit order": "Edit order",
+            "Remove filter": "Remove filter on \"{text}\"",
+            "Show on the map": "Show on the map"
+        },
+        "list": {
+            "action_menu": {
+                "Open order action menu": "Open order action menu",
+                "Show waybill": "Show waybill",
+                "Deviation": "Deviation",
+                "Insert stop": "Insert stop",
+                "Edit order": "Edit order",
+                "Accept order": "Accept order"
+            },
+            "sidebar": {
+                "headings": {
+                    "Table filters": "Table filters",
+                    "Edit columns": "Edit columns"
+                }
+            },
+            "columns": {
+                "accepted_at": "Accepted At",
+                "alystra_customer_total": "Alystra Customer Total",
+                "alystra_unit_total": "Alystra Unit Total",
+                "carrier_name": "Carrier Name",
+                "carrier_shortname": "Carrier Short Name",
+                "carrier_instructions": "Carrier instructions",
+                "completed_at": "Completed At",
+                "created_at": "Created At",
+                "customer_contact": "Customer Contact",
+                "customer_delivery_city": "Customer Delivery City",
+                "customer_delivery_contact": "Customer Delivery Contact",
+                "customer_delivery_country": "Customer Delivery Country",
+                "customer_delivery_email": "Customer Delivery Email",
+                "customer_delivery_information": "Customer Delivery Information",
+                "customer_delivery_latitude": "Customer Delivery Latitude",
+                "customer_delivery_longitude": "Customer Delivery Longitude",
+                "customer_delivery_name": "Customer Delivery Name",
+                "customer_delivery_phone": "Customer Delivery Phone",
+                "customer_delivery_postal_code": "Customer Delivery Postal Code",
+                "customer_delivery_street_name": "Customer Delivery Street Name",
+                "customer_delivery_street_number": "Customer Delivery Street Number",
+                "customer_department": "Customer Department",
+                "customer_difference": "Customer difference",
+                "customer_email": "Customer Email",
+                "customer_mobile": "Customer Mobile",
+                "customer_name": "Customer Name",
+                "customer_number": "Customer Number",
+                "customer_phone": "Customer Phone",
+                "customer_pickup_city": "Customer Pickup City",
+                "customer_pickup_contact": "Customer Pickup Contact",
+                "customer_pickup_country": "Customer Pickup Country",
+                "customer_pickup_email": "Customer Pickup Email",
+                "customer_pickup_information": "Customer Pickup Information",
+                "customer_pickup_latitude": "Customer Pickup Latitude",
+                "customer_pickup_longitude": "Customer Pickup Longitude",
+                "customer_pickup_name": "Customer Pickup Name",
+                "customer_pickup_phone": "Customer Pickup Phone",
+                "customer_pickup_postal_code": "Customer Pickup Postal Code",
+                "customer_pickup_street_name": "Customer Pickup Street Name",
+                "customer_pickup_street_number": "Customer Pickup Street Number",
+                "customer_short_name": "Customer Short Name",
+                "delivery_city": "Delivery City",
+                "delivery_contact": "Delivery Contact",
+                "delivery_country": "Delivery Country",
+                "delivery_earliest_at": "Delivery Earliest At",
+                "delivery_email": "Delivery Email",
+                "delivery_information": "Delivery Information",
+                "delivery_latest_at": "Delivery Latest At",
+                "delivery_latitude": "Delivery Latitude",
+                "delivery_longitude": "Delivery Longitude",
+                "delivery_name": "Delivery Name",
+                "delivery_phone": "Delivery Phone",
+                "delivery_postal_code": "Delivery Postal Code",
+                "delivery_street_name": "Delivery Street Name",
+                "delivery_street_number": "Delivery Street Number",
+                "deviation_count": "Deviation Count",
+                "dispatched_at": "Dispatched At",
+                "dispatched_by": "Dispatched By",
+                "document_count": "Document Count",
+                "driver_instructions": "Driver Instructions",
+                "driver_name": "Driver Name",
+                "driver_phone": "Driver Phone",
+                "driving_distance": "Driving Distance",
+                "goods_quantity": "Goods Quantity",
+                "goods_quantity_types": "Goods Quantity Types",
+                "goods_weight": "Goods Weight",
+                "goods_volume": "Goods Volume",
+                "goods_loading_metres": "Goods Loading Metres",
+                "goods_pallet_places": "Goods Pallet Places",
+                "goods_calculated_weight": "Goods Calculated Weight",
+                "goods_calculated_volume": "Goods Calculated Volume",
+                "goods_calculated_loading_metres": "Goods Calculated Loading Metres",
+                "goods_calculated_pallet_places": "Goods Calculated Pallet Places",
+                "invoice_text": "Invoice Text",
+                "internal_notes": "Internal Notes",
+                "last_comment": "Last Comment",
+                "line_name": "Line name",
+                "last_action_at": "Last Action At",
+                "last_action_name": "Last Action Name",
+                "next_action_at": "Next Action At",
+                "next_action_name": "Next Action Name",
+                "next_unit_name": "Next Unit Name",
+                "next_unit_number": "Next Unit Number",
+                "next_vehicle_name": "Next Vehicle Name",
+                "number": "Transport Order #",
+                "order_actual_weight_total": "Order Actual Weight Total",
+                "order_agreement": "Order Agreement",
+                "order_calculated_weight_total": "Order Calculated Weight Total",
+                "order_consignee_ref": "Order Consignee Reference",
+                "order_consignor_ref": "Order Consignor Reference",
+                "order_customer_ref": "Order Customer Reference",
+                "order_date": "Order Date",
+                "order_expense": "Order Expense",
+                "order_has_pod": "Order Has POD",
+                "order_loading_meters_total": "Order Loading Meters Total",
+                "order_markings": "Order Markings",
+                "order_number": "Order Number",
+                "order_operation": "Order Operation",
+                "order_package_count": "Order Package Count",
+                "order_pod_name": "Order POD Name",
+                "order_quantity_types": "Order Quantity Types",
+                "order_revenue": "Order Revenue",
+                "order_status": "Order Status",
+                "order_type": "Order Type",
+                "order_volume_total": "Order Volume Total",
+                "pallet_places_total": "Pallet Places Total",
+                "order_weight_total": "Order Weight Total",
+                "pickup_city": "Pickup City",
+                "pickup_contact": "Pickup Contact",
+                "pickup_country": "Pickup Country",
+                "pickup_earliest_at": "Pickup Earliest At",
+                "pickup_email": "Pickup Email",
+                "pickup_information": "Pickup Information",
+                "pickup_latest_at": "Pickup Latest At",
+                "pickup_latitude": "Pickup Latitude",
+                "pickup_longitude": "Pickup Longitude",
+                "pickup_name": "Pickup Name",
+                "pickup_phone": "Pickup Phone",
+                "pickup_postal_code": "Pickup Postal Code",
+                "pickup_street_name": "Pickup Street Name",
+                "pickup_street_number": "Pickup Street Number",
+                "planned_at": "Planned At",
+                "planner_instructions": "Planner Instructions",
+                "previous_unit_name": "Previous Unit Name",
+                "previous_unit_number": "Previous Unit Number",
+                "previous_vehicle_name": "Previous Vehicle Name",
+                "project_name": "Project name",
+                "project_number": "Project number",
+                "route_id": "Route ID",
+                "route_name": "Route Name",
+                "registered_by": "Registered by",
+                "release_for_invoicing_at": "Release for invoicing at",
+                "sequence_in_route": "Sequence in Route",
+                "sequence_number": "Sequence Number",
+                "transport_order_stage_name": "Stage name",
+                "service_name": "Service Name",
+                "specification_quantity_types": "Specification Quantity Types",
+                "specification_quantity": "Specification Quantity",
+                "specification_hours": "Specification Hours",
+                "specification_executions": "Specification Executions",
+                "started_at": "Started At",
+                "status": "Status",
+                "subcustomer_name": "Subcustomer Name",
+                "timeout": "Timeout",
+                "transport_order_count": "Transport Order Count",
+                "unit_difference": "Unit difference",
+                "unit_name": "Unit Name",
+                "unit_number": "Unit Number",
+                "updated_at": "Updated At",
+                "vehicle_comment": "Vehicle Comment",
+                "vehicle_description": "Vehicle Description",
+                "vehicle_name": "Vehicle Name",
+                "vehicle_tare_weight": "Vehicle Tare Weight",
+                "vehicle_type": "Vehicle Type",
+                "verified_at": "Verified At",
+                "waybill": "Waybill",
+                "is_denied": "Denied"
+            },
+            "messages": {
+                "N orders selected": "{number} orders selected"
+            }
+        },
+        "calendar": {
+            "parameters": {
+                "First hour": "First hour",
+                "Last hour": "Last hour",
+                "Yesterday": "Yesterday",
+                "Last Monday": "Last Monday",
+                "N days": "{number} days",
+                "One day back": "One day back",
+                "One day forward": "One day forward"
+            },
+            "actions": {
+                "Add": "Add",
+                "Add unit": "Add unit",
+                "Block time": "Block time",
+                "Reorder units": "Reorder units",
+                "Remove unit": "Remove unit",
+                "Remove blocked time period": "Remove",
+                "Edit order": "Edit order",
+                "View details": "View details",
+                "Card settings": "Card settings"
+            },
+            "unit": {
+                "Find a car": "Find a car",
+                "Unit number or name": "Unit number or name"
+            }
+        },
+        "attributes": {
+            "customerShortName": "Customer short name",
+            "number": "Transport order number",
+            "lastStopCity": "Last stop city",
+            "lastStopPostalCode": "Last stop postal code"
+        },
+        "map": {
+            "filters": {
+                "Filters": "Filters",
+                "Operations": "Operations",
+                "Period": "Period",
+                "Status": "Status",
+                "Show lines": "Show lines",
+                "Select operations": "Select operations",
+                "Date": {
+                    "days": "days",
+                    "Show all": "Show all",
+                    "Today": "Today",
+                    "Increment": "Increment",
+                    "Decrement": "Decrement"
+                },
+                "All operations": "All operations",
+                "Stop limits": "Stop limits",
+                "Maximum number of stops": "Maximum number of stops",
+                "Minimum number of stops in cluster": "Minimum number of stops in cluster",
+                "Stop type": "Stop type",
+                "stop_types": {
+                    "pickup": "Pickup",
+                    "delivery": "Delivery",
+                    "terminal": "Terminal"
+                }
+            },
+            "messages": {
+                "Too many stops": "The current view exceeds the maximum number of {count} stops on the map. Zoom in or apply more filters to reduce the number of displayable items"
+            }
+        },
+        "sidebar": {
+            "headings": {
+                "Transport order details": "Transport order details"
+            },
+            "customer_info": {
+                "Customer info": "Customer info",
+                "Name": "Name",
+                "Short name": "Short name",
+                "Customer number": "Cnr",
+                "Subcustomer name": "L"
+            },
+            "service_info": {
+                "Service info": "Service info",
+                "Operation": "Op",
+                "Service": "Se",
+                "Start": "S",
+                "End": "E"
+            },
+            "order_info": {
+                "Order info": "Order info",
+                "Number": "O",
+                "Waybill": "Wnr",
+                "Markings": "M",
+                "Status": "St",
+                "Sender reference": "S ref",
+                "Recipient reference": "R ref"
+            },
+            "stops": {
+                "Stop": "Stop {number}",
+                "Name": "Name",
+                "Street name": "Street name",
+                "Postal code and city": "Postal code and city",
+                "Stop notes": "Stop {number} notes"
+            },
+            "instructions": {
+                "Transport management instructions": "Transport management instructions",
+                "Driver instructions": "Driver instructions"
+            },
+            "specification_summary": {
+                "Specification summary": "Specification summary",
+                "Quantity": "Quantity",
+                "Type": "Type",
+                "Hours": "Hours",
+                "Executions": "Executions"
+            },
+            "goods_summary": {
+                "Summary of goods": "Summary of goods",
+                "Quantity": "Quantity",
+                "Type": "Type",
+                "Weight": "Weight",
+                "Volume": "Volume",
+                "Loading metres": "LM",
+                "Pallet places": "PPl",
+                "Calculated weight": "Calculated weight"
+            },
+            "actions": {
+                "Edit order": "Edit order",
+                "Plan": "Plan",
+                "Dispatch": "Dispatch"
+            }
+        },
+        "dispatch": {
+            "headings": {
+                "Transport order": "Transport order {number}",
+                "Transport orders": "{number} transport orders"
+            },
+            "fields": {
+                "Unit": "Unit",
+                "Timeout (minutes)": "Timeout (minutes)",
+                "Dispatch immediately": "Dispatch immediately",
+                "Schedule dispatch at earliest": "Schedule dispatch at earliest",
+                "Dispatch is done when unit is active": "Dispatch is done when unit is active"
+            },
+            "actions": {
+                "Plan": "Plan",
+                "Dispatch": "Dispatch",
+                "Schedule dispatch": "Schedule dispatch",
+                "Undispatch": "Undispatch",
+                "Dispatch to a different unit": "Dispatch to a different unit"
+            },
+            "messages": {
+                "Transport order dispatched": "Transport order dispatched",
+                "Transport orders dispatched": "Transport orders dispatched",
+                "Transport order planned": "Transport order planned",
+                "Transport orders planned": "Transport orders planned",
+                "Transport order scheduled for dispatch": "Transport order scheduled for dispatch",
+                "Transport orders scheduled for dispatch": "Transport orders scheduled for dispatch",
+                "Transport order undispatched": "Transport order undispatched",
+                "Transport orders undispatched": "Transport orders undispatched"
+            }
+        },
+        "complete": {
+            "headings": {
+                "Transport order": "Transport order {number}",
+                "Transport orders": "{number} transport orders"
+            },
+            "fields": {
+                "Unit": "Unit",
+                "Completed at": "Completed at",
+                "Verify at once ready for invoice": "Verify at once (ready for invoice)"
+            },
+            "actions": {
+                "Complete": "Complete",
+                "Verify": "Verify",
+                "Complete and verify": "Complete and verify"
+            },
+            "messages": {
+                "Transport order completed": "Transport order completed",
+                "Transport orders completed": "Transport orders completed",
+                "Transport order verified": "Transport order verified",
+                "Transport orders verified": "Transport orders verified",
+                "Transport order completed and verified": "Transport order completed and verified",
+                "Transport orders completed and verified": "Transport orders completed and verified"
+            }
+        }
+    },
+    "order": {
+        "fieldsets": {
+            "New order": "New order",
+            "Order": "Order {number}",
+            "Template": "Template",
+            "References": "References",
+            "Requirements": "Basic info",
+            "Notes": "Instructions & notes",
+            "Additional services": "Additional services",
+            "Transport": "Transport stops",
+            "Specification": "Specification",
+            "Debit rows": "Debit rows",
+            "Goods": "Goods",
+            "Dangerous goods": "Dangerous Goods",
+            "Documents": "Documents",
+            "Deviations": "Deviations",
+            "History": "History",
+            "Schedule": "Schedule"
+        },
+        "fields": {
+            "Template name": "Template name",
+            "Customer": "Customer",
+            "Contact person": "Customer Contact",
+            "Waybill number": "Waybill number",
+            "Operation": "Operation",
+            "Service": "Service",
+            "Order number": "Order number",
+            "Customer reference": "Customer reference",
+            "Recipient reference": "Recipient reference",
+            "Sender reference": "Sender reference",
+            "Agreement": "Agreement",
+            "Planned pickup": "Earliest pickup",
+            "Planned delivery": "Lastest delivery",
+            "Project": "Project",
+            "Cargo type": "Cargo type"
+        },
+        "phases": {
+            "preliminary": "prel",
+            "operative": "op",
+            "invoice": "ip",
+            "archive": "ap"
+        },
+        "summaries": {
+            "debit_rows": {
+                "Debit rows": "Debit rows",
+                "fields": {
+                    "Show totals with tax": "Show totals with tax",
+                    "Total revenue": "Total revenue",
+                    "Total expenses": "Total expenses"
+                },
+                "No summary available": "No summary available"
+            },
+            "goods": {
+                "Goods": "Goods",
+                "fields": {
+                    "Volume": "Volume",
+                    "Loading metres": "Loading metres",
+                    "Pallet places": "Pallet places",
+                    "Calculated weight": "Calculated weight"
+                },
+                "No summary available": "No summary available",
+                "actions": {
+                    "Edit": "Edit"
+                }
+            },
+            "specification": {
+                "Specification": "Specification",
+                "fields": {
+                    "Quantity": "Quantity",
+                    "Hours": "Hours",
+                    "Executions": "Executions"
+                },
+                "No summary available": "No summary available"
+            }
+        },
+        "actions": {
+            "Save order": "Save order",
+            "Save template": "Save template",
+            "Save as template": "Save as template",
+            "Generate new waybill number": "Generate new waybill number",
+            "Auto-plan": "Auto-plan",
+            "Delete order": "Delete order",
+            "Delete template": "Delete template"
+        },
+        "messages": {
+            "Order saved": "Order saved",
+            "Order saving failed due to validation errors": "Order saving failed due to validation errors",
+            "Template saved": "Template saved",
+            "Template saving failed due to validation errors": "Template saving failed due to validation errors",
+            "Auto-planning failed": "Auto-planning failed",
+            "No unused waybill numbers are available": "No unused waybill numbers are available",
+            "A newer version of this order has been detected": "A newer version of this order has been detected",
+            "Changes cannot be saved": "Changes cannot be saved"
+        },
+        "statuses": {
+            "incomplete": "Incomplete",
+            "pending": "Pending",
+            "planned": "Planned",
+            "dispatched": "Dispatched",
+            "accepted": "Accepted",
+            "started": "Started",
+            "completed": "Completed",
+            "invoice-pending": "Invoice Pending",
+            "invoiceable": "Invoiceable",
+            "invoicing": "Invoicing",
+            "self-billing": "Self-billing",
+            "archived": "Archived",
+            "canceled": "Canceled"
+        },
+        "notes": {
+            "types": {
+                "carrier_instructions": "Driver instructions",
+                "planner_instructions": "Planner instructions",
+                "invoice_text": "Invoice text",
+                "internal_notes": "Internal notes"
+            },
+            "actions": {
+                "Add note": "Add note"
+            }
+        },
+        "delete": {
+            "headings": {
+                "Delete order": "Delete order",
+                "Delete template": "Delete template"
+            },
+            "messages": {
+                "Along with this order, you are about to delete the following associated transport orders": "Along with this order, you are about to delete the following associated transport orders",
+                "You are about to delete an order template": "You are about to delete an order template",
+                "Order deleted": "Order deleted",
+                "Template deleted": "Template deleted"
+            }
+        }
+    },
+    "order_templates": {
+        "list": {
+            "columns": {
+                "name": "Name",
+                "customerShortName": "Customer short name",
+                "subcustomerName": "Subcustomer name",
+                "operationName": "Operation name",
+                "serviceName": "Service name",
+                "customerReference": "Customer reference",
+                "senderReference": "Sender reference",
+                "recipientReference": "Recipient reference",
+                "plannedPickupAt": "Planned pickup at",
+                "plannedDeliveryAt": "Planned delivery at",
+                "pickupName": "Pickup name",
+                "pickupPostalCode": "Pickup postal code",
+                "pickupCity": "Pickup city",
+                "deliveryName": "Delivery name",
+                "deliveryPostalCode": "Delivery postal code",
+                "deliveryCity": "Delivery city",
+                "plannerInstructions": "Planner instructions",
+                "isScheduled": "Is scheduled"
+            }
+        }
+    },
+    "routes": {
+        "list": {
+            "columns": {
+                "name": "Name",
+                "status": "Status",
+                "startAt": "Start at",
+                "endAt": "End at",
+                "unitNumber": "Unit number",
+                "unitTotal": "Unit total",
+                "lineOverride": "Line override",
+                "operationOverride": "Operation override",
+                "customerTotal": "Customer total",
+                "autoDeleteAfterDays": "Auto-delete after",
+                "schedule": "Schedule"
+            },
+            "sidebar": {
+                "headings": {
+                    "Details": "Details",
+                    "Table filters": "Table filters"
+                },
+                "details": {
+                    "No planned stops": "No planned stops",
+                    "No selected route": "No selected route",
+                    "And X unplanned stops": "And {amount} unplanned stops",
+                    "Total time": "Total time"
+                }
+            },
+            "filters": {
+                "Search": "Search",
+                "Status": "Status",
+                "Start date from": "Start date from",
+                "Start date till": "Start date till",
+                "End date from": "End date from",
+                "End date till": "End date till",
+                "Reset filters": "Reset filters"
+            }
+        }
+    },
+    "route": {
+        "headings": {
+            "Route": "Route",
+            "Planned route": "Planned route",
+            "Unplanned stops": "Unplanned stops"
+        },
+        "fields": {
+            "Name": "Name",
+            "Date": "Date",
+            "Line override": "Line override",
+            "Operation override": "Operation override",
+            "Status": "Status",
+            "Unit": "Unit",
+            "Timeout (minutes)": "Timeout (minutes)",
+            "Dispatch immediately": "Dispatch immediately",
+            "Estimated arrival": "Estimated arrival"
+        },
+        "actions": {
+            "Add stop": "Add stop",
+            "Remove stop": "Remove stop",
+            "Change order": "Change order",
+            "Edit route": "Edit route",
+            "Update route status": "Update route status",
+            "Plan": "Plan",
+            "Dispatch": "Dispatch"
+        },
+        "Untitled stop": "Untitled stop",
+        "Unknown city": "Unknown city",
+        "messages": {
+            "All stops planned": "All stops planned",
+            "No items to plan": "No items to plan",
+            "Click a pin or drag a stop to start planning": "Click a pin or drag a stop to start planning",
+            "Route created with name X": "Route created with name \"{name}\"",
+            "Route updated successfully": "Route updated successfully",
+            "Both pickup and delivery of this order will be removed": "Both pickup and delivery of this order will be removed",
+            "This single stop will be removed": "This single stop will be removed",
+            "Status updated": "Status updated",
+            "Planned": "Planned",
+            "Dispatched": "Dispatched"
+        }
+    },
+    "stops": {
+        "fields": {
+            "Name": "Name",
+            "Location": "Location",
+            "Zone": "Zone",
+            "Contact": "Contact",
+            "Contact name": "Contact name",
+            "Phone": "Phone",
+            "E-mail": "E-mail",
+            "Notes": "Notes"
+        },
+        "actions": {
+            "Clear": "Clear",
+            "Update": "Update",
+            "Add stop": "Add stop"
+        }
+    },
+    "transport_orders": {
+        "fields": {
+            "Number": "Number",
+            "Unit": "Unit",
+            "Line": "Line",
+            "Distribution area": "Distribution area",
+            "Operation": "Operation",
+            "Stage": "Stage",
+            "Driver instructions": "Driver instructions",
+            "Departure": "Departure earliest / latest",
+            "Arrival": "Arrival earliest / latest",
+            "Amount": "Cost",
+            "Distance and time": "Distance and time",
+            "Latest tracking event": "Latest tracking event"
+        },
+        "Status": "Status",
+        "statuses": {
+            "pending": "Pending",
+            "planned": "Planned",
+            "dispatched": "Dispatched",
+            "accepted": "Accepted",
+            "started": "Started",
+            "completed": "Completed",
+            "verified": "Verified",
+            "invoicing": "Invoicing",
+            "self-billable": "Self-billable",
+            "self-billing": "Self-billing",
+            "archived": "Archived"
+        },
+        "tab_summary": {
+            "Legs": "Legs",
+            "Total distance": "Total distance"
+        },
+        "actions": {
+            "Remove": "Remove"
+        },
+        "remove": {
+            "Remove transport order": "Remove transport order",
+            "Select stop to be removed": "Select stop to be removed:",
+            "Previous": "Previous",
+            "Next": "Next"
+        },
+        "stage_names": {
+            "direct": "Direct",
+            "line-haul": "Line Haul",
+            "pickup": "Pickup",
+            "delivery": "Delivery"
+        }
+    },
+    "goods_rows": {
+        "fields": {
+            "Code": "Code",
+            "Specification": "Description",
+            "Quantity": "Quantity",
+            "Quantity type": "Quantity type",
+            "Weight": "Weight",
+            "Volume": "Volume",
+            "Loading metres": "Loading metres",
+            "Pallet places": "Pallet places",
+            "Calculated weight": "Calculated weight",
+            "Dimensions (L x W x H)": "Dimensions (L x W x H)",
+            "Length, cm": "Length, cm",
+            "Width, cm": "Width, cm",
+            "Height, cm": "Height, cm",
+            "Calculated volume, m3": "Calculated volume, m3",
+            "Packages": "Packages",
+            "Dangerous": "Dangerous",
+            "Contains dangerous items": "Contains dangerous items"
+        },
+        "actions": {
+            "Add row": "Add goods row",
+            "Remove": "Remove",
+            "Update": "Update",
+            "Update volume": "Update volume"
+        }
+    },
+    "packages": {
+        "fields": {
+            "Package numbers": "Package numbers",
+            "Add number": "Add number"
+        },
+        "actions": {
+            "Add": "Add"
+        }
+    },
+    "dangerous_goods_rows": {
+        "fields": {
+            "Substance type": "Substance type",
+            "Waste code": "Waste code",
+            "United Nations number": "United Nations number",
+            "ADR class": "ADR class",
+            "Specification": "Specification",
+            "Substance amount": "Amount",
+            "Substance unit": "Substance unit",
+            "Quantity": "Quantity",
+            "Quantity type": "Quantity type"
+        },
+        "actions": {
+            "Add dangerous goods row": "Add dangerous goods row",
+            "Remove": "Remove"
+        }
+    },
+    "documents": {
+        "fields": {
+            "Type": "Type",
+            "Name": "Name",
+            "Attach to invoice": "Attach to invoice",
+            "File": "File"
+        },
+        "actions": {
+            "Add row": "Add row",
+            "Remove": "Remove"
+        },
+        "tab_summary": {
+            "Rows": "Rows"
+        }
+    },
+    "debit_rows": {
+        "fields": {
+            "Article group": "Article group",
+            "Article": "Article",
+            "Specification": "Description",
+            "Quantity": "Quantity",
+            "Quantity unit": "Quantity unit",
+            "Price": "Price",
+            "Price source": "Price source",
+            "Discount (%)": "Discount (%)",
+            "Total price": "Total price",
+            "Commission (%)": "Commission (%)",
+            "Payee override": "Payee override"
+        },
+        "Manual price": "Manual price",
+        "actions": {
+            "Add row": "Add row",
+            "Remove": "Remove"
+        },
+        "tab_summary": {
+            "In": "In",
+            "Out": "Out"
+        }
+    },
+    "specification_rows": {
+        "fields": {
+            "Started at": "Started at",
+            "Ended at": "Ended at",
+            "Start point": "Start point",
+            "End point": "End point",
+            "Activity": "Specification",
+            "Notes": "Notes",
+            "Receipt number": "Receipt number",
+            "Quantity": "Quantity",
+            "Quantity type": "Quantity type",
+            "Hours": "Hours",
+            "Images": "Images"
+        },
+        "actions": {
+            "Add row": "Add row",
+            "Remove": "Remove"
+        },
+        "tab_summary": {
+            "Rows": "Rows"
+        }
+    },
+    "deviation_rows": {
+        "fields": {
+            "Status": "Status",
+            "Date and time": "Date and time",
+            "Description": "Description",
+            "Transport order": "Transport order",
+            "Type": "Type",
+            "Cause": "Cause",
+            "Images": "Images",
+            "Source": "Source",
+            "Created by": "Created by"
+        },
+        "statuses": {
+            "new": "New",
+            "open": "Open",
+            "closed": "Closed"
+        },
+        "actions": {
+            "Add row": "Add row",
+            "Remove": "Remove"
+        }
+    },
+    "history": {
+        "fields": {
+            "source": "Source",
+            "number-of-changes": "Number of changes",
+            "date-and-time": "Date and time",
+            "record-type": "Record type",
+            "action": "Action",
+            "old-values": "Old values",
+            "new-values": "New values"
+        },
+        "events": {
+            "created": "Created",
+            "updated": "Updated",
+            "deleted": "Deleted",
+            "pivot_attached": "Attached",
+            "pivot_detached": "Detached"
+        },
+        "System": "System",
+        "No entries": "No entries"
+    },
+    "schedule_entries": {
+        "fields": {
+            "Day of week": "Day of week",
+            "Month": "Month",
+            "Day of month": "Day of month",
+            "Hour": "Hour",
+            "Minute": "Minute",
+            "Time from": "Time from",
+            "Time till": "Time till",
+            "Day": "Day",
+            "Offset days": "Offset days",
+            "Active from": "Active from",
+            "Active till": "Active till"
+        },
+        "actions": {
+            "Add row": "Add row",
+            "Remove": "Remove"
+        },
+        "tab_summary": {
+            "N entries": "{number} entries",
+            "Not defined": "Not defined"
+        }
+    },
+    "dashboard": {
+        "orders": {
+            "Number of Orders": "Orders",
+            "Days": "Days",
+            "Orders to be invoiced": "Orders to be invoiced",
+            "Orders": "Orders",
+            "week": "1 week | { count } weeks",
+            "Today": "Today",
+            "Tomorrow": "Tomorrow",
+            "Overdue": "Overdue",
+            "Filters": "Filters"
+        },
+        "chart_types": {
+            "personal": "Personal",
+            "team": "Team"
+        },
+        "actions": {
+            "Edit": "Edit",
+            "Add filters": "Add filters"
+        }
+    },
+    "locations": {
+        "dialog": {
+            "Location": "Location",
+            "Choose location on a map": "Choose location on a map"
+        },
+        "fields": {
+            "Name": "Name",
+            "Contact name": "Contact name",
+            "Phone": "Phone",
+            "E-mail": "E-mail",
+            "Notes": "Notes",
+            "Street name": "Street name",
+            "Street number": "Street number",
+            "Postal code": "Postal code",
+            "City": "City",
+            "Country": "Country",
+            "Latitude": "Latitude",
+            "Longitude": "Longitude",
+            "Accuracy": "Accuracy"
+        },
+        "accuracies": {
+            "very_low": "Very low",
+            "low": "Low",
+            "moderate": "Moderate",
+            "high": "High",
+            "manual": "Manual"
+        },
+        "actions": {
+            "Add location": "Add location",
+            "Edit location": "Edit location",
+            "Save as new destination for repeated use": "Save as new destination for repeated use",
+            "Update stored destination for repeated use": "Update stored destination for repeated use",
+            "Update stop": "Update stop",
+            "Update specification row": "Update specification row",
+            "Look up location": "Look up location",
+            "Clear location": "Clear location"
+        },
+        "messages": {
+            "Location not set": "Location not set",
+            "Using a stored destination": "Using a stored destination",
+            "Destination not stored": "Destination not stored"
+        },
+        "errors": {
+            "Geocoding failed": "Geocoding failed"
+        }
+    },
+    "welcome": {
+        "Welcome back": "Welcome back",
+        "Log in with Motus ID": "Log in with Motus ID",
+        "fields": {
+            "E-mail": "E-mail",
+            "Password": "Password"
+        },
+        "Or": "or",
+        "actions": {
+            "Log in": "Log in",
+            "Log in with Entra ID": "Log in with Entra ID",
+            "Forgot password?": "Forgot password?"
+        },
+        "errors": {
+            "Authentication session was not found": "Authentication session was not found"
+        }
+    },
+    "views": {
+        "actions": {
+            "Save as new": "Save as new",
+            "Save view": "Save view",
+            "Revert changes": "Revert changes"
+        },
+        "save_as_new": {
+            "View name": "View name",
+            "Create view": "Create view"
+        },
+        "tools": {
+            "Settings": "Settings",
+            "Filter": "Filter",
+            "Columns": "Columns",
+            "Details": "Details (Shift+I)"
+        },
+        "View settings": "View settings",
+        "view_settings": {
+            "fields": {
+                "Title": "Title",
+                "Shortcut": "Shortcut",
+                "Default": "Default",
+                "Sticky": "Sticky",
+                "Select": "Select",
+                "Tab color": "Tab color"
+            },
+            "shortcut": {
+                "errors": {
+                    "System shortcut": "The selected shortcut is a system shortcut and will not be saved.",
+                    "Taken shortcut": "The selected shortcut is already taken by another view and will not be saved."
+                },
+                "Disabled": "Shortcut cannot be selected when creating a default or sticky view."
+            },
+            "delete": {
+                "Delete view message": "Are you sure you want to delete the view \"{viewName}\"? This action cannot be undone."
+            },
+            "actions": {
+                "Delete view": "Delete view"
+            }
+        },
+        "list": {
+            "columns": {
+                "Show": "Show",
+                "Remove": "Remove",
+                "Other columns": "Other columns",
+                "Search": "Search",
+                "Add": "Add"
+            }
+        }
+    },
+    "units": {
+        "statuses": {
+            "Active": "Active",
+            "Inactive": "Inactive"
+        }
+    },
+    "invoicing": {
+        "orders": {
+            "columns": {
+                "customer_name": "Customer name",
+                "number": "Number",
+                "operation_name": "Operation name",
+                "invoice_group": "Invoice group",
+                "invoice_number": "Invoice number",
+                "status": "Status",
+                "amount": "Amount",
+                "waybill_number": "Waybill",
+                "customer_reference": "Customer reference",
+                "customer_short_name": "Customer short name",
+                "customer_number": "Customer number",
+                "customer_contact": "Customer contact",
+                "subcustomer": "Subcustomer",
+                "unit_names": "Unit names",
+                "unit_numbers": "Unit numbers",
+                "service_name": "Service name",
+                "registered_by": "Registered by",
+                "registered_at": "Registered at",
+                "planned_at": "Planned at",
+                "delivered_at": "Delivered at",
+                "unit_total": "Unit total",
+                "customer_total": "Customer total",
+                "invoice_text": "Invoice text",
+                "invoice_profile": "Invoice profile",
+                "invoice_type": "Invoice type",
+                "invoice_process_status": "Invoicing process status"
+            },
+            "sidebar": {
+                "headings": {
+                    "Table filters": "Table filters",
+                    "Edit columns": "Edit columns"
+                }
+            },
+            "actions": {
+                "Invoice by profile": "Invoice by profile",
+                "Mark as invoiceable": "Mark as invoiceable",
+                "Invoice": "Invoice"
+            },
+            "messages": {
+                "N orders selected": "{number} orders selected",
+                "N orders marked as invoiceable": "{number} orders marked as invoiceable",
+                "N orders failed to be marked as invoiceable": "{number} orders failed to be marked as invoiceable"
+            }
+        },
+        "dialog": {
+            "Invoicing": "Invoicing",
+            "fields": {
+                "Invoicing date": "Invoicing date",
+                "Bookkeeping date": "Bookkeeping date",
+                "Invoicing profile": "Invoicing profile"
+            },
+            "actions": {
+                "Invoice": "Invoice"
+            },
+            "messages": {
+                "Invoicing process created successfully": "Invoicing process created successfully"
+            }
+        },
+        "processes": {
+            "columns": {
+                "Created at": "Created at",
+                "Process status": "Process status",
+                "Number of orders": "Number of orders",
+                "Progress": "Progress"
+            },
+            "statuses": {
+                "creating": "Creating",
+                "pending": "Pending",
+                "running": "Running",
+                "externalProcessing": "External processing",
+                "externalProcessingDone": "External processing done",
+                "restarting": "Restarting",
+                "completed": "Completed",
+                "cancelling": "Cancelling",
+                "cancelled": "Cancelled",
+                "failed": "Failed",
+                "error": "Error"
+            }
+        },
+        "process": {
+            "sections": {
+                "Process summary": "Process summary",
+                "Invoice summary": "Invoice summary",
+                "Journal": "Journal",
+                "Progress": "Progress",
+                "Invoices": "Invoices",
+                "Technical log": "Technical log"
+            },
+            "System": "System",
+            "fields": {
+                "Started at": "Started at",
+                "Completed at": "Completed at",
+                "Cancelled at": "Cancelled at",
+                "Triggered by": "Triggered by",
+                "Invoices generated": "Invoices generated",
+                "Total amount": "Total amount",
+                "Invoice numbers from": "Invoice numbers from",
+                "to": "to"
+            },
+            "actions": {
+                "Restart process": "Restart process",
+                "Cancel process": "Cancel process"
+            },
+            "messages": {
+                "Do you want to restart this process?": "Do you want to restart this process?",
+                "Do you want to cancel this process?": "Do you want to cancel this process?",
+                "Process restarting started": "Process restarting started",
+                "Process cancellation started": "Process cancellation started"
+            },
+            "steps": {
+                "types": {
+                    "validation": "Validation",
+                    "invoicing": "Invoicing",
+                    "bookkeeping": "Bookkeeping",
+                    "export_invoices": "Export invoices",
+                    "updates": "Updates"
+                },
+                "statuses": {
+                    "pending": "Pending",
+                    "started": "Started",
+                    "completed": "Completed",
+                    "stopped": "Stopped"
+                },
+                "times": {
+                    "Started at": "Started at",
+                    "Completed at": "Completed at",
+                    "Stopped at": "Stopped at"
+                },
+                "actions": {
+                    "Retry": "Retry"
+                }
+            },
+            "invoices": {
+                "No invoices available": "No invoices available",
+                "columns": {
+                    "Invoice number": "Invoice number",
+                    "Customer name": "Customer name",
+                    "Total amount": "Total amount"
+                },
+                "actions": {
+                    "View": "View"
+                }
+            },
+            "invoice": {
+                "headings": {
+                    "Invoice": "Invoice",
+                    "Customer": "Customer",
+                    "Order": "Order",
+                    "Issuer": "Issuer"
+                },
+                "fields": {
+                    "Invoice date": "Invoice date",
+                    "Bookkeeping date": "Bookkeeping date",
+                    "Payment terms (days)": "Payment terms (days)",
+                    "customer": {
+                        "Name": "Name",
+                        "VAT number": "VAT number",
+                        "GLN": "GLN",
+                        "Address": "Address"
+                    },
+                    "order": {
+                        "Start date": "Start date",
+                        "End date": "End date",
+                        "Contact name": "Contact name",
+                        "Waybill number": "Waybill number",
+                        "Customer reference": "Customer reference",
+                        "First stop name": "First stop name",
+                        "Last stop name": "Last stop name"
+                    },
+                    "goods_rows": {
+                        "Quantity": "Quantity",
+                        "Loading metres": "Loading metres",
+                        "Pallet places": "Pallet places",
+                        "Weight": "Weight",
+                        "Volume": "Volume"
+                    },
+                    "specification_rows": {
+                        "Start date": "Start date",
+                        "Start point": "Start point",
+                        "End date": "End date",
+                        "End point": "End point",
+                        "Activity": "Activity",
+                        "Quantity": "Quantity",
+                        "Unit": "Unit",
+                        "Executions": "Executions",
+                        "Hours": "Hours"
+                    },
+                    "debit_rows": {
+                        "Specification": "Specification",
+                        "Quantity": "Quantity",
+                        "Price": "Price",
+                        "Total": "Total"
+                    },
+                    "totals": {
+                        "Net amount": "Net amount",
+                        "Taxable amount": "Taxable amount",
+                        "Vat amount": "VAT amount",
+                        "Total amount": "Total amount",
+                        "Rounding amount": "Rounding amount",
+                        "Final amount": "Final amount"
+                    },
+                    "issuer": {
+                        "Name": "Name",
+                        "Organization number": "Organization number",
+                        "VAT number": "VAT number",
+                        "IBAN": "IBAN",
+                        "SWIFT": "SWIFT",
+                        "Bank": "Bank",
+                        "Bankgiro": "Bankgiro",
+                        "Website": "Website",
+                        "Phone": "Phone",
+                        "Address": "Address"
+                    }
+                },
+                "actions": {
+                    "Back to list": "Back to list",
+                    "Download PDF": "Download PDF"
+                }
+            },
+            "log": {
+                "No log entries available": "No log entries available",
+                "columns": {
+                    "Date": "Date",
+                    "Time": "Time",
+                    "Message": "Message",
+                    "Context": "Context"
+                }
+            }
+        }
+    },
+    "self_billing": {
+        "orders": {
+            "sidebar": {
+                "headings": {
+                    "Table filters": "Table filters",
+                    "Edit columns": "Edit columns"
+                }
+            },
+            "columns": {
+                "group": "Group",
+                "profile": "Profile",
+                "status": "Status",
+                "number": "Number",
+                "order_number": "Order number",
+                "waybill": "Waybill",
+                "unit_number": "Unit number",
+                "unit_total": "Unit total",
+                "vehicle_name": "Vehicle name",
+                "carrier_name": "Carrier name",
+                "carrier_short_name": "Carrier short name",
+                "service_name": "Service name",
+                "operation_name": "Operation name",
+                "customer_name": "Customer name",
+                "customer_short_name": "Customer short name",
+                "customer_number": "Customer number",
+                "customer_reference": "Customer reference",
+                "customer_contact": "Customer contact",
+                "subcustomer_name": "Subcustomer name",
+                "registered_at": "Registered at",
+                "registered_by": "Registered by",
+                "planned_at": "Planned at",
+                "dispatched_at": "Dispatched at",
+                "accepted_at": "Accepted at",
+                "started_at": "Started at",
+                "completed_at": "Completed at",
+                "verified_at": "Verified at",
+                "planned_pickup_at": "Planned pickup at",
+                "planned_delivery_at": "Planned delivery at",
+                "payees": "Payees",
+                "created_at": "Created at",
+                "updated_at": "Updated at"
+            }
+        }
+    },
+    "blocked_time_periods": {
+        "Working time": "Working time",
+        "Non-working time": "Non-working time",
+        "messages": {
+            "No blocked time reasons defined": "No blocked time reasons defined"
+        }
+    },
+    "files": {
+        "headings": {
+            "Add files": "Add files",
+            "Add file": "Add file"
+        },
+        "actions": {
+            "Add files": "Add files",
+            "Remove file": "Remove file",
+            "Upload": "Upload",
+            "View file": "View file"
+        },
+        "messages": {
+            "Click or drag files to this area to upload": "Click or drag files to this area to upload",
+            "Click or drag a file to this area to upload": "Click or drag a file to this area to upload",
+            "Preview not available": "Preview not available"
+        }
+    },
+    "waste_codes": {
+        "variants": {
+            "hazardous_waste": "Hazardous waste",
+            "ewc": "EWC"
+        }
+    },
+    "months": {
+        "January": "January",
+        "February": "February",
+        "March": "March",
+        "April": "April",
+        "May": "May",
+        "June": "June",
+        "July": "July",
+        "August": "August",
+        "September": "September",
+        "October": "October",
+        "November": "November",
+        "December": "December"
+    },
+    "days_of_week": {
+        "Monday": "Monday",
+        "Tuesday": "Tuesday",
+        "Wednesday": "Wednesday",
+        "Thursday": "Thursday",
+        "Friday": "Friday",
+        "Saturday": "Saturday",
+        "Sunday": "Sunday"
+    },
+    "tracking_events": {
+        "types": {
+            "START_TRANSPORT_ORDER": "Start transport order",
+            "LOAD_TRANSPORT_ORDER_FROM_TERMINAL": "Load transport order from terminal",
+            "LOAD_TRANSPORT_ORDER_FROM_CUSTOMER": "Load transport order from customer",
+            "DELIVER_TRANSPORT_ORDER_TO_TERMINAL": "Deliver transport order to terminal",
+            "DELIVER_TRANSPORT_ORDER_TO_CUSTOMER": "Deliver transport order to customer",
+            "DISPATCH_TRANSPORT_ORDER_TO_UNIT": "Dispatch transport order to unit",
+            "PLAN_TRANSPORT_ORDER": "Plan transport order",
+            "PLAN_DISPATCH_TRANSPORT_ORDER": "Plan dispatch transport order",
+            "REJECT_TRANSPORT_ORDER": "Reject transport order",
+            "ADD_DEVIATION_ROW": "Add deviation row",
+            "UNDISPATCH_TRANSPORT_ORDER_FROM_UNIT": "Undispatch transport order from unit",
+            "ACCEPT_TRANSPORT_ORDER": "Accept transport order",
+            "COMPLETE_TRANSPORT_ORDER": "Complete transport order",
+            "VERIFY_TRANSPORT_ORDER": "Verify transport order",
+            "COMPLETE_AND_VERIFY_TRANSPORT_ORDER": "Complete and verify transport order"
+        }
+    }
+}

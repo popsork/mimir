@@ -1,0 +1,1554 @@
+{
+    "general": {
+        "MOTUS TMS": "MOTUS TMS",
+        "Close": "Stäng",
+        "Apply": "Tillämpa",
+        "Confirm": "Bekräfta",
+        "Cancel": "Avbryt",
+        "Save": "Spara",
+        "Add": "Lägg till",
+        "Remove": "Ta bort",
+        "Clear": "Rensa",
+        "Clear all": "Rensa alla",
+        "Expand": "Expandera",
+        "Collapse": "Kollapsa",
+        "Move": "Flytta",
+        "error": {
+            "Something has gone wrong": "Något har gått fel",
+            "Show technical details": "Visa tekniska detaljer",
+            "Hide technical details": "Dölj tekniska detaljer",
+            "Please reload the page": "Ladda om sidan"
+        },
+        "boolean": {
+            "true": "Ja",
+            "false": "Nej"
+        },
+        "units": {
+            "km": "km",
+            "h": "h",
+            "min": "m",
+            "pieces": "kolli",
+            "kg": "kg",
+            "m3": "kbm",
+            "ldm": "flm",
+            "ppl": "ppl"
+        }
+    },
+    "navigation": {
+        "Home": "Hem",
+        "Help": "Hjälp / Guider",
+        "Admin": "Admin",
+        "pages": {
+            "Orders": "Ordrar",
+            "Invoicing": "Fakturering",
+            "Clients": "Kunder",
+            "Vehicles": "Fordon",
+            "Routes": "Rutter",
+            "Settings": "Inställningar",
+            "orders": {
+                "List": "Lista",
+                "Calendar": "Kalender",
+                "Map": "Karta"
+            },
+            "Templates": "Ordermallar",
+            "invoicing": {
+                "Invoiceable orders": "Fakturerbara ordrar",
+                "Active processes": "Pågående processer",
+                "Finished processes": "Genomförda processer"
+            },
+            "Self billing": "Avräkning",
+            "self_billing": {
+                "Self billing orders": "Avräkningsordrar"
+            }
+        },
+        "locales": {
+            "en": "English",
+            "sv": "Svenska"
+        },
+        "actions": {
+            "Log out": "Logga ut"
+        }
+    },
+    "pages": {
+        "titles": {
+            "Clients": "Kunder",
+            "Vehicles": "Fordon",
+            "Settings": "Inställningar",
+            "List view": "Listvy",
+            "Calendar view": "Kalendervy",
+            "Map view": "Kartvy",
+            "New order": "Ny order",
+            "Order": "Order {number}",
+            "Routes": "Rutter",
+            "New route": "Ny rutt",
+            "Route": "Rutt {name}",
+            "Templates": "Ordermallar",
+            "Search": "Sök",
+            "Style page": "Stilsida",
+            "Invoicing": "Fakturering",
+            "Invoiceable orders": "Fakturerbara ordrar",
+            "Active processes": "Pågående processer",
+            "Finished processes": "Genomförda processer",
+            "Invoicing process": "Fakturaprocess",
+            "Self billing": "Avräkning",
+            "Self billing orders": "Avräkningsordrar"
+        }
+    },
+    "search": {
+        "header": {
+            "Search": "Sök",
+            "placeholder": "Sök Order Nr., Kund Nr., märkning, vågkvittonummer etc."
+        },
+        "scopes": {
+            "orders": "Ordrar",
+            "customers": "Kunder",
+            "articles": "Artiklar",
+            "specifications": "Specifikationer",
+            "deviations": "Avvikelser"
+        },
+        "filter": {
+            "keywords": {
+                "title": "Nyckelord",
+                "placeholder": "Ange ytterligare nyckelord",
+                "label": "nyckelord"
+            },
+            "builder": {
+                "title": "Ytterligare filter"
+            }
+        },
+        "table": {
+            "customers": {
+                "name": "Namn",
+                "short_name": "Kundkod",
+                "number": "Nummer",
+                "vat": "Moms",
+                "order_count": "#beställningar"
+            },
+            "articles": {
+                "name": "Namn",
+                "code": "Artikelkod",
+                "number": "Artikelnummer",
+                "article_group_name": "Artikelgruppp"
+            },
+            "specifications": {
+                "order_number": "Order nummer",
+                "transport_order_number": "Transpororder nummer",
+                "unit_number": "Enhets nummer",
+                "started_at": "Påbörjad",
+                "ended_at": "Avslutad",
+                "start_point_name": "Från",
+                "end_point_name": "Till",
+                "activity": "Specifikation",
+                "notes": "Anteckning",
+                "quantity": "Kvantitet",
+                "quantity_type_name": "Sort",
+                "hours": "Timmar",
+                "executions": "Turer"
+            },
+            "deviations": {
+                "deviation_cause_code": "Orsak",
+                "deviation_type_code": "Typ",
+                "deviation_status": "Status",
+                "deviation_cause_description": "Orsaksbeskrivning",
+                "deviation_type_description": "Typbeskrivning",
+                "deviation_description": "Beskrivning",
+                "number_of_images": "Bilder",
+                "user": "Användare",
+                "registered_by": "Registrerad av",
+                "driver": "Chaufför",
+                "unit_number": "Enhet",
+                "customer_short_name": "Kundkod",
+                "customer_name": "Kundnamn",
+                "order_number": "Ordernr",
+                "order_status": "Orderstatus",
+                "transport_order_number": "Transportordernr",
+                "littera": "Littera",
+                "action_type": null,
+                "action_description": null
+            }
+        },
+        "Apply": "Tillämpa",
+        "Clear all": "Rensa alla",
+        "Search results for": "Sökresultat för"
+    },
+    "filter": {
+        "condition": {
+            "Property": "Kolumn",
+            "Value": "Värde",
+            "Enter value": "Ange värde",
+            "Select": "Välj",
+            "Operator": "Filter"
+        },
+        "Add filter group": "Lägg till filtergrupp",
+        "logical_operator": {
+            "and": "och",
+            "or": "eller"
+        },
+        "Remove filter": "Ta bort filter",
+        "Group operator": "Gruppoperator",
+        "comparison_operator": {
+            "matches": "Matchar",
+            "equals": "Är exakt",
+            "not-matches": "Matchar ej",
+            "not-equals": "Är ej exakt",
+            "blank": "Är tom",
+            "not-blank": "Är ej tom",
+            "greater-than": "Större än",
+            "greater-than-or-equal": "Större än eller lika med",
+            "less-than": "Mindre än",
+            "less-than-or-equal": "Mindre än eller lika med",
+            "relative": "I förhållande till"
+        }
+    },
+    "orders": {
+        "actions": {
+            "Create new order": "Skapa ny order"
+        },
+        "add_to_route": {
+            "fields": {
+                "Route": "Rutt"
+            },
+            "messages": {
+                "Add to route": "Lägg i rutt",
+                "Failed to add orders to route": "Kan ej läggas till i rutt",
+                "Missing route": "Rutt saknas"
+            }
+        },
+        "context_menu": {
+            "Add to a route": "Lägg i rutt",
+            "Filter on": "Filtrera på \"{text}\"",
+            "Filter out": "Filtrera bort \"{text}\"",
+            "Reset filters": "Återställ filter",
+            "Group on": "Gruppera på \"{text}\"",
+            "Ungroup": "Ta bort gruppering",
+            "Edit order": "Redigera order",
+            "Remove filter": "Ta bort alla filter",
+            "Show on the map": "Visa på karta"
+        },
+        "list": {
+            "action_menu": {
+                "Open order action menu": "Öppna meny",
+                "Show waybill": "Visa fraktsedel",
+                "Deviation": "Avvikelse",
+                "Insert stop": "Infoga stopp",
+                "Edit order": "Redigera order",
+                "Accept order": "Acceptera order"
+            },
+            "sidebar": {
+                "headings": {
+                    "Table filters": "Tabellfilter",
+                    "Edit columns": "Ändra kolumner"
+                }
+            },
+            "columns": {
+                "accepted_at": "Accepterad den",
+                "alystra_customer_total": "Alystra kundtotal",
+                "alystra_unit_total": "Alystra enhetstotal",
+                "carrier_name": "Åkeri namn",
+                "carrier_shortname": "Åkeri kod",
+                "carrier_instructions": "Åkeri instruktion",
+                "completed_at": "Slutförd den",
+                "created_at": "registrerad den",
+                "customer_contact": "Kund kontakt",
+                "customer_delivery_city": "Kund sista stop ort",
+                "customer_delivery_contact": "Kund sista stop kontakt",
+                "customer_delivery_country": "Kund sista stop land",
+                "customer_delivery_email": "Kund sista stop e-post",
+                "customer_delivery_information": "Kund sista stop information",
+                "customer_delivery_latitude": "Kund sista stop latitud",
+                "customer_delivery_longitude": "Kund sista stop longitud",
+                "customer_delivery_name": "Kund sista stop namn",
+                "customer_delivery_phone": "Kund sista stop telefon",
+                "customer_delivery_postal_code": "Kund sista stop postnummer",
+                "customer_delivery_street_name": "Kund sista stop gatuadress",
+                "customer_delivery_street_number": "Kund sista stop gatunummer",
+                "customer_department": "Kund avdelning",
+                "customer_difference": null,
+                "customer_email": "Kund e-post",
+                "customer_mobile": "Kund mobilnummer",
+                "customer_name": "Kund namn",
+                "customer_number": "Kund nummer",
+                "customer_phone": "Kund telefon",
+                "customer_pickup_city": "Kund första stop ort",
+                "customer_pickup_contact": "Kund första stop kontakt",
+                "customer_pickup_country": "Kund första stop land",
+                "customer_pickup_email": "Kund första stop e-post",
+                "customer_pickup_information": "Kund första stop information",
+                "customer_pickup_latitude": "Kund första stop latitud",
+                "customer_pickup_longitude": "Kund första stop longitud",
+                "customer_pickup_name": "Kund första stop namn",
+                "customer_pickup_phone": "Kund första stop telefon",
+                "customer_pickup_postal_code": "Kund första stop postnummer",
+                "customer_pickup_street_name": "Kund första stop gatuadress",
+                "customer_pickup_street_number": "Kund första stop gatunummer",
+                "customer_short_name": "Kund kod",
+                "delivery_city": "Sista stopp ort",
+                "delivery_contact": "Sista stopp kontakt",
+                "delivery_country": "Sista stopp land",
+                "delivery_earliest_at": "Sista stopp tidigast",
+                "delivery_email": "Sista stopp e-post",
+                "delivery_information": "Sista stopp information",
+                "delivery_latest_at": "Sista stopp senaste",
+                "delivery_latitude": "Sista stopp latitud",
+                "delivery_longitude": "Sista stopp longitud",
+                "delivery_name": "Sista stopp namn",
+                "delivery_phone": "Sista stopp telefon",
+                "delivery_postal_code": "Sista stopp postnummer",
+                "delivery_street_name": "Sista stopp gatuadress",
+                "delivery_street_number": "Sista stopp gatunummer",
+                "deviation_count": "Avvikelseantal",
+                "dispatched_at": "Fördelades den",
+                "dispatched_by": "Fördelades av",
+                "document_count": "Antal bilagor",
+                "driver_instructions": "Förare instruktioner",
+                "driver_name": "Förare namn",
+                "driver_phone": "Förare telefon",
+                "driving_distance": "Körsträcka",
+                "goods_quantity": "Gods antal",
+                "goods_quantity_types": "Gods typ",
+                "goods_weight": "Gods vikt",
+                "goods_volume": "Gods volym",
+                "goods_loading_metres": "Gods flakmeter",
+                "goods_pallet_places": "Gods pallplatser",
+                "goods_calculated_weight": "Gods beräknad vikt",
+                "goods_calculated_volume": "Gods beräknad volym",
+                "goods_calculated_loading_metres": "Gods beräknad FLM",
+                "goods_calculated_pallet_places": "Gods beräknad PPL",
+                "invoice_text": "Fakturatext",
+                "internal_notes": "Intern notering",
+                "last_comment": "Senaste kommentar",
+                "line_name": "Linje",
+                "last_action_at": "Senaste händelse tid",
+                "last_action_name": "Senaste händelse",
+                "next_action_at": "Kommande händelse tid",
+                "next_action_name": "Kommande händelse",
+                "next_unit_name": "Nästa enhet namn",
+                "next_unit_number": "Nästa enhet nummer",
+                "next_vehicle_name": "Nästa fordon namn",
+                "number": "Transportorder nr",
+                "order_actual_weight_total": "Faktiskt vikt",
+                "order_agreement": "Avtal",
+                "order_calculated_weight_total": "beräknad totalvikt",
+                "order_consignee_ref": "Mot referens",
+                "order_consignor_ref": "Avs referens",
+                "order_customer_ref": "Kund referens",
+                "order_date": "Orderdatum",
+                "order_expense": "Enhetstotal",
+                "order_has_pod": "POD",
+                "order_loading_meters_total": "Flakmeter",
+                "order_markings": "Märkning",
+                "order_number": "Ordernummer",
+                "order_operation": "Verksamhet",
+                "order_package_count": "Godsantal",
+                "order_pod_name": "POD namn",
+                "order_quantity_types": "Sort",
+                "order_revenue": "Kundtotal",
+                "order_status": "Kundorder Status",
+                "order_type": "Ordertyp",
+                "order_volume_total": "Volym",
+                "pallet_places_total": "Pallplatser",
+                "order_weight_total": "Totalvikt",
+                "pickup_city": "Första stop ort",
+                "pickup_contact": "Första stop kontakt",
+                "pickup_country": "Första stop land",
+                "pickup_earliest_at": "Första stop tidigaste start",
+                "pickup_email": "Första stop e-post",
+                "pickup_information": "Första stop information",
+                "pickup_latest_at": "Första stop senaste start",
+                "pickup_latitude": "Första stop latitud",
+                "pickup_longitude": "Första stop longitud",
+                "pickup_name": "Första stop namn",
+                "pickup_phone": "Första stop telefon",
+                "pickup_postal_code": "Första stop postnummer",
+                "pickup_street_name": "Första stop gatuadress",
+                "pickup_street_number": "Första stop gatunummer",
+                "planned_at": "Planerat startdaum",
+                "planner_instructions": "Transportledarinstruktion",
+                "previous_unit_name": "Föregående enhetsnamn",
+                "previous_unit_number": "Föregående enhetsnummer",
+                "previous_vehicle_name": "Föregående fordonsnamn",
+                "project_name": "Projekt",
+                "project_number": "Projektnummer",
+                "route_id": "Rutt-ID",
+                "route_name": "Ruttnamn",
+                "registered_by": "Registrerad av",
+                "release_for_invoicing_at": "Planerat fakturadatum",
+                "sequence_in_route": "Sekvens i rutt",
+                "sequence_number": "Sekvensnummer",
+                "transport_order_stage_name": "Etapp",
+                "service_name": "Tjänst",
+                "specification_quantity_types": "Specifikation sort",
+                "specification_quantity": "Specifikation kvantitet",
+                "specification_hours": "Specifikation timmar",
+                "specification_executions": "Specifikation turer",
+                "started_at": "Påbörjad",
+                "status": "Status",
+                "subcustomer_name": "Littera",
+                "timeout": "Timeout",
+                "transport_order_count": "Antal transportordrar",
+                "unit_difference": null,
+                "unit_name": "Enhetsnamn",
+                "unit_number": "Enhetsnummer",
+                "updated_at": "Uppdaterad den",
+                "vehicle_comment": "Fordonskommentar",
+                "vehicle_description": "Fordonsbeskrivning",
+                "vehicle_name": "Fordonsnamn",
+                "vehicle_tare_weight": "Fordons egenvikt",
+                "vehicle_type": "Fordonstyp",
+                "verified_at": "Verifierad tid",
+                "waybill": "Fraktsedel",
+                "is_denied": "Nekad"
+            },
+            "messages": {
+                "N orders selected": "{number} ordrar valda"
+            }
+        },
+        "calendar": {
+            "parameters": {
+                "First hour": "Första timmen",
+                "Last hour": "Sista timmen",
+                "Yesterday": "Från igår",
+                "Last Monday": "Från måndag",
+                "N days": "{number} dagar",
+                "One day back": "En dag bakåt",
+                "One day forward": "En dag framåt"
+            },
+            "actions": {
+                "Add": "Lägg till",
+                "Add unit": "Lägg till enhet",
+                "Block time": "Lägg till block",
+                "Reorder units": "Ordna om enheter",
+                "Remove unit": "Ta bort enhet",
+                "Remove blocked time period": "Ta bort block",
+                "Edit order": "Redigera order",
+                "View details": "Visa detaljer",
+                "Card settings": "Visa i block"
+            },
+            "unit": {
+                "Find a car": "Enhet",
+                "Unit number or name": "Enhetsnummer eller namn"
+            }
+        },
+        "attributes": {
+            "customerShortName": "kundkod",
+            "number": "Kundnummer",
+            "lastStopCity": "Sista stop ort",
+            "lastStopPostalCode": "Sista stop postnummer"
+        },
+        "map": {
+            "filters": {
+                "Filters": "Filter",
+                "Operations": "Verksamhet",
+                "Show lines": "Visa linjer",
+                "Period": "Dagar",
+                "Status": "Status",
+                "Select operations": "Välj verksamhet",
+                "Date": {
+                    "days": "dagar",
+                    "Show all": "Visa alla dagar",
+                    "Today": "Idag",
+                    "Increment": "Framåt",
+                    "Decrement": "Bakåt"
+                },
+                "All operations": "Alla verksamheter",
+                "Stop limits": "Visningsbegränsningar",
+                "Stop type": "Typ av stopp",
+                "stop_types": {
+                    "pickup": "Hämtning",
+                    "delivery": "Leverans",
+                    "terminal": "Terminal"
+                },
+                "Maximum number of stops": "Maximalt antal stop",
+                "Minimum number of stops in cluster": "Minsta antal för gruppering"
+            },
+            "messages": {
+                "Too many stops": "För många stoppp"
+            }
+        },
+        "sidebar": {
+            "headings": {
+                "Transport order details": "Transportorderdetaljer"
+            },
+            "customer_info": {
+                "Customer info": "Kund",
+                "Name": "Namn:",
+                "Short name": "kundkod:",
+                "Customer number": "Kundnr:",
+                "Subcustomer name": "Littera:"
+            },
+            "service_info": {
+                "Service info": "Grund info",
+                "Operation": "Verk:",
+                "Service": "Tj:",
+                "Start": "Start:",
+                "End": "Slut:"
+            },
+            "order_info": {
+                "Order info": "Order info",
+                "Number": "Nr:",
+                "Waybill": "Sedelnr:",
+                "Markings": "Märk:",
+                "Status": "Status:",
+                "Sender reference": "Avs ref:",
+                "Recipient reference": "Mot ref:"
+            },
+            "stops": {
+                "Stop": "Stopp {number}",
+                "Name": "Namn",
+                "Street name": "Gata",
+                "Postal code and city": "postnummer och ort",
+                "Stop notes": "Stopp {number} anteckning"
+            },
+            "instructions": {
+                "Transport management instructions": "Transportledarinstruktion",
+                "Driver instructions": "Förarinstruktion"
+            },
+            "specification_summary": {
+                "Specification summary": "Specifikation sammanfattning",
+                "Quantity": "Kvantitet",
+                "Type": "Sort",
+                "Hours": "Timmar",
+                "Executions": "Antal"
+            },
+            "goods_summary": {
+                "Summary of goods": "Godssammanfattning",
+                "Quantity": "Kvant",
+                "Type": "Typ",
+                "Weight": "KG",
+                "Volume": "KBM",
+                "Loading metres": "FLM",
+                "Pallet places": "PPL",
+                "Calculated weight": "Beräknad vikt"
+            },
+            "actions": {
+                "Edit order": "Redigera order",
+                "Plan": "Planera",
+                "Dispatch": "Fördela"
+            }
+        },
+        "dispatch": {
+            "headings": {
+                "Transport order": "Transportorder {number}",
+                "Transport orders": "{number} transportordrar"
+            },
+            "fields": {
+                "Unit": "Enhet",
+                "Timeout (minutes)": "Timeout",
+                "Dispatch immediately": "Fördela direkt",
+                "Schedule dispatch at earliest": "Tidigast schemalagda fördelning",
+                "Dispatch is done when unit is active": "Fördelning sker när enheten blir/är aktiv"
+            },
+            "actions": {
+                "Plan": "Planera",
+                "Dispatch": "Fördela",
+                "Schedule dispatch": "Schemalagd fördelning",
+                "Undispatch": "Återkalla",
+                "Dispatch to a different unit": "Fördela till en annan enhet"
+            },
+            "messages": {
+                "Transport order dispatched": "Transportordern är fördelad",
+                "Transport orders dispatched": "Transportordrarna är fördelade",
+                "Transport order planned": "Transportordern är planerad",
+                "Transport orders planned": "Transportordrarna är planerade",
+                "Transport order scheduled for dispatch": "Transportordern har schemalagd fördelning",
+                "Transport orders scheduled for dispatch": "Transportordrarna har schemalagd fördelning",
+                "Transport order undispatched": "Transportorder återkallad",
+                "Transport orders undispatched": "Transportordrarna återkallade"
+            }
+        },
+        "complete": {
+            "headings": {
+                "Transport order": "Transportorder {number}",
+                "Transport orders": "{number} transportordrar"
+            },
+            "fields": {
+                "Unit": "Enhet",
+                "Completed at": "Slutförd den",
+                "Verify at once ready for invoice": "Verifiera direkt"
+            },
+            "actions": {
+                "Complete": "Avsluta",
+                "Verify": "Verifiera",
+                "Complete and verify": "Avsluta och Verifiera"
+            },
+            "messages": {
+                "Transport order completed": "Transportorder avslutad",
+                "Transport orders completed": "Transportordrarna avslutads",
+                "Transport order verified": "Transportorder verifierad",
+                "Transport orders verified": "Transportordrarna verifierade",
+                "Transport order completed and verified": "Transportorder avslutad och Verifierad",
+                "Transport orders completed and verified": "Transportordrarna avslutade och Verifierade"
+            }
+        }
+    },
+    "order": {
+        "fieldsets": {
+            "New order": "Ny order",
+            "Order": "Order {number}",
+            "Template": "Mall",
+            "References": "Referenser",
+            "Requirements": "Grund info",
+            "Notes": "Instruktioner och anteckningar",
+            "Additional services": "Tilläggstjänster",
+            "Transport": "Transport stopp",
+            "Specification": "Specifikationer",
+            "Debit rows": "Fakturering / Debitering",
+            "Goods": "Godsrader",
+            "Dangerous goods": "Farligt gods",
+            "Documents": "Bilagor",
+            "Deviations": "Avvikelser",
+            "History": "Historik",
+            "Schedule": "Schemaläggning"
+        },
+        "fields": {
+            "Template name": "Mall namn",
+            "Customer": "Kund",
+            "Contact person": "Kundkontakt",
+            "Waybill number": "Sedelnummer",
+            "Operation": "Verksamhet",
+            "Service": "Tjänst",
+            "Order number": "Ordernummer",
+            "Customer reference": "Kundreferens",
+            "Recipient reference": "Mottagarreferens",
+            "Sender reference": "Avsändarreferens",
+            "Agreement": "Avtal",
+            "Planned pickup": "Tidigast upphämtning",
+            "Planned delivery": "Senaste leverans",
+            "Project": "Projekt",
+            "Cargo type": "Godstyp"
+        },
+        "phases": {
+            "preliminary": "Preliminär",
+            "operative": "Operativ",
+            "invoice": "Faktura",
+            "archive": "Arkiv"
+        },
+        "summaries": {
+            "debit_rows": {
+                "Debit rows": "Debiteringsrader",
+                "fields": {
+                    "Show totals with tax": "Visa total med moms",
+                    "Total revenue": "Intäckter",
+                    "Total expenses": "Kostnader"
+                },
+                "No summary available": "Summering ej tillgänglig"
+            },
+            "goods": {
+                "Goods": "Skrymme",
+                "fields": {
+                    "Volume": "Volym",
+                    "Loading metres": "Flakmeter",
+                    "Pallet places": "Pallplatser",
+                    "Calculated weight": "Beräknad vikt"
+                },
+                "No summary available": "Summering ej tillgänglig",
+                "actions": {
+                    "Edit": "Redigera"
+                }
+            },
+            "specification": {
+                "Specification": "Specification",
+                "fields": {
+                    "Quantity": "Kvantitet",
+                    "Hours": "Timmar",
+                    "Executions": "Rundor"
+                },
+                "No summary available": "Summering ej tillgänglig"
+            }
+        },
+        "actions": {
+            "Save order": "Spara order",
+            "Save template": "Spara mall",
+            "Save as template": "Spara som mallorder",
+            "Generate new waybill number": "Generera nytt fraktsedelsnummer",
+            "Auto-plan": "Auto-planering",
+            "Delete order": "Radera order",
+            "Delete template": "Radera mall"
+        },
+        "messages": {
+            "Order saved": "Ordern är sparad",
+            "Order saving failed due to validation errors": "Det gick EJ att spara ordern",
+            "Template saved": "Mallen är sparad",
+            "Template saving failed due to validation errors": "Spara mallen misslyckades, kan inte validera",
+            "Auto-planning failed": "Autoplaneringen misslyckades",
+            "No unused waybill numbers are available": "Inga lediga fraktsedelnummer finns tillgängliga",
+            "A newer version of this order has been detected": "En nyare version av denna order har hittats",
+            "Changes cannot be saved": "Ändringen kan inte sparas"
+        },
+        "statuses": {
+            "incomplete": "preliminär",
+            "pending": "Inväntar",
+            "planned": "Planerad",
+            "dispatched": "Fördelad",
+            "accepted": "Accepterad",
+            "started": "Påbörjad",
+            "completed": "Slutförd",
+            "invoice-pending": "Fakturering inväntar",
+            "invoiceable": "Fakturerbar",
+            "invoicing": "Fakturering",
+            "self-billing": "Avräkning",
+            "archived": "Arkiverad",
+            "canceled": "Borttagen"
+        },
+        "notes": {
+            "types": {
+                "carrier_instructions": "Instruktion från kund",
+                "planner_instructions": "Transportledarinstruktion",
+                "invoice_text": "Fakturatext",
+                "internal_notes": "Intern notering"
+            },
+            "actions": {
+                "Add note": "Lägg till notering"
+            }
+        },
+        "delete": {
+            "headings": {
+                "Delete order": "Radera order",
+                "Delete template": "Radera mall"
+            },
+            "messages": {
+                "Along with this order, you are about to delete the following associated transport orders": "I samband med denna order, håller du också på att radera följande relaterade transportordrar",
+                "You are about to delete an order template": "Du håller på att radera order mallen",
+                "Order deleted": "Order raderad",
+                "Template deleted": "Mallen raderad"
+            }
+        }
+    },
+    "order_templates": {
+        "list": {
+            "columns": {
+                "name": "Mall namn",
+                "customerShortName": "Kundkod",
+                "subcustomerName": "Littera",
+                "operationName": "Verksamhet",
+                "serviceName": "Tjänst",
+                "customerReference": "Märkning",
+                "senderReference": "Avsändarreferens",
+                "recipientReference": "Mottagarreferens",
+                "plannedPickupAt": "Planerad start",
+                "plannedDeliveryAt": "Planerad slut",
+                "pickupName": "Från namn",
+                "pickupPostalCode": "Från postnummer",
+                "pickupCity": "Från ort",
+                "deliveryName": "Till namn",
+                "deliveryPostalCode": "Till postnummer",
+                "deliveryCity": "Till ort",
+                "plannerInstructions": "Transportledarinstruktion",
+                "isScheduled": "Schemalagd"
+            }
+        }
+    },
+    "routes": {
+        "list": {
+            "columns": {
+                "name": "Ruttnamn",
+                "status": "Status",
+                "startAt": "Börjar",
+                "endAt": "Slutar",
+                "unitNumber": "Enhetsnummer",
+                "unitTotal": "Enhetstotal",
+                "lineOverride": "Skriv över linje",
+                "operationOverride": "Skriv över verksamhet",
+                "customerTotal": "Kundtotal",
+                "autoDeleteAfterDays": "Radera oanvänd mall",
+                "schedule": "Mall schema"
+            },
+            "sidebar": {
+                "headings": {
+                    "Details": "Detaljer",
+                    "Table filters": "Tabellfilter"
+                },
+                "details": {
+                    "No planned stops": "Inga planerade stopp",
+                    "No selected route": "Inga rutt valda",
+                    "And X unplanned stops": "Och {amount} oplanerade stopp",
+                    "Total time": "Total tid"
+                }
+            },
+            "filters": {
+                "Search": "Sök",
+                "Status": "Status",
+                "Start date from": "Start Från datum",
+                "Start date till": "Start Till datum",
+                "End date from": "Slut från datum",
+                "End date till": "Slut till datum",
+                "Reset filters": "Återställ filter"
+            }
+        }
+    },
+    "route": {
+        "headings": {
+            "Route": "Ruttplanering",
+            "Planned route": "Stopp",
+            "Unplanned stops": "Ej planerade stopp"
+        },
+        "fields": {
+            "Name": "Namn",
+            "Date": "Datum",
+            "Line override": "Skriv över linje",
+            "Operation override": "Skriv över verksamhet",
+            "Status": "Status",
+            "Unit": "Enhet",
+            "Timeout (minutes)": "Timeout",
+            "Dispatch immediately": "Fördela direkt",
+            "Estimated arrival": "Beräknad ankomst"
+        },
+        "actions": {
+            "Add stop": "Lägg till stopp",
+            "Remove stop": "Ta bort stopp",
+            "Change order": "Ändra ordning",
+            "Edit route": "Ändra rutt",
+            "Update route status": "Uppdatera ruttstatus",
+            "Plan": "Planera",
+            "Dispatch": "Fördela"
+        },
+        "Untitled stop": "Stop utan namn",
+        "Unknown city": "Okänd ort",
+        "messages": {
+            "All stops planned": "Alla stop är planerade",
+            "No items to plan": "Inga oplanerade stop",
+            "Click a pin or drag a stop to start planning": "Klicka på en pin eller dra ett stop till planering",
+            "Route created with name X": "Rutt skapad med namnet \"{name}\"",
+            "Route updated successfully": "Rutten uppdaterad",
+            "Both pickup and delivery of this order will be removed": "Båda stoppen för denna transportorder kommer att tas bort",
+            "This single stop will be removed": "Detta enskilda stopp kommer att tas bort",
+            "Status updated": "Status uppdaterad",
+            "Planned": "Planerad",
+            "Dispatched": "Fördelad"
+        }
+    },
+    "stops": {
+        "fields": {
+            "Name": "Namn",
+            "Location": "Plats",
+            "Zone": "Zon",
+            "Contact": "Kontakt",
+            "Contact name": "Kontakt namn",
+            "Phone": "Kontakt telefonnummer",
+            "E-mail": "Kontakt e-post",
+            "Notes": "Anteckning"
+        },
+        "actions": {
+            "Clear": "Rensa",
+            "Update": "Uppdatera",
+            "Add stop": "Lägg till stopp"
+        }
+    },
+    "transport_orders": {
+        "fields": {
+            "Number": "Nummer",
+            "Unit": "Enhet",
+            "Line": "Linje",
+            "Distribution area": "Distributionsområde",
+            "Operation": "Verksamhet",
+            "Stage": "Etapp",
+            "Driver instructions": "Förarinstruktioner",
+            "Departure": "Avgång tidigast / senast",
+            "Arrival": "Ankomst tidigast / senast",
+            "Amount": "Belopp",
+            "Distance and time": "Avstånd & körtid",
+            "Latest tracking event": "Spårning"
+        },
+        "Status": "Status",
+        "statuses": {
+            "pending": "Inväntar",
+            "planned": "Planerad",
+            "dispatched": "Fördelad",
+            "accepted": "Accepterad",
+            "started": "Påbörjad",
+            "completed": "Slutförd",
+            "verified": "Verifierad",
+            "invoicing": "Fakturering",
+            "self-billable": "Avräkningsbar",
+            "self-billing": "Avräkning",
+            "archived": "Arkiverad"
+        },
+        "tab_summary": {
+            "Legs": "Ben",
+            "Total distance": "Distans"
+        },
+        "actions": {
+            "Remove": "Ta bort"
+        },
+        "remove": {
+            "Remove transport order": "Ta bort transportorder",
+            "Select stop to be removed": "Välj stopp att ta bort:",
+            "Previous": "Föregående",
+            "Next": "Nästa"
+        },
+        "stage_names": {
+            "direct": "Direkt",
+            "line-haul": "Linje",
+            "pickup": "Inhämtning",
+            "delivery": "Utkörning"
+        }
+    },
+    "goods_rows": {
+        "fields": {
+            "Code": "Kod",
+            "Specification": "Beskrivning",
+            "Quantity": "Kvantitet",
+            "Quantity type": "Sort",
+            "Weight": "Vikt",
+            "Volume": "Volym",
+            "Loading metres": "Flakmeter",
+            "Pallet places": "Pallplatser",
+            "Calculated weight": "Beräknad vikt",
+            "Dimensions (L x W x H)": "Mått (L x B x H)",
+            "Length, cm": "Längd, cm",
+            "Width, cm": "Bredd, cm",
+            "Height, cm": "Höjd, cm",
+            "Calculated volume, m3": "Beräknad volym, m3",
+            "Packages": "Kollinummer",
+            "Dangerous": "Farligt gods",
+            "Contains dangerous items": "Innehålelr farligt gods"
+        },
+        "actions": {
+            "Add row": "Lägg till rad",
+            "Remove": "Ta bort",
+            "Update": "Uppdatera",
+            "Update volume": "Uppdatera volymfältet"
+        }
+    },
+    "packages": {
+        "fields": {
+            "Package numbers": "Kollinummer",
+            "Add number": "Lägg till kollinummer"
+        },
+        "actions": {
+            "Add": "Lägg till"
+        }
+    },
+    "dangerous_goods_rows": {
+        "fields": {
+            "Substance type": "Substanstyp",
+            "Waste code": "Avfallskod",
+            "United Nations number": "UN nr",
+            "ADR class": "Klass",
+            "Specification": "Beskrivning",
+            "Substance amount": "Mängd",
+            "Substance unit": "Sort",
+            "Quantity": "Kvantitet",
+            "Quantity type": "Godstyp"
+        },
+        "actions": {
+            "Add dangerous goods row": "Farligt godsrad",
+            "Remove": "Ta bort"
+        }
+    },
+    "documents": {
+        "fields": {
+            "Type": "Typ",
+            "Name": "Namn",
+            "Attach to invoice": "Fakturabilaga",
+            "File": "Fil"
+        },
+        "actions": {
+            "Add row": "Lägg till rad",
+            "Remove": "Ta bort"
+        },
+        "tab_summary": {
+            "Rows": "Rader"
+        }
+    },
+    "debit_rows": {
+        "fields": {
+            "Article group": "Artikelgrupp",
+            "Article": "Artikelkod",
+            "Specification": "Benämning",
+            "Quantity": "Kvantitet",
+            "Quantity unit": "Enhet",
+            "Price": "Pris",
+            "Price source": "Pris källa",
+            "Discount (%)": "Rabatt (%)",
+            "Total price": "Totalpris",
+            "Commission (%)": "Provision (%)",
+            "Payee override": "Ersättning till"
+        },
+        "Manual price": "Manuellt pris",
+        "actions": {
+            "Add row": "Lägg till rad",
+            "Remove": "Ta bort"
+        },
+        "tab_summary": {
+            "In": "Kund",
+            "Out": "Enhet"
+        }
+    },
+    "specification_rows": {
+        "fields": {
+            "Started at": "Påbörjades",
+            "Ended at": "Avslutades",
+            "Start point": "Startplats",
+            "End point": "Slutplats",
+            "Activity": "Specifikation",
+            "Notes": "Anteckning",
+            "Receipt number": "Kvittonummer",
+            "Quantity": "Kvantitet",
+            "Quantity type": "Sort",
+            "Hours": "Timmar",
+            "Images": "Bilder"
+        },
+        "actions": {
+            "Add row": "Lägg till rad",
+            "Remove": "Ta bort"
+        },
+        "tab_summary": {
+            "Rows": "Rader"
+        }
+    },
+    "deviation_rows": {
+        "fields": {
+            "Status": "Status",
+            "Date and time": "Tidpunkt",
+            "Description": "Kort beskrivning",
+            "Transport order": "Transport ben",
+            "Type": "Avvikelsekategori",
+            "Cause": "Avvikelseorsak",
+            "Images": "Bilder",
+            "Source": "Källa",
+            "Created by": "Registrerad av"
+        },
+        "statuses": {
+            "new": "Registrerad",
+            "open": "Hanteras",
+            "closed": "Slutförd"
+        },
+        "actions": {
+            "Add row": "Lägg till rad",
+            "Remove": "Ta bort"
+        }
+    },
+    "history": {
+        "fields": {
+            "source": "Källa",
+            "number-of-changes": "Antal ändringar",
+            "date-and-time": "Datum & tid",
+            "record-type": "typ",
+            "action": "händelse",
+            "old-values": "Tidigare värde",
+            "new-values": "Nytt värde"
+        },
+        "events": {
+            "created": "Skapad",
+            "updated": "Uppdaterad",
+            "deleted": "Raderad",
+            "pivot_attached": "Kopplad",
+            "pivot_detached": "Frånkopplad"
+        },
+        "System": "System",
+        "No entries": "Inga värden"
+    },
+    "schedule_entries": {
+        "fields": {
+            "Day of week": "Veckodag",
+            "Month": "Månad",
+            "Day of month": "Dag",
+            "Hour": "Timme",
+            "Minute": "Minut",
+            "Time from": "Från",
+            "Time till": "Till",
+            "Day": "Dag",
+            "Offset days": "tidigare eller senare",
+            "Active from": "Aktiv från",
+            "Active till": "Aktiv till"
+        },
+        "actions": {
+            "Add row": "Lägg till rad",
+            "Remove": "Ta bort"
+        },
+        "tab_summary": {
+            "N entries": "{number} poster",
+            "Not defined": "Ej definerad"
+        }
+    },
+    "dashboard": {
+        "orders": {
+            "Number of Orders": "Antal ordrar",
+            "Days": "Dagar",
+            "Orders to be invoiced": "Ordrar som ska faktureras",
+            "Orders": "Ordrar",
+            "week": "1 vecka | { count } veckor",
+            "Today": "Idag",
+            "Tomorrow": "Imorgon",
+            "Overdue": "Försenad",
+            "Filters": "Filter"
+        },
+        "chart_types": {
+            "personal": "Mina personliga",
+            "team": "Mitt team"
+        },
+        "actions": {
+            "Edit": "Filter",
+            "Add filters": "Lägg till filter"
+        }
+    },
+    "locations": {
+        "dialog": {
+            "Location": "Adress / plats",
+            "Choose location on a map": "Välj position på kartan"
+        },
+        "fields": {
+            "Name": "Namn",
+            "Contact name": "Kontaktperson",
+            "Phone": "Telefon",
+            "E-mail": "e-post",
+            "Notes": "Anteckningar",
+            "Street name": "Gata",
+            "Street number": "Gatunummer",
+            "Postal code": "Postnummer",
+            "City": "Ort",
+            "Country": "Land",
+            "Latitude": "Latitude",
+            "Longitude": "Longitude",
+            "Accuracy": "Noggrannhet"
+        },
+        "accuracies": {
+            "very_low": "Mycket dålig",
+            "low": "Centralt postnummer",
+            "moderate": "Centralt Gata",
+            "high": "Exakt gatunummer",
+            "manual": "Manuell"
+        },
+        "actions": {
+            "Add location": "Lägg till stopp",
+            "Edit location": "Ändra stopp",
+            "Save as new destination for repeated use": "Spara som lagrad destination",
+            "Update stored destination for repeated use": "Uppdatera lagrad destination",
+            "Update stop": "Uppdatera stopp",
+            "Update specification row": "Uppdatera specifikation",
+            "Look up location": "Hitta plats",
+            "Clear location": "Rensa lokation"
+        },
+        "messages": {
+            "Location not set": "plats inte vald",
+            "Using a stored destination": "Använder en lagrad plats",
+            "Destination not stored": "Plats inte sparad"
+        },
+        "errors": {
+            "Geocoding failed": "GEOkodning misslyckades"
+        }
+    },
+    "welcome": {
+        "Welcome back": "Välkommen tillbaka",
+        "Log in with Motus ID": "Logga in med Motus ID",
+        "fields": {
+            "E-mail": "E-post",
+            "Password": "Lösenord"
+        },
+        "Or": "eller",
+        "actions": {
+            "Log in": "Logga in",
+            "Log in with Entra ID": "Logga in med Microsoft ID (Entra)",
+            "Forgot password?": "Har du glömt ditt lösenord?"
+        },
+        "errors": {
+            "Authentication session was not found": "Autentiseringssessionen hittades inte"
+        }
+    },
+    "views": {
+        "actions": {
+            "Save view": "Spara vy",
+            "Revert changes": "Ångra ändringar",
+            "Save as new": "Spara som ny vy"
+        },
+        "save_as_new": {
+            "Create view": "Skapa vy",
+            "View name": "Vynamn"
+        },
+        "tools": {
+            "Settings": "Inställningar",
+            "Filter": "Filter",
+            "Columns": "Kolumner",
+            "Details": "Detaljer (Shift+I)"
+        },
+        "View settings": "Vyinställningar",
+        "view_settings": {
+            "fields": {
+                "Title": "Namn",
+                "Shortcut": "Kortkommando",
+                "Default": "Standardvy",
+                "Sticky": "Sticky",
+                "Select": "Välj",
+                "Tab color": "Tabbfärg"
+            },
+            "shortcut": {
+                "errors": {
+                    "System shortcut": "Det valda kortkommandot är ett systemkortkommando och kommer inte att sparas.",
+                    "Taken shortcut": "Det valda kortkommandot är redan upptaget av en annan vy och kommer inte att sparas."
+                },
+                "Disabled": "Kortkommando kan inte väljas när du skapar en standard- eller sticky vy."
+            },
+            "delete": {
+                "Delete view message": "Vill du verkligen ta bort vyn \"{viewName}\"? Denna åtgärd kan inte ångras."
+            },
+            "actions": {
+                "Delete view": "Ta bort vy"
+            }
+        },
+        "list": {
+            "columns": {
+                "Show": "Visa",
+                "Other columns": "Andra kolumner",
+                "Add": "Lägg till",
+                "Remove": "Ta bort",
+                "Search": "Sök"
+            }
+        }
+    },
+    "units": {
+        "statuses": {
+            "Active": "Aktiv",
+            "Inactive": "Inaktiv"
+        }
+    },
+    "invoicing": {
+        "orders": {
+            "columns": {
+                "customer_name": "Kundnamn",
+                "number": "Ordernummer",
+                "operation_name": "Verksamhet",
+                "invoice_group": "Fakturagrupp",
+                "invoice_number": "Fakturanummer",
+                "status": "Status",
+                "amount": "Kundtotal",
+                "waybill_number": "Fraktsedelsnummer",
+                "customer_reference": "Kundreferens",
+                "customer_short_name": "Kundkod",
+                "customer_number": "Kundnummer",
+                "customer_contact": "Bokningskontakt",
+                "subcustomer": "Littera",
+                "unit_names": "Enhetsnamn",
+                "unit_numbers": "Enhetsnummer",
+                "service_name": "Tjänst",
+                "registered_by": "Registrerad av",
+                "registered_at": "Registreringstid",
+                "planned_at": "Planeringstid",
+                "delivered_at": "Leveranstid",
+                "unit_total": "Enhetstotal",
+                "customer_total": "Kundtotal",
+                "invoice_text": "Fakturatext",
+                "invoice_profile": "Fakturaprofil",
+                "invoice_type": "Fakturatyp",
+                "invoice_process_status": "Fakturaprocess status"
+            },
+            "sidebar": {
+                "headings": {
+                    "Table filters": "Tabellfilter",
+                    "Edit columns": "Ändra kolumner"
+                }
+            },
+            "actions": {
+                "Invoice by profile": "Fakturera via Fakturaprofil",
+                "Mark as invoiceable": "Markera som fakturerbar",
+                "Invoice": "Påbörja fakturering"
+            },
+            "messages": {
+                "N orders selected": "{number} ordrar valda",
+                "N orders marked as invoiceable": "{number} ordrar markerade som fakturerbara",
+                "N orders failed to be marked as invoiceable": "{number} ordrar misslyckades att markeras som fakturerbara"
+            }
+        },
+        "dialog": {
+            "Invoicing": "Fakturering",
+            "fields": {
+                "Invoicing date": "Fakturadatum",
+                "Bookkeeping date": "Bokföringsdatum",
+                "Invoicing profile": "Fakturaprofil"
+            },
+            "actions": {
+                "Invoice": "Faktura"
+            },
+            "messages": {
+                "Invoicing process created successfully": "Fakturaprocess skapad"
+            }
+        },
+        "processes": {
+            "columns": {
+                "Created at": "Skapat den",
+                "Process status": "Process status",
+                "Number of orders": "Antal ordrar",
+                "Progress": "Genomfört"
+            },
+            "statuses": {
+                "creating": "Registreras",
+                "pending": "Inväntar",
+                "running": "Pågår",
+                "externalProcessing": "Extern bearbetning",
+                "externalProcessingDone": "Extern bearbetning klar",
+                "restarting": "Omstart",
+                "completed": "Slutfört",
+                "cancelling": "Avbryts",
+                "cancelled": "Avbrutet",
+                "failed": "Misslyckad",
+                "error": "Fel"
+            }
+        },
+        "process": {
+            "sections": {
+                "Process summary": "Process summering",
+                "Invoice summary": "Fakturering summering",
+                "Journal": "Bokföring",
+                "Progress": "Processsteg",
+                "Invoices": "Fakturor",
+                "Technical log": "Teknisk logg"
+            },
+            "System": "System",
+            "fields": {
+                "Started at": "Påbörjad",
+                "Completed at": "Slutförd den",
+                "Cancelled at": "Avbrutet den",
+                "Triggered by": "Påbörjad av",
+                "Invoices generated": "Fakturor genererade",
+                "Total amount": "Total summa",
+                "Invoice numbers from": "Fakturanummer från",
+                "to": "till "
+            },
+            "actions": {
+                "Restart process": "Starta om process",
+                "Cancel process": "Avbryt processen"
+            },
+            "messages": {
+                "Do you want to restart this process?": "Vill du verkligen starta om denna process",
+                "Do you want to cancel this process?": "Vill du verkligen avbryta denna process",
+                "Process restarting started": "Omstart av process påbörjad",
+                "Process cancellation started": "Avbrytning av processen påbörjad"
+            },
+            "steps": {
+                "types": {
+                    "validation": "Validering",
+                    "invoicing": "Fakturering",
+                    "bookkeeping": "Bokföring",
+                    "export_invoices": "Export av fakturor",
+                    "updates": "Uppdatera ordrar"
+                },
+                "statuses": {
+                    "pending": "Avvaktar",
+                    "started": "Påbörjad",
+                    "completed": "Slutförd",
+                    "stopped": "Stoppad"
+                },
+                "times": {
+                    "Started at": "Påbörjad den",
+                    "Completed at": "Genomförd den",
+                    "Stopped at": "Stoppad den"
+                },
+                "actions": {
+                    "Retry": "Försök igen"
+                }
+            },
+            "invoices": {
+                "No invoices available": "inga fakturor",
+                "columns": {
+                    "Invoice number": "Fakturanummer",
+                    "Customer name": "Kundnamn",
+                    "Total amount": "Summa"
+                },
+                "actions": {
+                    "View": "Titta"
+                }
+            },
+            "invoice": {
+                "headings": {
+                    "Invoice": "Faktura",
+                    "Customer": "Kund",
+                    "Order": "Order",
+                    "Issuer": "Utfärdare"
+                },
+                "fields": {
+                    "Invoice date": "Fakturadatum",
+                    "Bookkeeping date": "Bökföringsdatum",
+                    "Payment terms (days)": "Betalningsdagar",
+                    "customer": {
+                        "Name": "Namn",
+                        "VAT number": "Momsnummer",
+                        "GLN": "GLN nummer",
+                        "Address": "Adress"
+                    },
+                    "order": {
+                        "Start date": "Startdatum",
+                        "End date": "Slutdatum",
+                        "Contact name": "Kontaktnamn",
+                        "Waybill number": "Fraktsedelsnummer",
+                        "Customer reference": "Kundreferens",
+                        "First stop name": "Första stop namn",
+                        "Last stop name": "Sista stop namn"
+                    },
+                    "goods_rows": {
+                        "Quantity": "Antal",
+                        "Loading metres": "FLM",
+                        "Pallet places": "PPL",
+                        "Weight": "Vikt",
+                        "Volume": "Volym"
+                    },
+                    "specification_rows": {
+                        "Start date": "Startdatum",
+                        "Start point": "Startplats",
+                        "End date": "Slutdatum",
+                        "End point": "Slutplats",
+                        "Activity": "Specifikation",
+                        "Quantity": "Kvantitet",
+                        "Unit": "Enhet",
+                        "Executions": "uförd",
+                        "Hours": "Timmar"
+                    },
+                    "debit_rows": {
+                        "Specification": "Specifikation",
+                        "Quantity": "Kvanitet",
+                        "Price": "Pris",
+                        "Total": "Total"
+                    },
+                    "totals": {
+                        "Net amount": "Netto",
+                        "Taxable amount": "Momspliktigt belopp",
+                        "Vat amount": "Moms",
+                        "Total amount": "Total",
+                        "Rounding amount": "Avrundat",
+                        "Final amount": "Slutgiltigt belopp"
+                    },
+                    "issuer": {
+                        "Name": "Namn",
+                        "Organization number": "Organisationsnummer",
+                        "VAT number": "Momsnummer",
+                        "IBAN": "IBAN",
+                        "SWIFT": "SWIFT",
+                        "Bank": "Bank",
+                        "Bankgiro": "Bankgiro",
+                        "Website": "Hemsida",
+                        "Phone": "Telefon",
+                        "Address": "Adress"
+                    }
+                },
+                "actions": {
+                    "Back to list": "Tillbaka till listan",
+                    "Download PDF": "Ladda ner PDF"
+                }
+            },
+            "log": {
+                "No log entries available": "Inga loggrader tillgängliga",
+                "columns": {
+                    "Date": "Datum",
+                    "Time": "Tid",
+                    "Message": "Meddelande",
+                    "Context": "Innehåll"
+                }
+            }
+        }
+    },
+    "blocked_time_periods": {
+        "Working time": "Arbetstid",
+        "Non-working time": "Ej arbetstid",
+        "messages": {
+            "No blocked time reasons defined": "Blockering ej specificerad"
+        }
+    },
+    "self_billing": {
+        "orders": {
+            "sidebar": {
+                "headings": {
+                    "Table filters": "Filter",
+                    "Edit columns": "Ändra kolumner"
+                }
+            },
+            "columns": {
+                "group": "Avräkningsgrupp",
+                "profile": "Avräkningsprofil",
+                "status": "Status",
+                "number": "nummer",
+                "order_number": "Ordernummer",
+                "waybill": "Fraktsedelsnummer",
+                "unit_number": "Enhetsnummer",
+                "unit_total": "Enhetstotal",
+                "vehicle_name": "Enhetsnamn",
+                "carrier_name": "Åkarnamn",
+                "carrier_short_name": "Åkarnummer",
+                "service_name": "Tjänst",
+                "operation_name": "Verksamhet",
+                "customer_name": "Kundnamn",
+                "customer_short_name": "Kundkod",
+                "customer_number": "Kundnummer",
+                "customer_reference": "Kundreferens",
+                "customer_contact": "Kundkontakt",
+                "subcustomer_name": "Littera",
+                "registered_at": "Registrerad tid",
+                "registered_by": "Registrerad av",
+                "planned_at": "Planerad tid",
+                "dispatched_at": "Fördelad tid",
+                "accepted_at": "Accepterad tid",
+                "started_at": "Påbörjad tid",
+                "completed_at": "Slutförd tid",
+                "verified_at": "Verifierad tid",
+                "planned_pickup_at": "Planerad start",
+                "planned_delivery_at": "Planerad slut",
+                "payees": "Resurs",
+                "created_at": "Skapad tid",
+                "updated_at": "Uppdaterad tid"
+            }
+        }
+    },
+    "files": {
+        "headings": {
+            "Add files": "Lägg till bilagor",
+            "Add file": "Lägg till bilaga"
+        },
+        "actions": {
+            "Add files": "Lägg till bilagor",
+            "Remove file": "Ta bort bilagor",
+            "Upload": "Ladda upp",
+            "View file": "Titta"
+        },
+        "messages": {
+            "Click or drag files to this area to upload": "Klicka eller dra filer hit för att ladda upp",
+            "Click or drag a file to this area to upload": "Klicka eller dra en fil hit för att ladda upp",
+            "Preview not available": "Förhandsgranskning ej tillgänglig"
+        }
+    },
+    "waste_codes": {
+        "variants": {
+            "hazardous_waste": "Farligt avfall",
+            "ewc": "EWC kod"
+        }
+    },
+    "months": {
+        "January": "Januari",
+        "February": "Februari",
+        "March": "Mars",
+        "April": "April",
+        "May": "Maj",
+        "June": "Juni",
+        "July": "Juli",
+        "August": "Augusti",
+        "September": "September",
+        "October": "Oktober",
+        "November": "November",
+        "December": "December"
+    },
+    "days_of_week": {
+        "Monday": "Måndag",
+        "Tuesday": "Tisdag",
+        "Wednesday": "Onsdag",
+        "Thursday": "Torsdag",
+        "Friday": "Fredag",
+        "Saturday": "Lördag",
+        "Sunday": "Söndag"
+    },
+    "tracking_events": {
+        "types": {
+            "START_TRANSPORT_ORDER": "Startad",
+            "LOAD_TRANSPORT_ORDER_FROM_TERMINAL": "Lastad",
+            "LOAD_TRANSPORT_ORDER_FROM_CUSTOMER": "Hämtad",
+            "DELIVER_TRANSPORT_ORDER_TO_TERMINAL": "Omex",
+            "DELIVER_TRANSPORT_ORDER_TO_CUSTOMER": "Levererad",
+            "DISPATCH_TRANSPORT_ORDER_TO_UNIT": "Fördelad",
+            "PLAN_TRANSPORT_ORDER": "Planerad",
+            "PLAN_DISPATCH_TRANSPORT_ORDER": "Schemalagd",
+            "REJECT_TRANSPORT_ORDER": "Nekad",
+            "ADD_DEVIATION_ROW": "Avvikelse",
+            "UNDISPATCH_TRANSPORT_ORDER_FROM_UNIT": "Återkallad",
+            "ACCEPT_TRANSPORT_ORDER": "Accepterad",
+            "COMPLETE_TRANSPORT_ORDER": "Klar",
+            "VERIFY_TRANSPORT_ORDER": "Verifierad",
+            "COMPLETE_AND_VERIFY_TRANSPORT_ORDER": "Klar & verfierad"
+        }
+    }
+}

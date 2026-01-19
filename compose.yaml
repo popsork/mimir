@@ -24,11 +24,17 @@ services:
         depends_on:
             - mongodb
             - redis
+        healthcheck:
+            test: ["CMD-SHELL", "php -r 'exit(@file_get_contents(\"http://localhost:80/\") === false ? 1 : 0);'"]
+            interval: 5s
+            timeout: 3s
+            retries: 12
     mongodb:
-        image: 'mongodb/mongodb-atlas-local:latest'
+        image: 'mongo:8'
         environment:
             - 'MONGODB_INITDB_ROOT_USERNAME=${MONGODB_USERNAME:-}'
             - 'MONGODB_INITDB_ROOT_PASSWORD=${MONGODB_PASSWORD:-}'
+            - DO_NOT_TRACK=1
         volumes:
             - 'sail-mongodb:/data/db'
         ports:
@@ -58,6 +64,16 @@ services:
                 - ping
             retries: 3
             timeout: 5s
+    vector:
+        image: timberio/vector:0.46.1-alpine
+        volumes:
+            - ./docker/vector/vector.yaml:/etc/vector/vector.yaml:ro
+            - /var/run/docker.sock:/var/run/docker.sock
+        depends_on:
+            laravel.test:
+                condition: service_healthy
+        networks:
+            - sail
 networks:
     sail:
         driver: bridge

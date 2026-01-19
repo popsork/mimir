@@ -1,0 +1,23 @@
+@mixin clickable-button {
+    user-select: none;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+@mixin disabled-button {
+    user-select: none;
+    cursor: not-allowed;
+    text-decoration: none;
+}
+
+@mixin button-shape {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+
+    border-radius: steps(4);
+    @include clickable-button;
+    @include transition;
+}

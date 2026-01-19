@@ -1,0 +1,44 @@
+@mixin content-padding {
+    padding-left: $gutter;
+    padding-right: $gutter;
+}
+
+@mixin panel-shadow {
+    box-shadow: -6px 0 16px -1px $color-shadow;
+}
+
+@mixin horizontal-panel-shadow {
+    box-shadow: 0 0 1px 0 $color-shadow,
+        0 -1px 2px 0 $color-shadow,
+        0 -3px 2px 0 $color-shadow,
+        0 -7px 3px 0 $color-shadow;
+}
+
+@mixin dialog-shadow {
+    // shadow dimensions taken from figma with the slightly different colors replaced with a single variable
+    box-shadow: 0 0.41px 1.09px 0 $color-shadow,
+        0 1.13px 3.01px 0 $color-shadow,
+        0 2.71px 7.24px 0 $color-shadow,
+        0 9px 24px 0 $color-shadow;
+}
+
+@mixin outline-when-active {
+    transition: box-shadow .3s ease;
+    box-shadow: 0 0 0 2px transparent;
+
+    &:focus,
+    &:active,
+    &.active {
+        outline: none;
+        box-shadow: 0 0 0 2px $color-outline-accent;
+    }
+}
+
+@mixin overlay {
+    position: fixed;
+    z-index: 3000; // must be above NaiveUI's 2000 z-index for modals
+    inset: 0;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+}

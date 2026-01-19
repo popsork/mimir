@@ -1,0 +1,39 @@
+html,
+body {
+    position: relative;
+    overflow-y: hidden;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+
+    font-family: $font-stack;
+    text-rendering: optimizelegibility;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    background: $color-background-lightest;
+    color: $color-text-normal;
+
+    @include normal-text;
+
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    &.scrollable {
+        overflow-y: auto;
+    }
+}
+
+body > div[id="__nuxt"],
+.n-config-provider {
+    // nuxt root node and naive-ui config wrapper
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}

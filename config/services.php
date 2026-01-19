@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'log_ingest' => [
+        'token' => env('LOG_INGEST_TOKEN'),
+    ],
+
 ];

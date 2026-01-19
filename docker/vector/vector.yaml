@@ -1,0 +1,45 @@
+sources:
+  docker_logs:
+    type: docker_logs
+
+transforms:
+  normalize:
+    type: remap
+    inputs: [docker_logs]
+    source: |
+      # Standardisera fälten till det du vill lagra
+      # docker_logs already provides .timestamp as a timestamp
+      .ts = .timestamp
+
+      # meta som du vill kunna filtrera på
+      .meta = {
+        "host": get_hostname() ?? "docker-dev",
+        "container": .container_name,
+        "image": .image
+      }
+
+      # docker ger ofta stdout/stderr; mappa till level om du vill
+      .stream = .stream
+      .level = if .stream == "stderr" { "error" } else { "info" }
+
+      # message brukar redan finnas
+      .message = to_string!(.message)
+
+      # Städa bort originalfält om du vill
+      del(.timestamp)
+
+sinks:
+  to_laravel:
+    type: http
+    inputs: [normalize]
+    uri: http://laravel.test:80/api/logs/ingest
+    method: post
+    encoding:
+      codec: json
+
+    framing:
+      method: newline_delimited
+
+    request:
+      headers:
+        Authorization: "Bearer devtoken"

@@ -1,0 +1,3 @@
+@function steps($number) {
+    @return (8px * $number);
+}
