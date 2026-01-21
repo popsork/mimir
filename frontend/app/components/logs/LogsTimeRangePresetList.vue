@@ -7,7 +7,7 @@ type Preset = {
 
 const props = defineProps<{
   presets: Preset[];
-  selectedLabel: string | null;
+  selectedValue: string | null;
 }>();
 
 const emit = defineEmits<{
@@ -34,7 +34,7 @@ const selectPreset = (preset: Preset) => {
       >
         <span>{{ preset.label }}</span>
         <UIcon
-          v-if="selectedLabel === preset.label"
+          v-if="selectedValue === preset.value"
           name="i-heroicons-check-20-solid"
           class="h-4 w-4"
         />

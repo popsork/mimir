@@ -1,3 +1,4 @@
+import { resolveLogsTimeRangePreset } from '../../utils/logsTimeRangePresets';
 import { useLogsFiltersStore } from './filters';
 
 type LogRecord = {
@@ -22,6 +23,7 @@ export const useLogsStore = defineStore('logs', () => {
   const query = ref('');
   const from = ref<string | null>(null);
   const to = ref<string | null>(null);
+  const rangePreset = ref<string | null>(null);
   const limit = ref(200);
 
   const filtersStore = useLogsFiltersStore();
@@ -47,11 +49,18 @@ export const useLogsStore = defineStore('logs', () => {
     if (query.value.trim() !== '') {
       params.q = query.value.trim();
     }
-    if (from.value) {
-      params.from = normalizeDateParam(from.value) ?? from.value;
-    }
-    if (to.value) {
-      params.to = normalizeDateParam(to.value) ?? to.value;
+
+    const resolvedPreset = resolveLogsTimeRangePreset(rangePreset.value);
+    if (resolvedPreset) {
+      params.from = resolvedPreset.from.toISOString();
+      params.to = resolvedPreset.to.toISOString();
+    } else {
+      if (from.value) {
+        params.from = normalizeDateParam(from.value) ?? from.value;
+      }
+      if (to.value) {
+        params.to = normalizeDateParam(to.value) ?? to.value;
+      }
     }
 
     if (shouldApplyFilter(filtersStore.selectedLevels, filtersStore.levels)) {
@@ -102,6 +111,7 @@ export const useLogsStore = defineStore('logs', () => {
     query,
     from,
     to,
+    rangePreset,
     limit,
     fetchLogs,
   };

@@ -52,6 +52,8 @@ class LogQueryController extends Controller
                     'trace_id' => 1,
                     'request_id' => 1,
                     'workload' => 1,
+                    'container_id' => 1,
+                    'event_id' => 1,
                     'meta' => 1,
                 ],
             ]
@@ -70,10 +72,13 @@ class LogQueryController extends Controller
                 'trace_id' => $doc['trace_id'] ?? null,
                 'request_id' => $doc['request_id'] ?? null,
                 'workload' => $doc['workload'] ?? ($meta['workload'] ?? null),
+                'container_id' => $doc['container_id'] ?? null,
+                'event_id' => $doc['event_id'] ?? null,
                 'host' => $meta['host'] ?? null,
                 'container' => $meta['container'] ?? null,
                 'image' => $meta['image'] ?? null,
                 'identifier' => $meta['identifier'] ?? null,
+                'meta' => $meta,
             ];
         }
 

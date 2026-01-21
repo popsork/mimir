@@ -1,71 +1,50 @@
 <script setup lang="ts">
+import { DEFAULT_LOGS_TIME_RANGE_PRESET, LOGS_TIME_RANGE_PRESETS, findLogsTimeRangePreset } from '../../utils/logsTimeRangePresets';
 import { useLogsStore } from '../../stores/logs/list';
 
 const logsStore = useLogsStore();
-const { from, to } = storeToRefs(logsStore);
+const { from, to, rangePreset } = storeToRefs(logsStore);
 
-type Preset = {
-  label: string;
-  value: string;
-  ms: number;
-};
+const presets = LOGS_TIME_RANGE_PRESETS;
 
-const presets: Preset[] = [
-  { label: 'Last 1 minute', value: '1m', ms: 1 * 60 * 1000 },
-  { label: 'Last 5 minutes', value: '5m', ms: 5 * 60 * 1000 },
-  { label: 'Last 15 minutes', value: '15m', ms: 15 * 60 * 1000 },
-  { label: 'Last 30 minutes', value: '30m', ms: 30 * 60 * 1000 },
-  { label: 'Last hour', value: '1h', ms: 60 * 60 * 1000 },
-  { label: 'Last 3 hours', value: '3h', ms: 3 * 60 * 60 * 1000 },
-  { label: 'Last 6 hours', value: '6h', ms: 6 * 60 * 60 * 1000 },
-  { label: 'Last 12 hours', value: '12h', ms: 12 * 60 * 60 * 1000 },
-  { label: 'Last 1 day', value: '1d', ms: 24 * 60 * 60 * 1000 },
-  { label: 'Last 2 days', value: '2d', ms: 2 * 24 * 60 * 60 * 1000 },
-];
-
-const activePreset = ref<string | null>('Last 5 minutes');
-
-const pad = (value: number) => String(value).padStart(2, '0');
-const toInputValue = (date: Date) => {
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
-};
-
-const applyPreset = async (preset: Preset) => {
-  const now = new Date();
-  const fromDate = new Date(now.getTime() - preset.ms);
-  from.value = toInputValue(fromDate);
-  to.value = toInputValue(now);
-  activePreset.value = preset.label;
+const applyPreset = async (preset: (typeof presets)[number]) => {
+  rangePreset.value = preset.value;
+  from.value = null;
+  to.value = null;
   await logsStore.fetchLogs();
 };
 
 onMounted(() => {
-  if (from.value || to.value) {
+  if (from.value || to.value || rangePreset.value) {
     return;
   }
-  const preset = presets.find((item) => item.value === '5m');
+  const preset = presets.find((item) => item.value === DEFAULT_LOGS_TIME_RANGE_PRESET);
   if (preset) {
     void applyPreset(preset);
   }
 });
 
 const applyRange = async () => {
-  activePreset.value = null;
+  rangePreset.value = null;
   await logsStore.fetchLogs();
 };
 
 const onFromChange = (value: string | null) => {
   from.value = value;
-  activePreset.value = null;
+  rangePreset.value = null;
 };
 
 const onToChange = (value: string | null) => {
   to.value = value;
-  activePreset.value = null;
+  rangePreset.value = null;
 };
 
+const activePresetLabel = computed(() => {
+  return findLogsTimeRangePreset(rangePreset.value)?.label ?? null;
+});
+
 const displayLabel = computed(() => {
-  if (activePreset.value) return activePreset.value;
+  if (activePresetLabel.value) return activePresetLabel.value;
   if (!from.value && !to.value) return 'Any time';
   return 'Custom range';
 });
@@ -89,7 +68,7 @@ const displayLabel = computed(() => {
 
         <LogsTimeRangePresetList
           :presets="presets"
-          :selected-label="activePreset"
+          :selected-value="rangePreset"
           @select="applyPreset"
         />
       </div>

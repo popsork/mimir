@@ -1,4 +1,5 @@
 import { useRouteQuery } from '@vueuse/router';
+import { findLogsTimeRangePreset } from '../utils/logsTimeRangePresets';
 import { useLogsFiltersStore } from '../stores/logs/filters';
 import { useLogsStore } from '../stores/logs/list';
 
@@ -15,7 +16,7 @@ const toQueryValue = (value: string[], all: string[]) => {
 export const useLogsQuerySync = () => {
   const logsStore = useLogsStore();
   const filtersStore = useLogsFiltersStore();
-  const { query, from: fromRef, to: toRef } = storeToRefs(logsStore);
+  const { query, from: fromRef, to: toRef, rangePreset } = storeToRefs(logsStore);
   const {
     levels: allLevels,
     streams: allStreams,
@@ -38,6 +39,7 @@ export const useLogsQuerySync = () => {
   const q = useRouteQuery<string | null>('q');
   const from = useRouteQuery<string | null>('from');
   const to = useRouteQuery<string | null>('to');
+  const range = useRouteQuery<string | null>('range');
   const levels = useRouteQuery<string | null>('levels');
   const streams = useRouteQuery<string | null>('streams');
   const workloads = useRouteQuery<string | null>('workloads');
@@ -51,12 +53,32 @@ export const useLogsQuerySync = () => {
     if (typeof value === 'string') query.value = value;
   }, { immediate: true });
 
+  watch(range, (value) => {
+    const preset = findLogsTimeRangePreset(typeof value === 'string' ? value : null);
+    if (preset) {
+      rangePreset.value = preset.value;
+      fromRef.value = null;
+      toRef.value = null;
+      return;
+    }
+    rangePreset.value = null;
+    if (typeof value === 'string' && value.length) {
+      range.value = null;
+    }
+  }, { immediate: true });
+
   watch(from, (value) => {
-    if (typeof value === 'string') fromRef.value = value;
+    if (typeof value === 'string' && value.length && !rangePreset.value) {
+      rangePreset.value = null;
+      fromRef.value = value;
+    }
   }, { immediate: true });
 
   watch(to, (value) => {
-    if (typeof value === 'string') toRef.value = value;
+    if (typeof value === 'string' && value.length && !rangePreset.value) {
+      rangePreset.value = null;
+      toRef.value = value;
+    }
   }, { immediate: true });
 
   watch(levels, (value) => {
@@ -108,8 +130,21 @@ export const useLogsQuerySync = () => {
   }, { immediate: true });
 
   watch(query, (value) => { q.value = value || null; });
-  watch(fromRef, (value) => { from.value = value || null; });
-  watch(toRef, (value) => { to.value = value || null; });
+  watch(rangePreset, (value) => {
+    range.value = value || null;
+    if (value) {
+      fromRef.value = null;
+      toRef.value = null;
+    }
+  });
+  watch(fromRef, (value) => {
+    if (value) range.value = null;
+    from.value = value || null;
+  });
+  watch(toRef, (value) => {
+    if (value) range.value = null;
+    to.value = value || null;
+  });
   watch(selectedLevels, (value) => { levels.value = toQueryValue(value, allLevels.value); });
   watch(selectedStreams, (value) => { streams.value = toQueryValue(value, allStreams.value); });
   watch(selectedWorkloads, (value) => { workloads.value = toQueryValue(value, allWorkloads.value); });
