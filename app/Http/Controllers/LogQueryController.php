@@ -22,9 +22,11 @@ class LogQueryController extends Controller
         $filters = [
             'levels' => $this->distinct($collection, 'level', $match),
             'streams' => $this->distinct($collection, 'stream', $match),
+            'workloads' => $this->distinct($collection, 'meta.workload', $match),
             'hosts' => $this->distinct($collection, 'meta.host', $match),
             'containers' => $this->distinct($collection, 'meta.container', $match),
             'images' => $this->distinct($collection, 'meta.image', $match),
+            'identifiers' => $this->distinct($collection, 'meta.identifier', $match),
             'loggers' => $this->distinct($collection, 'logger', $match),
         ];
 
@@ -55,6 +57,7 @@ class LogQueryController extends Controller
                     'logger' => 1,
                     'trace_id' => 1,
                     'request_id' => 1,
+                    'workload' => 1,
                     'meta' => 1,
                 ],
             ]
@@ -72,9 +75,11 @@ class LogQueryController extends Controller
                 'logger' => $doc['logger'] ?? null,
                 'trace_id' => $doc['trace_id'] ?? null,
                 'request_id' => $doc['request_id'] ?? null,
+                'workload' => $doc['workload'] ?? ($meta['workload'] ?? null),
                 'host' => $meta['host'] ?? null,
                 'container' => $meta['container'] ?? null,
                 'image' => $meta['image'] ?? null,
+                'identifier' => $meta['identifier'] ?? null,
             ];
         }
 
@@ -115,6 +120,11 @@ class LogQueryController extends Controller
             $match['stream'] = ['$in' => $streams];
         }
 
+        $workloads = $this->normalizeList($request->query('workloads'));
+        if (!empty($workloads)) {
+            $match['meta.workload'] = ['$in' => $workloads];
+        }
+
         $hosts = $this->normalizeList($request->query('hosts'));
         if (!empty($hosts)) {
             $match['meta.host'] = ['$in' => $hosts];
@@ -128,6 +138,11 @@ class LogQueryController extends Controller
         $images = $this->normalizeList($request->query('images'));
         if (!empty($images)) {
             $match['meta.image'] = ['$in' => $images];
+        }
+
+        $identifiers = $this->normalizeList($request->query('identifiers'));
+        if (!empty($identifiers)) {
+            $match['meta.identifier'] = ['$in' => $identifiers];
         }
 
         $loggers = $this->normalizeList($request->query('loggers'));

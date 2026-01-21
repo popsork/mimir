@@ -1,0 +1,49 @@
+transforms:
+  normalize_docker:
+    type: remap
+    inputs: [docker]
+    source: |
+      # Timestamp
+      .ts = .timestamp ?? .ts ?? .time
+      if is_timestamp(.ts) { .ts = to_string!(.ts) }
+
+      # Message
+      if exists(.message) {
+        .message = to_string!(.message)
+      } else {
+        .message = ""
+      }
+
+      # Stream (stdout/stderr)
+      if exists(.stream) { .stream = to_string!(.stream) }
+
+      # Workload (top-level + meta)
+      .workload = "docker"
+      .meta = {}
+      .meta.workload = "docker"
+
+      # Host
+      if exists(.host) {
+        .meta.host = to_string!(.host)
+      } else {
+        .meta.host = get_hostname() ?? "unknown"
+      }
+
+      # Container name + image in meta
+      if exists(.container_name) {
+        .meta.container = to_string!(.container_name)
+      } else if exists(.container) {
+        .meta.container = to_string!(.container)
+      }
+
+      if exists(.image) {
+        .meta.image = to_string!(.image)
+      } else if exists(.container_image) {
+        .meta.image = to_string!(.container_image)
+      }
+
+      # Container id kept as non-meta
+      if exists(.container_id) { .container_id = to_string!(.container_id) }
+
+      # Optional level passthrough
+      if exists(.level) { .level = to_string!(.level) }

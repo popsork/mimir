@@ -1,0 +1,60 @@
+transforms:
+  normalize_journald:
+    type: remap
+    inputs: [journald]
+    source: |
+      # Timestamp
+      .ts = .timestamp ?? .ts ?? .time
+      if is_timestamp(.ts) { .ts = to_string!(.ts) }
+
+      # Message
+      msg = if exists(.message) {
+        .message
+      } else if exists(.MESSAGE) {
+        .MESSAGE
+      } else {
+        ""
+      }
+      .message = to_string!(msg)
+
+      # Workload (top-level + meta)
+      .workload = "journald"
+      .meta = {}
+      .meta.workload = "journald"
+
+      # Host normalization
+      if exists(.host) {
+        .meta.host = to_string!(.host)
+      } else if exists(._HOSTNAME) {
+        .meta.host = to_string!(._HOSTNAME)
+      } else {
+        .meta.host = get_hostname() ?? "unknown"
+      }
+
+      # Identifier (used for filtering)
+      if exists(.SYSLOG_IDENTIFIER) {
+        .meta.identifier = to_string!(.SYSLOG_IDENTIFIER)
+      } else if exists(._COMM) {
+        .meta.identifier = to_string!(._COMM)
+      }
+
+      # Per-entry id (optional, non-meta)
+      if exists(.__CURSOR) { .event_id = to_string!(.__CURSOR) }
+
+      # Level from journald PRIORITY (0..7)
+      pri = 6
+      if exists(.PRIORITY) { pri = to_int!(.PRIORITY) }
+
+      .level = if pri <= 2 {
+        "critical"
+      } else if pri == 3 {
+        "error"
+      } else if pri == 4 {
+        "warn"
+      } else if pri == 5 {
+        "notice"
+      } else if pri == 6 {
+        "info"
+      } else {
+        "debug"
+      }

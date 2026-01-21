@@ -45,16 +45,22 @@ class LogIngestController extends Controller
                 continue;
             }
 
-            $tsStr = $event['ts'] ?? $event['timestamp'] ?? null;
-            $meta  = $event['meta'] ?? null;
-            $msg   = $event['message'] ?? null;
+            $tsValue = $event['ts'] ?? $event['timestamp'] ?? $event['time'] ?? null;
+            $meta = $event['meta'] ?? [];
+            $msg = $event['message'] ?? null;
 
-            if (!is_string($tsStr) || $tsStr === '' || !is_array($meta) || !is_string($msg)) {
+            if (!is_string($msg) || $msg === '') {
                 continue;
             }
 
-            $ts = $this->toUtcDateTime($tsStr);
+            if (!is_array($meta)) {
+                $meta = [];
+            }
+
+            $ts = $this->toUtcDateTime($tsValue);
             if ($ts === null) continue;
+
+            $meta = $this->normalizeMeta($meta, $event);
 
             $doc = [
                 'timestamp' => $ts,
@@ -67,6 +73,17 @@ class LogIngestController extends Controller
             }
             if (isset($event['stream']) && is_string($event['stream'])) {
                 $doc['stream'] = $event['stream'];
+            }
+            if (isset($event['workload']) && is_string($event['workload'])) {
+                $doc['workload'] = $event['workload'];
+            } elseif (isset($meta['workload']) && is_string($meta['workload'])) {
+                $doc['workload'] = $meta['workload'];
+            }
+            if (isset($event['container_id']) && is_string($event['container_id'])) {
+                $doc['container_id'] = $event['container_id'];
+            }
+            if (isset($event['event_id']) && is_string($event['event_id'])) {
+                $doc['event_id'] = $event['event_id'];
             }
 
             foreach (['trace_id', 'request_id', 'logger'] as $k) {
@@ -108,14 +125,84 @@ class LogIngestController extends Controller
         return hash_equals($expected, $token);
     }
 
-    private function toUtcDateTime(string $rfc3339): ?UTCDateTime
+    private function toUtcDateTime(mixed $value): ?UTCDateTime
     {
         try {
-            $dt = new DateTimeImmutable($rfc3339);
-            $ms = (int) $dt->format('Uv');
-            return new UTCDateTime($ms);
+            if (is_int($value) || is_float($value)) {
+                $ms = $this->normalizeUnixMillis((float) $value);
+                return new UTCDateTime($ms);
+            }
+
+            if (is_string($value)) {
+                $value = trim($value);
+                if ($value === '') {
+                    return null;
+                }
+
+                if (is_numeric($value)) {
+                    $ms = $this->normalizeUnixMillis((float) $value);
+                    return new UTCDateTime($ms);
+                }
+
+                $dt = new DateTimeImmutable($value);
+                $ms = (int) $dt->format('Uv');
+                return new UTCDateTime($ms);
+            }
+
+            return null;
         } catch (\Throwable $e) {
             return null;
         }
+    }
+
+    private function normalizeUnixMillis(float $value): int
+    {
+        if ($value > 9999999999) {
+            return (int) round($value);
+        }
+
+        return (int) round($value * 1000);
+    }
+
+    private function normalizeMeta(array $meta, array $event): array
+    {
+        $host = $meta['host'] ?? $meta['hostname'] ?? $event['host'] ?? $event['hostname'] ?? null;
+        if (is_string($host) && $host !== '') {
+            $meta['host'] = $host;
+        }
+
+        $workload = $meta['workload'] ?? $event['workload'] ?? null;
+        if (is_string($workload) && $workload !== '') {
+            $meta['workload'] = $workload;
+        } else {
+            $meta['workload'] = 'unknown';
+        }
+
+        if (!isset($meta['host']) || !is_string($meta['host']) || $meta['host'] === '') {
+            $meta['host'] = 'unknown';
+        }
+
+        if (!isset($meta['container'])) {
+            $container = $event['container'] ?? null;
+            if (is_string($container) && $container !== '') {
+                $meta['container'] = $container;
+            }
+        }
+
+        if (!isset($meta['image'])) {
+            $image = $event['image'] ?? null;
+            if (is_string($image) && $image !== '') {
+                $meta['image'] = $image;
+            }
+        }
+
+        if (!isset($meta['identifier'])) {
+            $identifier = $event['identifier'] ?? null;
+            if (is_string($identifier) && $identifier !== '') {
+                $meta['identifier'] = $identifier;
+            }
+        }
+
+        return $meta;
     }
 }
