@@ -115,6 +115,7 @@ class LogIngestController extends Controller
             ->selectCollection('log_messages');
 
         $collection->insertMany($docs, ['ordered' => false]);
+        $this->upsertFacets($docs);
     }
 
     private function isBearerToken(string $header, string $expected): bool
@@ -204,5 +205,81 @@ class LogIngestController extends Controller
         }
 
         return $meta;
+    }
+
+    private function upsertFacets(array $docs): void
+    {
+        $valuesByType = [];
+
+        foreach ($docs as $doc) {
+            if (!is_array($doc)) continue;
+
+            $meta = $doc['meta'] ?? [];
+            if (!is_array($meta)) {
+                $meta = [];
+            }
+
+            $this->collectFacetValue($valuesByType, 'level', $doc['level'] ?? null);
+            $this->collectFacetValue($valuesByType, 'stream', $doc['stream'] ?? null);
+            $this->collectFacetValue($valuesByType, 'workload', $doc['workload'] ?? ($meta['workload'] ?? null));
+            $this->collectFacetValue($valuesByType, 'logger', $doc['logger'] ?? null);
+
+            $this->collectFacetValue($valuesByType, 'host', $meta['host'] ?? null);
+            $this->collectFacetValue($valuesByType, 'container', $meta['container'] ?? null);
+            $this->collectFacetValue($valuesByType, 'image', $meta['image'] ?? null);
+            $this->collectFacetValue($valuesByType, 'identifier', $meta['identifier'] ?? null);
+        }
+
+        if (empty($valuesByType)) {
+            return;
+        }
+
+        $now = new UTCDateTime((int) round(microtime(true) * 1000));
+        $updates = [];
+
+        foreach ($valuesByType as $type => $values) {
+            foreach ($values as $value => $_) {
+                $updates[] = [
+                    'updateOne' => [
+                        ['type' => $type, 'value' => $value],
+                        [
+                            '$set' => [
+                                'last_seen' => $now,
+                            ],
+                            '$setOnInsert' => [
+                                'type' => $type,
+                                'value' => $value,
+                                'first_seen' => $now,
+                            ],
+                        ],
+                        ['upsert' => true],
+                    ],
+                ];
+            }
+        }
+
+        if (empty($updates)) {
+            return;
+        }
+
+        $collection = DB::connection('mongodb')
+            ->getMongoDB()
+            ->selectCollection('log_facets');
+
+        $collection->bulkWrite($updates, ['ordered' => false]);
+    }
+
+    private function collectFacetValue(array &$valuesByType, string $type, mixed $value): void
+    {
+        if (!is_string($value)) {
+            return;
+        }
+
+        $value = trim($value);
+        if ($value === '') {
+            return;
+        }
+
+        $valuesByType[$type][$value] = true;
     }
 }

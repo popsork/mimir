@@ -13,21 +13,15 @@ class LogQueryController extends Controller
 {
     public function filters(Request $request): Response
     {
-        $collection = DB::connection('mongodb')
-            ->getMongoDB()
-            ->selectCollection('log_messages');
-
-        $match = $this->buildMatch($request);
-
         $filters = [
-            'levels' => $this->distinct($collection, 'level', $match),
-            'streams' => $this->distinct($collection, 'stream', $match),
-            'workloads' => $this->distinct($collection, 'meta.workload', $match),
-            'hosts' => $this->distinct($collection, 'meta.host', $match),
-            'containers' => $this->distinct($collection, 'meta.container', $match),
-            'images' => $this->distinct($collection, 'meta.image', $match),
-            'identifiers' => $this->distinct($collection, 'meta.identifier', $match),
-            'loggers' => $this->distinct($collection, 'logger', $match),
+            'levels' => $this->facetValues('level'),
+            'streams' => $this->facetValues('stream'),
+            'workloads' => $this->facetValues('workload'),
+            'hosts' => $this->facetValues('host'),
+            'containers' => $this->facetValues('container'),
+            'images' => $this->facetValues('image'),
+            'identifiers' => $this->facetValues('identifier'),
+            'loggers' => $this->facetValues('logger'),
         ];
 
         return response()->json($filters);
@@ -191,11 +185,27 @@ class LogQueryController extends Controller
         return $value->toDateTime()->format(DATE_ATOM);
     }
 
-    private function distinct($collection, string $field, array $match): array
+    private function facetValues(string $type): array
     {
-        $values = $collection->distinct($field, $match);
-        $values = array_values(array_filter($values, fn ($v) => $v !== null && $v !== ''));
-        sort($values);
+        $collection = DB::connection('mongodb')
+            ->getMongoDB()
+            ->selectCollection('log_facets');
+
+        $cursor = $collection->find(
+            ['type' => $type],
+            [
+                'projection' => ['value' => 1, '_id' => 0],
+                'sort' => ['value' => 1],
+            ]
+        );
+
+        $values = [];
+        foreach ($cursor as $doc) {
+            if (isset($doc['value']) && is_string($doc['value']) && $doc['value'] !== '') {
+                $values[] = $doc['value'];
+            }
+        }
+
         return $values;
     }
 }

@@ -40,6 +40,9 @@ const applyPreset = async (preset: Preset) => {
 };
 
 onMounted(() => {
+  if (from.value || to.value) {
+    return;
+  }
   const preset = presets.find((item) => item.value === '5m');
   if (preset) {
     void applyPreset(preset);
