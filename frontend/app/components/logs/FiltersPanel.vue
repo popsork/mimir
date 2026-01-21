@@ -2,30 +2,33 @@
 import { useLogsFiltersStore } from '../../stores/logs/filters';
 import { useLogsStore } from '../../stores/logs/list';
 
-const filtersStore = useLogsFiltersStore();
 const logsStore = useLogsStore();
-const {
-  levels,
-  streams,
-  workloads,
-  hosts,
-  containers,
-  images,
-  identifiers,
-  loggers,
-  selectedLevels,
-  selectedStreams,
-  selectedWorkloads,
-  selectedHosts,
-  selectedContainers,
-  selectedImages,
-  selectedIdentifiers,
-  selectedLoggers,
-} = storeToRefs(filtersStore);
+const filtersStore = useLogsFiltersStore();
 
-const applyFilters = async () => {
-  await logsStore.fetchLogs();
+let debounceHandle: ReturnType<typeof setTimeout> | null = null;
+const triggerFetch = () => {
+  if (debounceHandle) {
+    clearTimeout(debounceHandle);
+  }
+  debounceHandle = setTimeout(() => {
+    void logsStore.fetchLogs();
+  }, 200);
 };
+
+watch(
+  () => [
+    filtersStore.selectedLevels,
+    filtersStore.selectedStreams,
+    filtersStore.selectedWorkloads,
+    filtersStore.selectedHosts,
+    filtersStore.selectedContainers,
+    filtersStore.selectedImages,
+    filtersStore.selectedIdentifiers,
+    filtersStore.selectedLoggers,
+  ].map((list) => list.join('|')).join('::'),
+  () => triggerFetch(),
+  { deep: false }
+);
 
 const resetFilters = async () => {
   filtersStore.reset();
@@ -43,40 +46,16 @@ const resetFilters = async () => {
         </p>
       </div>
 
-      <UFormField label="Level">
-        <UCheckboxGroup v-model="selectedLevels" :items="levels" />
-      </UFormField>
-
-      <UFormField label="Stream">
-        <UCheckboxGroup v-model="selectedStreams" :items="streams" />
-      </UFormField>
-
-      <UFormField label="Workload">
-        <UCheckboxGroup v-model="selectedWorkloads" :items="workloads" />
-      </UFormField>
-
-      <UFormField label="Host">
-        <UCheckboxGroup v-model="selectedHosts" :items="hosts" />
-      </UFormField>
-
-      <UFormField label="Container">
-        <UCheckboxGroup v-model="selectedContainers" :items="containers" />
-      </UFormField>
-
-      <UFormField label="Image">
-        <UCheckboxGroup v-model="selectedImages" :items="images" />
-      </UFormField>
-
-      <UFormField label="Identifier">
-        <UCheckboxGroup v-model="selectedIdentifiers" :items="identifiers" />
-      </UFormField>
-
-      <UFormField label="Logger">
-        <UCheckboxGroup v-model="selectedLoggers" :items="loggers" />
-      </UFormField>
+      <LogsFilterLevel />
+      <LogsFilterStream />
+      <LogsFilterWorkload />
+      <LogsFilterHost />
+      <LogsFilterContainer />
+      <LogsFilterImage />
+      <LogsFilterIdentifier />
+      <LogsFilterLogger />
 
       <div class="flex gap-2 pt-2">
-        <UButton size="sm" @click="applyFilters">Apply</UButton>
         <UButton size="sm" variant="ghost" color="neutral" @click="resetFilters">Reset</UButton>
       </div>
     </div>

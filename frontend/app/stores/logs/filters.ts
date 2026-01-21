@@ -40,20 +40,29 @@ export const useLogsFiltersStore = defineStore('logs-filters', () => {
       images.value = data.images || [];
       identifiers.value = data.identifiers || [];
       loggers.value = data.loggers || [];
+
+      if (selectedLevels.value.length === 0) selectedLevels.value = [...levels.value];
+      if (selectedStreams.value.length === 0) selectedStreams.value = [...streams.value];
+      if (selectedWorkloads.value.length === 0) selectedWorkloads.value = [...workloads.value];
+      if (selectedHosts.value.length === 0) selectedHosts.value = [...hosts.value];
+      if (selectedContainers.value.length === 0) selectedContainers.value = [...containers.value];
+      if (selectedImages.value.length === 0) selectedImages.value = [...images.value];
+      if (selectedIdentifiers.value.length === 0) selectedIdentifiers.value = [...identifiers.value];
+      if (selectedLoggers.value.length === 0) selectedLoggers.value = [...loggers.value];
     } finally {
       loading.value = false;
     }
   };
 
   const reset = () => {
-    selectedLevels.value = [];
-    selectedStreams.value = [];
-    selectedWorkloads.value = [];
-    selectedHosts.value = [];
-    selectedContainers.value = [];
-    selectedImages.value = [];
-    selectedIdentifiers.value = [];
-    selectedLoggers.value = [];
+    selectedLevels.value = [...levels.value];
+    selectedStreams.value = [...streams.value];
+    selectedWorkloads.value = [...workloads.value];
+    selectedHosts.value = [...hosts.value];
+    selectedContainers.value = [...containers.value];
+    selectedImages.value = [...images.value];
+    selectedIdentifiers.value = [...identifiers.value];
+    selectedLoggers.value = [...loggers.value];
   };
 
   return {

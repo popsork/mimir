@@ -2,7 +2,7 @@
 import { useLogsStore } from '../../stores/logs/list';
 
 const logsStore = useLogsStore();
-const { query, from, to, loading } = storeToRefs(logsStore);
+const { query } = storeToRefs(logsStore);
 
 const refresh = async () => {
   await logsStore.fetchLogs();
@@ -20,9 +20,8 @@ const refresh = async () => {
       />
 
       <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
-        <UInput v-model="from" type="datetime-local" aria-label="Start time" />
-        <UInput v-model="to" type="datetime-local" aria-label="End time" />
-        <UButton size="sm" :loading="loading" @click="refresh">Search</UButton>
+        <LogsTimeRangePicker />
+        <UButton size="sm" @click="refresh">Search</UButton>
       </div>
     </div>
   </UCard>
