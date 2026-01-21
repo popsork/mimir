@@ -55,6 +55,7 @@ const hasLoaded = ref(false);
 const autoRefresh = ref(true);
 const refreshMs = 5000;
 let refreshTimer: ReturnType<typeof setInterval> | null = null;
+const isRefreshing = ref(false);
 const selected = ref<TreeNode | undefined>(undefined);
 const windowDraft = ref(String(windowMinutes.value));
 
@@ -110,6 +111,11 @@ const refreshDeviceSeries = () => {
   const device = selectedDevice.value;
 
   if (device === 'cpu') {
+    deviceSeriesStore.fetchSeries({
+      host,
+      device: 'cpu',
+      metrics: ['usage', 'temp'],
+    });
     deviceSeriesStore.fetchSeries({
       host,
       device: 'system',
@@ -186,12 +192,20 @@ const refreshContainerHistory = () => {
 };
 
 const refreshActivePanels = async () => {
-  await Promise.all([fetchMetrics(), refreshOverview()]);
-  refreshContainersOverview();
-  refreshContainerMetrics();
-  refreshHistory();
-  refreshDeviceSeries();
-  refreshContainerHistory();
+  if (isRefreshing.value) {
+    return;
+  }
+  isRefreshing.value = true;
+  try {
+    await Promise.all([fetchMetrics(), refreshOverview()]);
+    refreshContainersOverview();
+    refreshContainerMetrics();
+    refreshHistory();
+    refreshDeviceSeries();
+    refreshContainerHistory();
+  } finally {
+    isRefreshing.value = false;
+  }
 };
 
 const applyWindow = () => {
@@ -353,25 +367,28 @@ const viewMode = computed(() => {
   return 'overview';
 });
 
-const selectedHost = computed(() => {
+const selectedHost = computed<string | null>(() => {
   const parts = selectedValue.value.split(':');
-  if (parts.length >= 2) {
+  if (parts.length >= 2 && parts[1]) {
     return parts[1];
   }
   return null;
 });
 
-const selectedDevice = computed(() => {
+const selectedDevice = computed<string | null>(() => {
   const parts = selectedValue.value.split(':');
-  if (parts[0] === 'device' && parts.length >= 3) {
+  if (parts[0] === 'device' && parts.length >= 3 && parts[2]) {
     return parts[2];
   }
   return null;
 });
 
+const historyChartHost = computed(() => historyHost.value ?? selectedHost.value ?? 'unknown');
+
 const deviceSeries = computed(() => deviceSeriesStore.seriesFor(selectedHost.value, selectedDevice.value));
 const deviceSeriesLoading = computed(() => deviceSeriesStore.loadingFor(selectedHost.value, selectedDevice.value));
 const deviceSeriesError = computed(() => deviceSeriesStore.errorFor(selectedHost.value, selectedDevice.value));
+const cpuSeries = computed(() => deviceSeriesStore.seriesFor(selectedHost.value, 'cpu'));
 const systemSeries = computed(() => deviceSeriesStore.seriesFor(selectedHost.value, 'system'));
 
 const selectedContainer = computed(() => {
@@ -688,16 +705,13 @@ watch(selectedValue, (value) => {
               :series="containerHistorySeries"
             />
           </div>
-          <UCard v-else-if="viewMode === 'device' && selectedDevice === 'cpu' && historyLoading">
-            <p class="text-sm text-muted">Loading CPU history...</p>
-          </UCard>
-          <UCard v-else-if="viewMode === 'device' && selectedDevice === 'cpu' && historyError">
-            <p class="text-sm text-red-600">{{ historyError }}</p>
-          </UCard>
-          <div
-            v-else-if="viewMode === 'device' && selectedDevice === 'cpu' && historyHost && historyDevice === 'cpu'"
-            class="space-y-6"
-          >
+          <div v-else-if="viewMode === 'device' && selectedDevice === 'cpu'" class="space-y-6">
+            <UCard v-if="historyLoading">
+              <p class="text-sm text-muted">Loading CPU history...</p>
+            </UCard>
+            <UCard v-else-if="historyError">
+              <p class="text-sm text-red-600">{{ historyError }}</p>
+            </UCard>
             <MetricsHostSection
               v-for="host in viewHosts"
               :key="host.host || 'unknown'"
@@ -705,22 +719,22 @@ watch(selectedValue, (value) => {
               :devices="host.devices"
             />
             <MetricsCpuHistoryChart
-              :host="historyHost"
-              :points="historyPoints"
+              :host="historyChartHost"
+              :series="cpuSeries"
             />
             <MetricsLoadHistoryChart
-              :host="historyHost"
+              :host="historyChartHost"
               :series="systemSeries"
               :cpu-points="historyPoints"
             />
           </div>
-          <UCard v-else-if="viewMode === 'device' && selectedDevice && selectedDevice !== 'cpu' && deviceSeriesLoading">
-            <p class="text-sm text-muted">Loading device history...</p>
-          </UCard>
-          <UCard v-else-if="viewMode === 'device' && selectedDevice && selectedDevice !== 'cpu' && deviceSeriesError">
-            <p class="text-sm text-red-600">{{ deviceSeriesError }}</p>
-          </UCard>
           <div v-else-if="viewMode === 'device' && selectedDevice === 'net' && selectedHost" class="space-y-6">
+            <UCard v-if="deviceSeriesLoading">
+              <p class="text-sm text-muted">Loading device history...</p>
+            </UCard>
+            <UCard v-else-if="deviceSeriesError">
+              <p class="text-sm text-red-600">{{ deviceSeriesError }}</p>
+            </UCard>
             <MetricsHostSection
               v-for="host in viewHosts"
               :key="host.host || 'unknown'"
@@ -733,6 +747,12 @@ watch(selectedValue, (value) => {
             />
           </div>
           <div v-else-if="viewMode === 'device' && selectedDevice === 'diskio' && selectedHost" class="space-y-6">
+            <UCard v-if="deviceSeriesLoading">
+              <p class="text-sm text-muted">Loading device history...</p>
+            </UCard>
+            <UCard v-else-if="deviceSeriesError">
+              <p class="text-sm text-red-600">{{ deviceSeriesError }}</p>
+            </UCard>
             <MetricsHostSection
               v-for="host in viewHosts"
               :key="host.host || 'unknown'"
@@ -745,6 +765,12 @@ watch(selectedValue, (value) => {
             />
           </div>
           <div v-else-if="viewMode === 'device' && selectedDevice === 'gpu0' && selectedHost" class="space-y-6">
+            <UCard v-if="deviceSeriesLoading">
+              <p class="text-sm text-muted">Loading device history...</p>
+            </UCard>
+            <UCard v-else-if="deviceSeriesError">
+              <p class="text-sm text-red-600">{{ deviceSeriesError }}</p>
+            </UCard>
             <MetricsHostSection
               v-for="host in viewHosts"
               :key="host.host || 'unknown'"
@@ -757,6 +783,12 @@ watch(selectedValue, (value) => {
             />
           </div>
           <div v-else-if="viewMode === 'device' && selectedDevice === 'disk' && selectedHost" class="space-y-6">
+            <UCard v-if="deviceSeriesLoading">
+              <p class="text-sm text-muted">Loading device history...</p>
+            </UCard>
+            <UCard v-else-if="deviceSeriesError">
+              <p class="text-sm text-red-600">{{ deviceSeriesError }}</p>
+            </UCard>
             <MetricsHostSection
               v-for="host in viewHosts"
               :key="host.host || 'unknown'"
@@ -769,6 +801,12 @@ watch(selectedValue, (value) => {
             />
           </div>
           <div v-else-if="viewMode === 'device' && selectedDevice === 'system' && selectedHost" class="space-y-6">
+            <UCard v-if="deviceSeriesLoading">
+              <p class="text-sm text-muted">Loading device history...</p>
+            </UCard>
+            <UCard v-else-if="deviceSeriesError">
+              <p class="text-sm text-red-600">{{ deviceSeriesError }}</p>
+            </UCard>
             <MetricsHostSection
               v-for="host in viewHosts"
               :key="host.host || 'unknown'"

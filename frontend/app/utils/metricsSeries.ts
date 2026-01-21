@@ -24,6 +24,9 @@ export const toRateSeries = (points: HistoryPoint[]) => {
   for (let i = 1; i < sorted.length; i += 1) {
     const prev = sorted[i - 1];
     const current = sorted[i];
+    if (!prev || !current) {
+      continue;
+    }
     const deltaValue = current.value - prev.value;
     const deltaTime = (new Date(current.timestamp).getTime() - new Date(prev.timestamp).getTime()) / 1000;
     if (deltaTime <= 0) {
