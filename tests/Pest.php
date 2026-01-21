@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Support\Facades\DB;
+
 pest()->extend(Tests\TestCase::class)
  // ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
     ->in('Feature');
@@ -41,7 +43,29 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function mongoAvailable(): bool
 {
-    // ..
+    try {
+        DB::connection('mongodb')->getMongoDB()->command(['ping' => 1]);
+        return true;
+    } catch (Throwable $e) {
+        return false;
+    }
+}
+
+function ensureMongoCollection(string $name, array $options = []): void
+{
+    $db = DB::connection('mongodb')->getMongoDB();
+    $names = [];
+    foreach ($db->listCollections() as $collectionInfo) {
+        $names[] = $collectionInfo->getName();
+    }
+    if (!in_array($name, $names, true)) {
+        $db->createCollection($name, $options);
+    }
+}
+
+function clearMongoCollection(string $name): void
+{
+    DB::connection('mongodb')->getMongoDB()->selectCollection($name)->deleteMany([]);
 }

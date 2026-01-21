@@ -5,6 +5,7 @@ import { useContainerMetricsStore } from '../../stores/containerMetrics';
 import { useMetricsHistoryStore } from '../../stores/metricsHistory';
 import { useMetricsOverviewStore } from '../../stores/metricsOverview';
 import { useContainersOverviewStore } from '../../stores/containersOverview';
+import { useMetricsWindowStore } from '../../stores/metricsWindow';
 
 type TreeNode = {
   label: string;
@@ -23,7 +24,9 @@ const containerStore = useContainerMetricsStore();
 const historyStore = useMetricsHistoryStore();
 const overviewStore = useMetricsOverviewStore();
 const containersOverviewStore = useContainersOverviewStore();
-const { hosts, loading, error, windowMinutes } = storeToRefs(metricsStore);
+const windowStore = useMetricsWindowStore();
+const { hosts, loading, error } = storeToRefs(metricsStore);
+const { windowMinutes } = storeToRefs(windowStore);
 const { overview, hosts: treeHosts } = storeToRefs(treeStore);
 const { metrics: containerMetrics, host: containerHost, container: containerName, type: containerType, loading: containerLoading, error: containerError } = storeToRefs(containerStore);
 const { points: historyPoints, host: historyHost, device: historyDevice, loading: historyLoading, error: historyError } = storeToRefs(historyStore);
@@ -44,6 +47,7 @@ const autoRefresh = ref(true);
 const refreshMs = 5000;
 let refreshTimer: ReturnType<typeof setInterval> | null = null;
 const selected = ref<TreeNode | undefined>(undefined);
+const windowDraft = ref(String(windowMinutes.value));
 
 const fetchMetrics = async () => {
   await metricsStore.fetchMetrics();
@@ -52,6 +56,56 @@ const fetchMetrics = async () => {
 
 const fetchTree = async () => {
   await treeStore.fetchTree();
+};
+
+const refreshOverview = async () => {
+  await overviewStore.fetchOverview();
+};
+
+const refreshContainersOverview = () => {
+  if ((viewMode.value === 'docker' || viewMode.value === 'proxmox') && selectedHost.value) {
+    containersOverviewStore.fetchOverview({
+      host: selectedHost.value,
+      type: viewMode.value as 'docker' | 'proxmox',
+    });
+  }
+};
+
+const refreshContainerMetrics = () => {
+  if (!selectedContainer.value) {
+    return;
+  }
+  containerStore.fetchMetrics({
+    host: selectedContainer.value.host,
+    container: selectedContainer.value.name,
+    type: selectedContainer.value.type,
+  });
+};
+
+const refreshHistory = () => {
+  if (viewMode.value === 'device' && selectedHost.value && selectedDevice.value === 'cpu') {
+    historyStore.fetchHistory({
+      host: selectedHost.value,
+      device: selectedDevice.value,
+      metric: 'usage',
+    });
+  }
+};
+
+const refreshActivePanels = async () => {
+  await Promise.all([fetchMetrics(), refreshOverview()]);
+  refreshContainersOverview();
+  refreshContainerMetrics();
+  refreshHistory();
+};
+
+const applyWindow = () => {
+  const parsed = Number(windowDraft.value);
+  if (Number.isFinite(parsed)) {
+    windowStore.setWindowMinutes(parsed);
+  } else {
+    windowDraft.value = String(windowMinutes.value);
+  }
 };
 
 const deviceLabelMap = computed(() => {
@@ -349,7 +403,7 @@ const startAutoRefresh = () => {
     return;
   }
   refreshTimer = setInterval(() => {
-    fetchMetrics();
+    refreshActivePanels();
   }, refreshMs);
 };
 
@@ -369,37 +423,32 @@ watch(autoRefresh, (value) => {
 });
 
 watch(selectedContainer, (value) => {
-  if (!value) {
+  if (value) {
+    refreshContainerMetrics();
     return;
   }
-  containerStore.fetchMetrics({
-    host: value.host,
-    container: value.name,
-    type: value.type,
-  });
+  refreshContainersOverview();
 });
 
 watch([selectedHost, selectedDevice, viewMode], ([host, device, mode]) => {
   if (mode === 'device' && host && device === 'cpu') {
-    historyStore.fetchHistory({
-      host,
-      device,
-      metric: 'usage',
-    });
+    refreshHistory();
   }
 });
 
 watch([selectedHost, viewMode], ([host, mode]) => {
   if ((mode === 'docker' || mode === 'proxmox') && host) {
-    containersOverviewStore.fetchOverview({
-      host,
-      type: mode as 'docker' | 'proxmox',
-    });
+    refreshContainersOverview();
   }
 });
 
+watch(windowMinutes, (value) => {
+  windowDraft.value = String(value);
+  refreshActivePanels();
+});
+
 onMounted(async () => {
-  await Promise.all([fetchMetrics(), fetchTree(), overviewStore.fetchOverview()]);
+  await Promise.all([fetchMetrics(), fetchTree(), refreshOverview()]);
   const requested = typeof route.query.node === 'string' ? route.query.node : 'overview';
   selected.value = findNodeByValue(treeItems.value, requested) || treeItems.value[0];
   if (autoRefresh.value) {
@@ -440,7 +489,23 @@ watch(selectedValue, (value) => {
         :last-updated="lastUpdated"
       />
       <div class="flex items-center gap-2">
-        <UButton size="sm" color="neutral" variant="ghost" @click="fetchMetrics">
+        <div class="flex items-center gap-2">
+          <UFormField label="Window (min)" size="xs">
+            <UInput
+              v-model="windowDraft"
+              type="number"
+              min="1"
+              max="1440"
+              size="xs"
+              class="w-24"
+              @keydown.enter="applyWindow"
+            />
+          </UFormField>
+          <UButton size="xs" color="neutral" variant="soft" @click="applyWindow">
+            Set
+          </UButton>
+        </div>
+        <UButton size="sm" color="neutral" variant="ghost" @click="refreshActivePanels">
           Refresh
         </UButton>
         <UButton

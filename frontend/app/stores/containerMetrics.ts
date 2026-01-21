@@ -1,3 +1,5 @@
+import { useMetricsWindowStore } from './metricsWindow';
+
 type ContainerMetric = {
   metric: string;
   unit: string | null;
@@ -13,18 +15,22 @@ type ContainerMetricsResponse = {
 };
 
 export const useContainerMetricsStore = defineStore('containerMetrics', () => {
+  const windowStore = useMetricsWindowStore();
+  const { windowMinutes } = storeToRefs(windowStore);
   const host = ref<string | null>(null);
   const container = ref<string | null>(null);
   const type = ref<'docker' | 'proxmox' | null>(null);
   const metrics = ref<ContainerMetric[]>([]);
   const loading = ref(false);
   const error = ref<string | null>(null);
-  const windowMinutes = ref(60);
+  let requestId = 0;
+  let activeController: AbortController | null = null;
 
   const fetchMetrics = async (params: { host: string; container: string; type: 'docker' | 'proxmox' }) => {
-    if (loading.value) {
-      return;
-    }
+    const currentRequest = ++requestId;
+    activeController?.abort();
+    const controller = new AbortController();
+    activeController = controller;
     loading.value = true;
     error.value = null;
     try {
@@ -35,16 +41,25 @@ export const useContainerMetricsStore = defineStore('containerMetrics', () => {
           type: params.type,
           minutes: windowMinutes.value,
         },
+        signal: controller.signal,
       }) as ContainerMetricsResponse;
 
+      if (currentRequest !== requestId) {
+        return;
+      }
       host.value = data.host;
       container.value = data.container;
       type.value = data.type;
       metrics.value = data.metrics;
     } catch (err) {
+      if (controller.signal.aborted) {
+        return;
+      }
       error.value = err instanceof Error ? err.message : 'Unable to load container metrics.';
     } finally {
-      loading.value = false;
+      if (currentRequest === requestId) {
+        loading.value = false;
+      }
     }
   };
 

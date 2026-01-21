@@ -1,3 +1,5 @@
+import { useMetricsWindowStore } from './metricsWindow';
+
 type OverviewMetric = {
   value: number | null;
   timestamp: string | null;
@@ -21,9 +23,10 @@ type ContainersOverviewResponse = {
 };
 
 export const useContainersOverviewStore = defineStore('containersOverview', () => {
+  const windowStore = useMetricsWindowStore();
+  const { windowMinutes } = storeToRefs(windowStore);
   const host = ref<string | null>(null);
   const type = ref<'docker' | 'proxmox' | null>(null);
-  const minutes = ref(60);
   const total = ref(0);
   const running = ref(0);
   const items = ref<ContainerOverviewItem[]>([]);
@@ -41,13 +44,13 @@ export const useContainersOverviewStore = defineStore('containersOverview', () =
         params: {
           host: params.host,
           type: params.type,
-          minutes: minutes.value,
+          minutes: windowMinutes.value,
         },
       }) as ContainersOverviewResponse;
 
       host.value = data.host;
       type.value = data.type;
-      minutes.value = data.minutes;
+      windowStore.setWindowMinutes(data.minutes);
       total.value = data.total;
       running.value = data.running;
       items.value = data.items;
@@ -61,7 +64,7 @@ export const useContainersOverviewStore = defineStore('containersOverview', () =
   return {
     host,
     type,
-    minutes,
+    windowMinutes,
     total,
     running,
     items,

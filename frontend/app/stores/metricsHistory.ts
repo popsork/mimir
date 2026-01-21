@@ -1,3 +1,5 @@
+import { useMetricsWindowStore } from './metricsWindow';
+
 type HistoryPoint = {
   timestamp: string | null;
   value: number | null;
@@ -12,18 +14,22 @@ type DeviceHistoryResponse = {
 };
 
 export const useMetricsHistoryStore = defineStore('metricsHistory', () => {
+  const windowStore = useMetricsWindowStore();
+  const { windowMinutes } = storeToRefs(windowStore);
   const host = ref<string | null>(null);
   const device = ref<string | null>(null);
   const metric = ref<string | null>(null);
   const points = ref<HistoryPoint[]>([]);
   const loading = ref(false);
   const error = ref<string | null>(null);
-  const windowMinutes = ref(120);
+  let requestId = 0;
+  let activeController: AbortController | null = null;
 
   const fetchHistory = async (params: { host: string; device: string; metric: string }) => {
-    if (loading.value) {
-      return;
-    }
+    const currentRequest = ++requestId;
+    activeController?.abort();
+    const controller = new AbortController();
+    activeController = controller;
     loading.value = true;
     error.value = null;
     try {
@@ -34,17 +40,26 @@ export const useMetricsHistoryStore = defineStore('metricsHistory', () => {
           metric: params.metric,
           minutes: windowMinutes.value,
         },
+        signal: controller.signal,
       }) as DeviceHistoryResponse;
 
+      if (currentRequest !== requestId) {
+        return;
+      }
       host.value = data.host;
       device.value = data.device;
       metric.value = data.metric;
       points.value = data.points;
-      windowMinutes.value = data.minutes;
+      windowStore.setWindowMinutes(data.minutes);
     } catch (err) {
+      if (controller.signal.aborted) {
+        return;
+      }
       error.value = err instanceof Error ? err.message : 'Unable to load metric history.';
     } finally {
-      loading.value = false;
+      if (currentRequest === requestId) {
+        loading.value = false;
+      }
     }
   };
 

@@ -1,3 +1,5 @@
+import { useMetricsWindowStore } from './metricsWindow';
+
 type MetricDefinition = {
   metric: string;
   label: string;
@@ -46,6 +48,8 @@ type MetricsResponse = {
 };
 
 export const useMetricsStore = defineStore('metrics', () => {
+  const windowStore = useMetricsWindowStore();
+  const { windowMinutes } = storeToRefs(windowStore);
   const definitions: DeviceDefinition[] = [
     {
       device: 'cpu',
@@ -142,8 +146,6 @@ export const useMetricsStore = defineStore('metrics', () => {
   const hosts = ref<HostMetrics[]>([]);
   const loading = ref(false);
   const error = ref<string | null>(null);
-  const windowMinutes = ref(60);
-
   const normalizedHosts = (data: MetricsResponse) => {
     const hostRows = data.hosts || [];
     const byHost = new Map<string, HostMetrics>();
@@ -195,7 +197,7 @@ export const useMetricsStore = defineStore('metrics', () => {
         params: { minutes: windowMinutes.value }
       }) as MetricsResponse;
       hosts.value = normalizedHosts(data);
-      windowMinutes.value = data.window_minutes || windowMinutes.value;
+      windowStore.setWindowMinutes(data.window_minutes || windowMinutes.value);
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Unable to load metrics.';
     } finally {

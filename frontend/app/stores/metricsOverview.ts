@@ -1,3 +1,5 @@
+import { useMetricsWindowStore } from './metricsWindow';
+
 type OverviewMetric = {
   value: number | null;
   timestamp: string | null;
@@ -18,10 +20,11 @@ type OverviewResponse = {
 };
 
 export const useMetricsOverviewStore = defineStore('metricsOverview', () => {
+  const windowStore = useMetricsWindowStore();
+  const { windowMinutes } = storeToRefs(windowStore);
   const items = ref<OverviewItem[]>([]);
   const loading = ref(false);
   const error = ref<string | null>(null);
-  const windowMinutes = ref(60);
 
   const fetchOverview = async () => {
     if (loading.value) {
@@ -37,7 +40,7 @@ export const useMetricsOverviewStore = defineStore('metricsOverview', () => {
       }) as OverviewResponse;
 
       items.value = data.items;
-      windowMinutes.value = data.minutes;
+      windowStore.setWindowMinutes(data.minutes);
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Unable to load overview metrics.';
     } finally {
