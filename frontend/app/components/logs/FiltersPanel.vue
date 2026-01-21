@@ -7,15 +7,19 @@ const logsStore = useLogsStore();
 const {
   levels,
   streams,
+  workloads,
   hosts,
   containers,
   images,
+  identifiers,
   loggers,
   selectedLevels,
   selectedStreams,
+  selectedWorkloads,
   selectedHosts,
   selectedContainers,
   selectedImages,
+  selectedIdentifiers,
   selectedLoggers,
 } = storeToRefs(filtersStore);
 
@@ -47,6 +51,10 @@ const resetFilters = async () => {
         <UCheckboxGroup v-model="selectedStreams" :items="streams" />
       </UFormField>
 
+      <UFormField label="Workload">
+        <UCheckboxGroup v-model="selectedWorkloads" :items="workloads" />
+      </UFormField>
+
       <UFormField label="Host">
         <UCheckboxGroup v-model="selectedHosts" :items="hosts" />
       </UFormField>
@@ -57,6 +65,10 @@ const resetFilters = async () => {
 
       <UFormField label="Image">
         <UCheckboxGroup v-model="selectedImages" :items="images" />
+      </UFormField>
+
+      <UFormField label="Identifier">
+        <UCheckboxGroup v-model="selectedIdentifiers" :items="identifiers" />
       </UFormField>
 
       <UFormField label="Logger">

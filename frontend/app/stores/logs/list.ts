@@ -9,9 +9,11 @@ type LogRecord = {
   logger?: string | null;
   trace_id?: string | null;
   request_id?: string | null;
+  workload?: string | null;
   host?: string | null;
   container?: string | null;
   image?: string | null;
+  identifier?: string | null;
 };
 
 export const useLogsStore = defineStore('logs', () => {
@@ -43,6 +45,9 @@ export const useLogsStore = defineStore('logs', () => {
     if (filtersStore.selectedStreams.length) {
       params.streams = filtersStore.selectedStreams;
     }
+    if (filtersStore.selectedWorkloads.length) {
+      params.workloads = filtersStore.selectedWorkloads;
+    }
     if (filtersStore.selectedHosts.length) {
       params.hosts = filtersStore.selectedHosts;
     }
@@ -51,6 +56,9 @@ export const useLogsStore = defineStore('logs', () => {
     }
     if (filtersStore.selectedImages.length) {
       params.images = filtersStore.selectedImages;
+    }
+    if (filtersStore.selectedIdentifiers.length) {
+      params.identifiers = filtersStore.selectedIdentifiers;
     }
     if (filtersStore.selectedLoggers.length) {
       params.loggers = filtersStore.selectedLoggers;
