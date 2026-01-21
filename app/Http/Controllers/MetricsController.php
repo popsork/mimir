@@ -138,6 +138,47 @@ class MetricsController extends Controller
         return $value->toDateTime()->format(DATE_ATOM);
     }
 
+    private function fetchHistoryPoints($collection, array $match, int $limit): array
+    {
+        $pipeline = [
+            ['$match' => $match],
+            ['$sort' => ['timestamp' => 1]],
+            ['$limit' => $limit],
+            [
+                '$project' => [
+                    '_id' => 0,
+                    'timestamp' => 1,
+                    'value' => 1,
+                ],
+            ],
+        ];
+
+        $cursor = $collection->aggregate($pipeline);
+        $points = [];
+        foreach ($cursor as $row) {
+            $points[] = [
+                'timestamp' => $this->formatTimestamp($row['timestamp'] ?? null),
+                'value' => isset($row['value']) ? (float) $row['value'] : null,
+            ];
+        }
+
+        return $points;
+    }
+
+    private function normalizeMetricList(mixed $value): array
+    {
+        if (is_array($value)) {
+            return array_values(array_filter(array_map('strval', $value), fn ($v) => $v !== ''));
+        }
+
+        if (is_string($value) && $value !== '') {
+            $parts = array_map('trim', explode(',', $value));
+            return array_values(array_filter($parts, fn ($v) => $v !== ''));
+        }
+
+        return [];
+    }
+
     public function tree(Request $request): Response
     {
         $cacheEnabled = app()->environment('production');
@@ -246,38 +287,18 @@ class MetricsController extends Controller
 
         $cutoff = new UTCDateTime(Carbon::now()->subMinutes($minutes));
 
-        $pipeline = [
-            [
-                '$match' => [
-                    'timestamp' => ['$gte' => $cutoff],
-                    'metric' => $metric,
-                    'meta.host' => $host,
-                    'meta.device' => $device,
-                    '$or' => [
-                        ['meta.type' => 'machine'],
-                        ['meta.type' => ['$exists' => false]],
-                    ],
-                ],
-            ],
-            ['$sort' => ['timestamp' => 1]],
-            ['$limit' => $limit],
-            [
-                '$project' => [
-                    '_id' => 0,
-                    'timestamp' => 1,
-                    'value' => 1,
-                ],
+        $match = [
+            'timestamp' => ['$gte' => $cutoff],
+            'metric' => $metric,
+            'meta.host' => $host,
+            'meta.device' => $device,
+            '$or' => [
+                ['meta.type' => 'machine'],
+                ['meta.type' => ['$exists' => false]],
             ],
         ];
 
-        $cursor = $collection->aggregate($pipeline);
-        $points = [];
-        foreach ($cursor as $row) {
-            $points[] = [
-                'timestamp' => $this->formatTimestamp($row['timestamp'] ?? null),
-                'value' => isset($row['value']) ? (float) $row['value'] : null,
-            ];
-        }
+        $points = $this->fetchHistoryPoints($collection, $match, $limit);
 
         return response()->json([
             'host' => $host,
@@ -285,6 +306,103 @@ class MetricsController extends Controller
             'metric' => $metric,
             'minutes' => $minutes,
             'points' => $points,
+        ]);
+    }
+
+    public function deviceSeries(Request $request): Response
+    {
+        $host = $request->query('host');
+        $device = $request->query('device');
+        $metrics = $this->normalizeMetricList($request->query('metrics'));
+
+        if (!is_string($host) || !is_string($device) || empty($metrics)) {
+            return response()->json(['error' => 'Invalid parameters.'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $minutes = (int) $request->query('minutes', 120);
+        $minutes = max(1, min($minutes, 1440));
+        $limit = (int) $request->query('limit', 600);
+        $limit = max(10, min($limit, 5000));
+
+        $collection = DB::connection('mongodb')
+            ->getMongoDB()
+            ->selectCollection('metrics');
+
+        $cutoff = new UTCDateTime(Carbon::now()->subMinutes($minutes));
+
+        $baseMatch = [
+            'timestamp' => ['$gte' => $cutoff],
+            'meta.host' => $host,
+            'meta.device' => $device,
+            '$or' => [
+                ['meta.type' => 'machine'],
+                ['meta.type' => ['$exists' => false]],
+            ],
+        ];
+
+        $series = [];
+        foreach ($metrics as $metric) {
+            $match = $baseMatch;
+            $match['metric'] = $metric;
+            $series[] = [
+                'metric' => $metric,
+                'points' => $this->fetchHistoryPoints($collection, $match, $limit),
+            ];
+        }
+
+        return response()->json([
+            'host' => $host,
+            'device' => $device,
+            'minutes' => $minutes,
+            'series' => $series,
+        ]);
+    }
+
+    public function containerHistory(Request $request): Response
+    {
+        $type = $request->query('type');
+        $host = $request->query('host');
+        $container = $request->query('container');
+        $metrics = $this->normalizeMetricList($request->query('metrics'));
+
+        if (!in_array($type, ['docker', 'proxmox'], true) || !is_string($host) || !is_string($container) || empty($metrics)) {
+            return response()->json(['error' => 'Invalid parameters.'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $minutes = (int) $request->query('minutes', 120);
+        $minutes = max(1, min($minutes, 1440));
+        $limit = (int) $request->query('limit', 600);
+        $limit = max(10, min($limit, 5000));
+
+        $collection = DB::connection('mongodb')
+            ->getMongoDB()
+            ->selectCollection('metrics');
+
+        $cutoff = new UTCDateTime(Carbon::now()->subMinutes($minutes));
+
+        $baseMatch = [
+            'timestamp' => ['$gte' => $cutoff],
+            'meta.type' => $type,
+            'meta.host' => $host,
+            'meta.container' => $container,
+        ];
+
+        $series = [];
+        foreach ($metrics as $metric) {
+            $match = $baseMatch;
+            $match['metric'] = $metric;
+            $series[] = [
+                'metric' => $metric,
+                'points' => $this->fetchHistoryPoints($collection, $match, $limit),
+            ];
+        }
+
+        return response()->json([
+            'host' => $host,
+            'container' => $container,
+            'type' => $type,
+            'minutes' => $minutes,
+            'series' => $series,
         ]);
     }
 

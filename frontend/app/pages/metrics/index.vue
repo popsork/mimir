@@ -6,6 +6,8 @@ import { useMetricsHistoryStore } from '../../stores/metricsHistory';
 import { useMetricsOverviewStore } from '../../stores/metricsOverview';
 import { useContainersOverviewStore } from '../../stores/containersOverview';
 import { useMetricsWindowStore } from '../../stores/metricsWindow';
+import { useMetricsDeviceSeriesStore } from '../../stores/metricsDeviceSeries';
+import { useContainerMetricsHistoryStore } from '../../stores/containerMetricsHistory';
 
 type TreeNode = {
   label: string;
@@ -24,12 +26,19 @@ const containerStore = useContainerMetricsStore();
 const historyStore = useMetricsHistoryStore();
 const overviewStore = useMetricsOverviewStore();
 const containersOverviewStore = useContainersOverviewStore();
+const deviceSeriesStore = useMetricsDeviceSeriesStore();
+const containerHistoryStore = useContainerMetricsHistoryStore();
 const windowStore = useMetricsWindowStore();
 const { hosts, loading, error } = storeToRefs(metricsStore);
 const { windowMinutes } = storeToRefs(windowStore);
 const { overview, hosts: treeHosts } = storeToRefs(treeStore);
 const { metrics: containerMetrics, host: containerHost, container: containerName, type: containerType, loading: containerLoading, error: containerError } = storeToRefs(containerStore);
 const { points: historyPoints, host: historyHost, device: historyDevice, loading: historyLoading, error: historyError } = storeToRefs(historyStore);
+const {
+  series: containerHistorySeries,
+  loading: containerHistoryLoading,
+  error: containerHistoryError,
+} = storeToRefs(containerHistoryStore);
 const { items: overviewItems } = storeToRefs(overviewStore);
 const {
   host: containersHost,
@@ -92,11 +101,97 @@ const refreshHistory = () => {
   }
 };
 
+const refreshDeviceSeries = () => {
+  if (viewMode.value !== 'device' || !selectedHost.value || !selectedDevice.value) {
+    return;
+  }
+
+  const host = selectedHost.value;
+  const device = selectedDevice.value;
+
+  if (device === 'cpu') {
+    deviceSeriesStore.fetchSeries({
+      host,
+      device: 'system',
+      metrics: ['load1', 'load5', 'load15'],
+    });
+    return;
+  }
+
+  if (device === 'net') {
+    deviceSeriesStore.fetchSeries({
+      host,
+      device,
+      metrics: ['bytes_in', 'bytes_out'],
+    });
+    return;
+  }
+
+  if (device === 'diskio') {
+    deviceSeriesStore.fetchSeries({
+      host,
+      device,
+      metrics: ['read_bytes', 'write_bytes', 'read_ops', 'write_ops'],
+    });
+    return;
+  }
+
+  if (device === 'gpu0') {
+    deviceSeriesStore.fetchSeries({
+      host,
+      device,
+      metrics: ['usage', 'temp', 'power', 'vram_used', 'vram_total'],
+    });
+    return;
+  }
+
+  if (device === 'disk') {
+    deviceSeriesStore.fetchSeries({
+      host,
+      device,
+      metrics: ['usage'],
+    });
+    return;
+  }
+
+  if (device === 'system') {
+    deviceSeriesStore.fetchSeries({
+      host,
+      device,
+      metrics: ['load1', 'load5', 'load15'],
+    });
+  }
+};
+
+const refreshContainerHistory = () => {
+  if (!selectedContainer.value) {
+    return;
+  }
+
+  containerHistoryStore.fetchHistory({
+    host: selectedContainer.value.host,
+    container: selectedContainer.value.name,
+    type: selectedContainer.value.type,
+    metrics: [
+      'cpu_usage_pct',
+      'mem_usage_pct',
+      'mem_used_bytes',
+      'mem_limit_bytes',
+      'net_rx_bytes',
+      'net_tx_bytes',
+      'status',
+      'uptime_seconds',
+    ],
+  });
+};
+
 const refreshActivePanels = async () => {
   await Promise.all([fetchMetrics(), refreshOverview()]);
   refreshContainersOverview();
   refreshContainerMetrics();
   refreshHistory();
+  refreshDeviceSeries();
+  refreshContainerHistory();
 };
 
 const applyWindow = () => {
@@ -274,6 +369,11 @@ const selectedDevice = computed(() => {
   return null;
 });
 
+const deviceSeries = computed(() => deviceSeriesStore.seriesFor(selectedHost.value, selectedDevice.value));
+const deviceSeriesLoading = computed(() => deviceSeriesStore.loadingFor(selectedHost.value, selectedDevice.value));
+const deviceSeriesError = computed(() => deviceSeriesStore.errorFor(selectedHost.value, selectedDevice.value));
+const systemSeries = computed(() => deviceSeriesStore.seriesFor(selectedHost.value, 'system'));
+
 const selectedContainer = computed(() => {
   const parts = selectedValue.value.split(':');
   if (parts[0] === 'docker-container' || parts[0] === 'proxmox-container') {
@@ -425,6 +525,7 @@ watch(autoRefresh, (value) => {
 watch(selectedContainer, (value) => {
   if (value) {
     refreshContainerMetrics();
+    refreshContainerHistory();
     return;
   }
   refreshContainersOverview();
@@ -433,6 +534,9 @@ watch(selectedContainer, (value) => {
 watch([selectedHost, selectedDevice, viewMode], ([host, device, mode]) => {
   if (mode === 'device' && host && device === 'cpu') {
     refreshHistory();
+  }
+  if (mode === 'device' && host && device) {
+    refreshDeviceSeries();
   }
 });
 
@@ -561,13 +665,29 @@ watch(selectedValue, (value) => {
           <UCard v-else-if="selectedContainer && containerError">
             <p class="text-sm text-red-600">{{ containerError }}</p>
           </UCard>
-          <MetricsDockerContainerPanel
+          <div
             v-else-if="selectedContainer && containerHost && containerName && containerType"
-            :host="containerHost"
-            :container="containerName"
-            :type="containerType"
-            :metrics="containerMetrics"
-          />
+            class="space-y-6"
+          >
+            <MetricsDockerContainerPanel
+              :host="containerHost"
+              :container="containerName"
+              :type="containerType"
+              :metrics="containerMetrics"
+            />
+            <UCard v-if="containerHistoryLoading">
+              <p class="text-sm text-muted">Loading container history...</p>
+            </UCard>
+            <UCard v-else-if="containerHistoryError">
+              <p class="text-sm text-red-600">{{ containerHistoryError }}</p>
+            </UCard>
+            <MetricsContainerHistoryPanel
+              v-else
+              :host="containerHost"
+              :container="containerName"
+              :series="containerHistorySeries"
+            />
+          </div>
           <UCard v-else-if="viewMode === 'device' && selectedDevice === 'cpu' && historyLoading">
             <p class="text-sm text-muted">Loading CPU history...</p>
           </UCard>
@@ -587,6 +707,77 @@ watch(selectedValue, (value) => {
             <MetricsCpuHistoryChart
               :host="historyHost"
               :points="historyPoints"
+            />
+            <MetricsLoadHistoryChart
+              :host="historyHost"
+              :series="systemSeries"
+              :cpu-points="historyPoints"
+            />
+          </div>
+          <UCard v-else-if="viewMode === 'device' && selectedDevice && selectedDevice !== 'cpu' && deviceSeriesLoading">
+            <p class="text-sm text-muted">Loading device history...</p>
+          </UCard>
+          <UCard v-else-if="viewMode === 'device' && selectedDevice && selectedDevice !== 'cpu' && deviceSeriesError">
+            <p class="text-sm text-red-600">{{ deviceSeriesError }}</p>
+          </UCard>
+          <div v-else-if="viewMode === 'device' && selectedDevice === 'net' && selectedHost" class="space-y-6">
+            <MetricsHostSection
+              v-for="host in viewHosts"
+              :key="host.host || 'unknown'"
+              :host="host.host || 'unknown'"
+              :devices="host.devices"
+            />
+            <MetricsNetThroughputChart
+              :host="selectedHost"
+              :series="deviceSeries"
+            />
+          </div>
+          <div v-else-if="viewMode === 'device' && selectedDevice === 'diskio' && selectedHost" class="space-y-6">
+            <MetricsHostSection
+              v-for="host in viewHosts"
+              :key="host.host || 'unknown'"
+              :host="host.host || 'unknown'"
+              :devices="host.devices"
+            />
+            <MetricsDiskIoHistoryPanel
+              :host="selectedHost"
+              :series="deviceSeries"
+            />
+          </div>
+          <div v-else-if="viewMode === 'device' && selectedDevice === 'gpu0' && selectedHost" class="space-y-6">
+            <MetricsHostSection
+              v-for="host in viewHosts"
+              :key="host.host || 'unknown'"
+              :host="host.host || 'unknown'"
+              :devices="host.devices"
+            />
+            <MetricsGpuHistoryPanel
+              :host="selectedHost"
+              :series="deviceSeries"
+            />
+          </div>
+          <div v-else-if="viewMode === 'device' && selectedDevice === 'disk' && selectedHost" class="space-y-6">
+            <MetricsHostSection
+              v-for="host in viewHosts"
+              :key="host.host || 'unknown'"
+              :host="host.host || 'unknown'"
+              :devices="host.devices"
+            />
+            <MetricsDiskUsageHistoryChart
+              :host="selectedHost"
+              :series="deviceSeries"
+            />
+          </div>
+          <div v-else-if="viewMode === 'device' && selectedDevice === 'system' && selectedHost" class="space-y-6">
+            <MetricsHostSection
+              v-for="host in viewHosts"
+              :key="host.host || 'unknown'"
+              :host="host.host || 'unknown'"
+              :devices="host.devices"
+            />
+            <MetricsLoadHistoryChart
+              :host="selectedHost"
+              :series="deviceSeries"
             />
           </div>
           <div v-else-if="viewMode === 'overview'" class="space-y-8">

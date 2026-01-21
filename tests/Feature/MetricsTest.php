@@ -113,3 +113,57 @@ it('returns overview items for machine metrics', function () {
     expect($items)->not()->toBeEmpty();
     expect($items[0]['id'])->toBe('machine:alpha');
 });
+
+it('returns device series for multiple metrics', function () {
+    $collection = DB::connection('mongodb')->getMongoDB()->selectCollection('metrics');
+    $nowMs = (int) now()->format('Uv');
+
+    $collection->insertMany([
+        [
+            'timestamp' => new UTCDateTime($nowMs),
+            'metric' => 'bytes_in',
+            'unit' => 'bytes',
+            'value' => 1000,
+            'meta' => ['host' => 'alpha', 'device' => 'net', 'type' => 'machine'],
+        ],
+        [
+            'timestamp' => new UTCDateTime($nowMs),
+            'metric' => 'bytes_out',
+            'unit' => 'bytes',
+            'value' => 1500,
+            'meta' => ['host' => 'alpha', 'device' => 'net', 'type' => 'machine'],
+        ],
+    ]);
+
+    $response = $this->getJson('/api/metrics/device-series?host=alpha&device=net&metrics=bytes_in,bytes_out&minutes=60');
+    $response->assertOk();
+    $series = $response->json('series');
+    expect($series)->toHaveCount(2);
+});
+
+it('returns container history series', function () {
+    $collection = DB::connection('mongodb')->getMongoDB()->selectCollection('metrics');
+    $nowMs = (int) now()->format('Uv');
+
+    $collection->insertMany([
+        [
+            'timestamp' => new UTCDateTime($nowMs),
+            'metric' => 'cpu_usage_pct',
+            'unit' => 'pct',
+            'value' => 0.5,
+            'meta' => ['host' => 'alpha', 'container' => 'web', 'type' => 'docker'],
+        ],
+        [
+            'timestamp' => new UTCDateTime($nowMs),
+            'metric' => 'status',
+            'unit' => 'bool',
+            'value' => 1,
+            'meta' => ['host' => 'alpha', 'container' => 'web', 'type' => 'docker'],
+        ],
+    ]);
+
+    $response = $this->getJson('/api/metrics/container-history?host=alpha&type=docker&container=web&metrics=cpu_usage_pct,status&minutes=60');
+    $response->assertOk();
+    $series = $response->json('series');
+    expect($series)->toHaveCount(2);
+});

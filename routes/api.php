@@ -22,6 +22,12 @@ Route::get('metrics/container', [MetricsController::class, 'containerMetrics'])
 Route::get('metrics/device-history', [MetricsController::class, 'deviceHistory'])
     ->name('api.metrics.device-history');
 
+Route::get('metrics/device-series', [MetricsController::class, 'deviceSeries'])
+    ->name('api.metrics.device-series');
+
+Route::get('metrics/container-history', [MetricsController::class, 'containerHistory'])
+    ->name('api.metrics.container-history');
+
 Route::get('metrics/overview', [MetricsController::class, 'overview'])
     ->name('api.metrics.overview');
 
