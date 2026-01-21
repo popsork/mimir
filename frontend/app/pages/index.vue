@@ -1,5 +1,7 @@
 <script setup lang="ts">
-await navigateTo('/logs')
+onMounted(() => {
+  void navigateTo('/logs')
+})
 </script>
 
 <template>

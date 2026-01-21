@@ -3,6 +3,9 @@ const apiBase = process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:42100';
 
 export default defineNuxtConfig({
   ssr: false,
+  future: {
+    compatibilityVersion: 4
+  },
   modules: [
     '@nuxt/eslint',
     '@pinia/nuxt',
