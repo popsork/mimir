@@ -26,41 +26,56 @@ export const useLogsStore = defineStore('logs', () => {
 
   const filtersStore = useLogsFiltersStore();
 
+  const shouldApplyFilter = (selected: string[], all: string[]) => {
+    if (selected.length === 0) return false;
+    if (all.length === 0) return false;
+    return selected.length < all.length;
+  };
+
   const buildParams = () => {
     const params: Record<string, string | string[] | number> = {};
+
+    const normalizeDateParam = (value: string | null) => {
+      if (!value) return null;
+      const parsed = new Date(value);
+      if (Number.isNaN(parsed.getTime())) {
+        return value;
+      }
+      return parsed.toISOString();
+    };
 
     if (query.value.trim() !== '') {
       params.q = query.value.trim();
     }
     if (from.value) {
-      params.from = from.value;
+      params.from = normalizeDateParam(from.value) ?? from.value;
     }
     if (to.value) {
-      params.to = to.value;
+      params.to = normalizeDateParam(to.value) ?? to.value;
     }
 
-    if (filtersStore.selectedLevels.length) {
+    if (shouldApplyFilter(filtersStore.selectedLevels, filtersStore.levels)) {
       params.levels = filtersStore.selectedLevels;
     }
-    if (filtersStore.selectedStreams.length) {
+    if (shouldApplyFilter(filtersStore.selectedStreams, filtersStore.streams)) {
       params.streams = filtersStore.selectedStreams;
     }
-    if (filtersStore.selectedWorkloads.length) {
+    if (shouldApplyFilter(filtersStore.selectedWorkloads, filtersStore.workloads)) {
       params.workloads = filtersStore.selectedWorkloads;
     }
-    if (filtersStore.selectedHosts.length) {
+    if (shouldApplyFilter(filtersStore.selectedHosts, filtersStore.hosts)) {
       params.hosts = filtersStore.selectedHosts;
     }
-    if (filtersStore.selectedContainers.length) {
+    if (shouldApplyFilter(filtersStore.selectedContainers, filtersStore.containers)) {
       params.containers = filtersStore.selectedContainers;
     }
-    if (filtersStore.selectedImages.length) {
+    if (shouldApplyFilter(filtersStore.selectedImages, filtersStore.images)) {
       params.images = filtersStore.selectedImages;
     }
-    if (filtersStore.selectedIdentifiers.length) {
+    if (shouldApplyFilter(filtersStore.selectedIdentifiers, filtersStore.identifiers)) {
       params.identifiers = filtersStore.selectedIdentifiers;
     }
-    if (filtersStore.selectedLoggers.length) {
+    if (shouldApplyFilter(filtersStore.selectedLoggers, filtersStore.loggers)) {
       params.loggers = filtersStore.selectedLoggers;
     }
 

@@ -5,6 +5,8 @@ import { useLogsStore } from '../../stores/logs/list';
 const filtersStore = useLogsFiltersStore();
 const logsStore = useLogsStore();
 
+useLogsQuerySync();
+
 onMounted(async () => {
   await filtersStore.load();
   await logsStore.fetchLogs();
