@@ -6,6 +6,10 @@ definePageMeta({
   layout: 'metrics',
 });
 
+definePageMeta({
+  layout: 'metrics',
+});
+
 const metricsStore = useMetricsStore();
 const overviewStore = useMetricsOverviewStore();
 
