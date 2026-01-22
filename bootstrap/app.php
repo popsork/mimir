@@ -14,6 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
             // Dedicated ingest route outside the api middleware group.
             \Illuminate\Support\Facades\Route::prefix('api')
                 ->group(__DIR__.'/../routes/ingest.php');
+
+            // MCP routes.
+            \Illuminate\Support\Facades\Route::group(__DIR__.'/../routes/ai.php');
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {
