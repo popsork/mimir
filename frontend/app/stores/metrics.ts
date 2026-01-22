@@ -1,18 +1,18 @@
 import { useMetricsWindowStore } from './metricsWindow';
 
-type MetricDefinition = {
+export type MetricDefinition = {
   metric: string;
   label: string;
   unit?: string;
 };
 
-type DeviceDefinition = {
+export type DeviceDefinition = {
   device: string;
   label: string;
   metrics: MetricDefinition[];
 };
 
-type MetricSample = {
+export type MetricSample = {
   label: string;
   metric: string;
   unit: string | null;
@@ -20,18 +20,18 @@ type MetricSample = {
   timestamp: string | null;
 };
 
-type DeviceMetrics = {
+export type DeviceMetrics = {
   device: string;
   label: string;
   metrics: MetricSample[];
 };
 
-type HostMetrics = {
+export type HostMetrics = {
   host: string | null;
   devices: DeviceMetrics[];
 };
 
-type MetricsResponse = {
+export type MetricsResponse = {
   hosts: Array<{
     host: string | null;
     devices: Array<{

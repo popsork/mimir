@@ -1,21 +1,18 @@
-import type { Ref } from 'vue';
+import type { DeviceMetrics, HostMetrics, MetricSample } from './metrics';
 import { useMetricsStore } from './metrics';
-
-type HostMetrics = ReturnType<typeof useMetricsStore>['hosts'] extends Ref<infer T> ? T[number] : never;
-type DeviceMetrics = HostMetrics['devices'][number];
 
 export const useMetricsHostsStore = defineStore('metricsHosts', () => {
   const metricsStore = useMetricsStore();
   const { hosts } = storeToRefs(metricsStore);
 
-  const hostFor = (name: string | null | undefined) => {
+  const hostFor = (name: string | null | undefined): HostMetrics | null => {
     if (!name) {
       return null;
     }
     return hosts.value.find(host => host.host === name) ?? null;
   };
 
-  const deviceFor = (hostName: string | null | undefined, deviceName: string | null | undefined) => {
+  const deviceFor = (hostName: string | null | undefined, deviceName: string | null | undefined): DeviceMetrics | null => {
     if (!hostName || !deviceName) {
       return null;
     }
@@ -26,7 +23,7 @@ export const useMetricsHostsStore = defineStore('metricsHosts', () => {
     return host.devices.find(device => device.device === deviceName) ?? null;
   };
 
-  const metricFor = (hostName: string | null | undefined, deviceName: string | null | undefined, metricName: string) => {
+  const metricFor = (hostName: string | null | undefined, deviceName: string | null | undefined, metricName: string): MetricSample | null => {
     const device = deviceFor(hostName, deviceName);
     if (!device) {
       return null;
@@ -49,7 +46,7 @@ export const useMetricsHostsStore = defineStore('metricsHosts', () => {
     return { ...host, devices: [device] };
   };
 
-  const hostsFor = (hostName: string | null | undefined, deviceName?: string | null | undefined) => {
+  const hostsFor = (hostName: string | null | undefined, deviceName?: string | null | undefined): HostMetrics[] => {
     const host = hostWithDevice(hostName, deviceName ?? null);
     return host ? [host] : [];
   };
