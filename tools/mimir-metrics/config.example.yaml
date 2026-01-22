@@ -1,0 +1,23 @@
+broker_url: "tcp://localhost:1883"
+client_id: ""
+username: ""
+password: ""
+topic_template: "metrics/$host/$device/$metric"
+status_topic: "status/$host"
+interval_seconds: 10
+host: ""
+disk_paths:
+  - "/"
+dry_run: false
+enable_local: true
+enable_docker: false
+docker_socket: "/var/run/docker.sock"
+docker_interval_seconds: 0
+enable_proxmox: false
+proxmox_interval_seconds: 0
+enable_proxmox_api: false
+proxmox_api_url: "https://localhost:8006"
+proxmox_api_node: ""
+proxmox_api_token: ""
+proxmox_api_skip_verify: true
+proxmox_api_interval_seconds: 300

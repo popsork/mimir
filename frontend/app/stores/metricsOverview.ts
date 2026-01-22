@@ -26,6 +26,27 @@ export const useMetricsOverviewStore = defineStore('metricsOverview', () => {
   const loading = ref(false);
   const error = ref<string | null>(null);
 
+  const cpuRows = computed(() => items.value.map(item => ({
+    id: item.id,
+    label: item.label,
+    value: item.cpu?.value ?? null,
+    timestamp: item.cpu?.timestamp ?? null,
+  })));
+
+  const memoryRows = computed(() => items.value.map(item => ({
+    id: item.id,
+    label: item.label,
+    value: item.mem?.value ?? null,
+    timestamp: item.mem?.timestamp ?? null,
+  })));
+
+  const diskRows = computed(() => items.value.map(item => ({
+    id: item.id,
+    label: item.label,
+    value: item.disk?.value ?? null,
+    timestamp: item.disk?.timestamp ?? null,
+  })));
+
   const fetchOverview = async () => {
     if (loading.value) {
       return;
@@ -52,6 +73,9 @@ export const useMetricsOverviewStore = defineStore('metricsOverview', () => {
     items,
     loading,
     error,
+    cpuRows,
+    memoryRows,
+    diskRows,
     windowMinutes,
     fetchOverview,
   };

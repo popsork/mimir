@@ -181,18 +181,17 @@ class MetricsController extends Controller
 
     public function tree(Request $request): Response
     {
-        $cacheEnabled = app()->environment('production');
-        $cacheKey = 'metrics_tree';
+        $cacheKey = 'metrics_tree_response';
+        $cacheMinutes = (int) config('metrics.tree_cache_minutes', 60);
 
-        if ($request->boolean('refresh') || !$cacheEnabled) {
+        if ($request->boolean('refresh')) {
             Cache::forget($cacheKey);
+            $this->forgetTreeCache();
         }
 
-        $data = $cacheEnabled
-            ? Cache::remember($cacheKey, 60, function () {
-                return $this->buildTreePayload();
-            })
-            : $this->buildTreePayload();
+        $data = Cache::remember($cacheKey, Carbon::now()->addMinutes($cacheMinutes), function () {
+            return $this->buildTreePayload();
+        });
 
         return response()->json($data);
     }
@@ -661,49 +660,163 @@ class MetricsController extends Controller
             ->getMongoDB()
             ->selectCollection('metrics');
 
-            $hosts = $collection->distinct('meta.host', []);
-            $hosts = array_values(array_filter($hosts, fn ($host) => $host !== null && $host !== ''));
-            sort($hosts);
+        $baseTree = $this->loadTreeCache($collection);
 
-            $machineDevices = $this->groupByHostAndField($collection, [
-                '$or' => [
-                    ['meta.type' => 'machine'],
-                    ['meta.type' => ['$exists' => false]],
-                ],
-            ], 'meta.device', 'devices');
+        $activeDays = (int) config('metrics.tree_active_days', 3);
+        $activeCutoff = new UTCDateTime(Carbon::now()->subDays($activeDays));
 
-            $dockerContainers = $this->groupByHostAndField($collection, ['meta.type' => 'docker'], 'meta.container', 'containers');
-            $proxmoxContainers = $this->groupByHostAndField($collection, ['meta.type' => 'proxmox'], 'meta.container', 'containers');
+        $activeDevices = $this->groupByHostAndField($collection, [
+            'timestamp' => ['$gte' => $activeCutoff],
+            '$or' => [
+                ['meta.type' => 'machine'],
+                ['meta.type' => ['$exists' => false]],
+            ],
+        ], 'meta.device', 'devices');
 
-            $runningCounts = $this->computeRunningCounts($collection);
-            $containerStatuses = $this->computeContainerStatuses($collection);
+        $activeDocker = $this->groupByHostAndField($collection, [
+            'timestamp' => ['$gte' => $activeCutoff],
+            'meta.type' => 'docker',
+        ], 'meta.container', 'containers');
 
-            $hostsData = [];
-            foreach ($hosts as $host) {
-                $hostsData[] = [
-                    'host' => $host,
-                    'devices' => $machineDevices[$host] ?? [],
-                    'docker' => [
-                        'containers' => $this->mapContainersWithStatus($dockerContainers[$host] ?? [], $containerStatuses['docker'][$host] ?? []),
-                    ],
-                    'proxmox' => [
-                        'containers' => $this->mapContainersWithStatus($proxmoxContainers[$host] ?? [], $containerStatuses['proxmox'][$host] ?? []),
-                    ],
-                ];
+        $activeProxmox = $this->groupByHostAndField($collection, [
+            'timestamp' => ['$gte' => $activeCutoff],
+            'meta.type' => 'proxmox',
+        ], 'meta.container', 'containers');
+
+        $containerStatuses = $this->computeContainerStatuses($collection);
+
+        $hostsData = [];
+        foreach ($baseTree['hosts'] as $hostEntry) {
+            $hostName = $hostEntry['host'] ?? null;
+            if (!$hostName) {
+                continue;
             }
 
-            return [
-                'overview' => [
-                    'hosts' => count($hosts),
-                    'docker_containers' => $runningCounts['docker']['total'],
-                    'container_containers' => $runningCounts['proxmox']['total'],
-                    'total_containers' => $runningCounts['docker']['total'] + $runningCounts['proxmox']['total'],
-                    'docker_running' => $runningCounts['docker']['running'],
-                    'container_running' => $runningCounts['proxmox']['running'],
-                    'total_running' => $runningCounts['docker']['running'] + $runningCounts['proxmox']['running'],
+            $devices = array_values(array_filter($hostEntry['devices'] ?? [], function ($device) use ($activeDevices, $hostName) {
+                return in_array($device, $activeDevices[$hostName] ?? [], true);
+            }));
+
+            $dockerContainers = array_values(array_filter($hostEntry['docker']['containers'] ?? [], function ($container) use ($activeDocker, $hostName) {
+                return in_array($container, $activeDocker[$hostName] ?? [], true);
+            }));
+
+            $proxmoxContainers = array_values(array_filter($hostEntry['proxmox']['containers'] ?? [], function ($container) use ($activeProxmox, $hostName) {
+                return in_array($container, $activeProxmox[$hostName] ?? [], true);
+            }));
+
+            if (!$devices && !$dockerContainers && !$proxmoxContainers) {
+                continue;
+            }
+
+            $hostsData[] = [
+                'host' => $hostName,
+                'devices' => $devices,
+                'docker' => [
+                    'containers' => $this->mapContainersWithStatus($dockerContainers, $containerStatuses['docker'][$hostName] ?? []),
                 ],
-                'hosts' => $hostsData,
+                'proxmox' => [
+                    'containers' => $this->mapContainersWithStatus($proxmoxContainers, $containerStatuses['proxmox'][$hostName] ?? []),
+                ],
             ];
+        }
+
+        return [
+            'overview' => $this->computeTreeOverview($hostsData),
+            'hosts' => $hostsData,
+        ];
+    }
+
+    private function loadTreeCache($collection): array
+    {
+        $cacheCollection = $this->getTreeCacheCollection();
+        $cacheDoc = $cacheCollection->findOne(['_id' => 'metrics_tree_base']);
+
+        $cacheMinutes = (int) config('metrics.tree_cache_minutes', 60);
+        $maxAge = Carbon::now()->subMinutes($cacheMinutes);
+
+        if ($cacheDoc && ($cacheDoc['updated_at'] ?? null) instanceof UTCDateTime) {
+            $updatedAt = $cacheDoc['updated_at']->toDateTime();
+            if ($updatedAt >= $maxAge) {
+                return [
+                    'hosts' => $this->normalizeBsonArray($cacheDoc['hosts'] ?? []),
+                ];
+            }
+        }
+
+        $baseTree = $this->buildBaseTree($collection);
+        $cacheCollection->updateOne(
+            ['_id' => 'metrics_tree_base'],
+            [
+                '$set' => [
+                    'updated_at' => new UTCDateTime(Carbon::now()),
+                    'hosts' => $baseTree['hosts'],
+                ],
+            ],
+            ['upsert' => true]
+        );
+
+        return $baseTree;
+    }
+
+    private function forgetTreeCache(): void
+    {
+        $cacheCollection = $this->getTreeCacheCollection();
+        $cacheCollection->deleteOne(['_id' => 'metrics_tree_base']);
+    }
+
+    private function buildBaseTree($collection): array
+    {
+        $defaultDays = (int) config('metrics.tree_default_days', 30);
+        $defaultCutoff = new UTCDateTime(Carbon::now()->subDays($defaultDays));
+
+        $hosts = $collection->distinct('meta.host', [
+            'timestamp' => ['$gte' => $defaultCutoff],
+        ]);
+        $hosts = array_values(array_filter($hosts, fn ($host) => $host !== null && $host !== ''));
+        sort($hosts);
+
+        $machineDevices = $this->groupByHostAndField($collection, [
+            'timestamp' => ['$gte' => $defaultCutoff],
+            '$or' => [
+                ['meta.type' => 'machine'],
+                ['meta.type' => ['$exists' => false]],
+            ],
+        ], 'meta.device', 'devices');
+
+        $dockerContainers = $this->groupByHostAndField($collection, [
+            'timestamp' => ['$gte' => $defaultCutoff],
+            'meta.type' => 'docker',
+        ], 'meta.container', 'containers');
+
+        $proxmoxContainers = $this->groupByHostAndField($collection, [
+            'timestamp' => ['$gte' => $defaultCutoff],
+            'meta.type' => 'proxmox',
+        ], 'meta.container', 'containers');
+
+        $hostsData = [];
+        foreach ($hosts as $host) {
+            $hostsData[] = [
+                'host' => $host,
+                'devices' => $machineDevices[$host] ?? [],
+                'docker' => [
+                    'containers' => $dockerContainers[$host] ?? [],
+                ],
+                'proxmox' => [
+                    'containers' => $proxmoxContainers[$host] ?? [],
+                ],
+            ];
+        }
+
+        return [
+            'hosts' => $hostsData,
+        ];
+    }
+
+    private function getTreeCacheCollection()
+    {
+        return DB::connection('mongodb')
+            ->getMongoDB()
+            ->selectCollection('metrics_tree_cache');
     }
 
     private function groupByHostAndField($collection, array $match, string $field, string $key): array
@@ -734,56 +847,6 @@ class MetricsController extends Controller
         }
 
         return $result;
-    }
-
-    private function computeRunningCounts($collection): array
-    {
-        $pipeline = [
-            ['$match' => ['meta.type' => ['$in' => ['docker', 'proxmox']], 'metric' => 'status']],
-            ['$sort' => ['timestamp' => -1]],
-            [
-                '$group' => [
-                    '_id' => [
-                        'type' => '$meta.type',
-                        'host' => '$meta.host',
-                        'container' => '$meta.container',
-                    ],
-                    'value' => ['$first' => '$value'],
-                ],
-            ],
-            [
-                '$group' => [
-                    '_id' => '$_id.type',
-                    'total' => ['$sum' => 1],
-                    'running' => [
-                        '$sum' => [
-                            '$cond' => [
-                                ['$eq' => ['$value', 1]],
-                                1,
-                                0,
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-        ];
-
-        $cursor = $collection->aggregate($pipeline);
-        $counts = [
-            'docker' => ['total' => 0, 'running' => 0],
-            'proxmox' => ['total' => 0, 'running' => 0],
-        ];
-
-        foreach ($cursor as $row) {
-            $type = $row['_id'] ?? null;
-            if (!$type || !isset($counts[$type])) {
-                continue;
-            }
-            $counts[$type]['total'] = (int) ($row['total'] ?? 0);
-            $counts[$type]['running'] = (int) ($row['running'] ?? 0);
-        }
-
-        return $counts;
     }
 
     private function computeContainerStatuses($collection): array
@@ -862,5 +925,60 @@ class MetricsController extends Controller
             return strcmp($a['name'], $b['name']);
         });
         return $items;
+    }
+
+    private function computeTreeOverview(array $hostsData): array
+    {
+        $dockerTotal = 0;
+        $proxmoxTotal = 0;
+        $dockerRunning = 0;
+        $proxmoxRunning = 0;
+
+        foreach ($hostsData as $host) {
+            foreach ($host['docker']['containers'] ?? [] as $container) {
+                $dockerTotal++;
+                if (($container['running'] ?? null) === true) {
+                    $dockerRunning++;
+                }
+            }
+            foreach ($host['proxmox']['containers'] ?? [] as $container) {
+                $proxmoxTotal++;
+                if (($container['running'] ?? null) === true) {
+                    $proxmoxRunning++;
+                }
+            }
+        }
+
+        return [
+            'hosts' => count($hostsData),
+            'docker_containers' => $dockerTotal,
+            'container_containers' => $proxmoxTotal,
+            'total_containers' => $dockerTotal + $proxmoxTotal,
+            'docker_running' => $dockerRunning,
+            'container_running' => $proxmoxRunning,
+            'total_running' => $dockerRunning + $proxmoxRunning,
+        ];
+    }
+
+    private function normalizeBsonArray(mixed $value): array
+    {
+        $normalized = $this->normalizeBsonValue($value);
+        return is_array($normalized) ? $normalized : [];
+    }
+
+    private function normalizeBsonValue(mixed $value): mixed
+    {
+        if ($value instanceof \MongoDB\Model\BSONArray) {
+            $value = $value->getArrayCopy();
+        }
+        if ($value instanceof \MongoDB\Model\BSONDocument) {
+            $value = $value->getArrayCopy();
+        }
+        if (is_array($value)) {
+            foreach ($value as $key => $item) {
+                $value[$key] = $this->normalizeBsonValue($item);
+            }
+        }
+        return $value;
     }
 }
