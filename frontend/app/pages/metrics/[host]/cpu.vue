@@ -4,10 +4,6 @@ import { useMetricsHistoryStore } from '../../../stores/metricsHistory';
 import { useMetricsHostsStore } from '../../../stores/metricsHosts';
 import { useMetricsRefreshStore } from '../../../stores/metricsRefresh';
 
-definePageMeta({
-  layout: 'metrics',
-});
-
 const route = useRoute();
 const hostsStore = useMetricsHostsStore();
 const historyStore = useMetricsHistoryStore();
@@ -60,31 +56,33 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="space-y-6">
-    <UCard v-if="historyLoading || cpuLoading">
-      <p class="text-sm text-muted">Loading CPU history...</p>
-    </UCard>
-    <UCard v-else-if="historyError || cpuError">
-      <p class="text-sm text-red-600">{{ historyError || cpuError }}</p>
-    </UCard>
+  <MetricsShell>
+    <div class="space-y-6">
+      <UCard v-if="historyLoading || cpuLoading">
+        <p class="text-sm text-muted">Loading CPU history...</p>
+      </UCard>
+      <UCard v-else-if="historyError || cpuError">
+        <p class="text-sm text-red-600">{{ historyError || cpuError }}</p>
+      </UCard>
 
-    <MetricsHostSection
-      v-for="hostItem in viewHosts"
-      :key="hostItem.host || 'unknown'"
-      :host="hostItem.host || 'unknown'"
-      :devices="hostItem.devices"
-    />
+      <MetricsHostSection
+        v-for="hostItem in viewHosts"
+        :key="hostItem.host || 'unknown'"
+        :host="hostItem.host || 'unknown'"
+        :devices="hostItem.devices"
+      />
 
-    <MetricsCpuHistoryChart
-      v-if="host"
-      :host="host"
-      :series="cpuSeries"
-    />
-    <MetricsLoadHistoryChart
-      v-if="host"
-      :host="host"
-      :series="systemSeries"
-      :cpu-points="historyPoints"
-    />
-  </div>
+      <MetricsCpuHistoryChart
+        v-if="host"
+        :host="host"
+        :series="cpuSeries"
+      />
+      <MetricsLoadHistoryChart
+        v-if="host"
+        :host="host"
+        :series="systemSeries"
+        :cpu-points="historyPoints"
+      />
+    </div>
+  </MetricsShell>
 </template>

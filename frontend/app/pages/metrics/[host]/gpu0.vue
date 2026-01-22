@@ -3,10 +3,6 @@ import { useMetricsDeviceSeriesStore } from '../../../stores/metricsDeviceSeries
 import { useMetricsHostsStore } from '../../../stores/metricsHosts';
 import { useMetricsRefreshStore } from '../../../stores/metricsRefresh';
 
-definePageMeta({
-  layout: 'metrics',
-});
-
 const route = useRoute();
 const hostsStore = useMetricsHostsStore();
 const deviceSeriesStore = useMetricsDeviceSeriesStore();
@@ -41,25 +37,27 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="space-y-6">
-    <UCard v-if="loading">
-      <p class="text-sm text-muted">Loading device history...</p>
-    </UCard>
-    <UCard v-else-if="error">
-      <p class="text-sm text-red-600">{{ error }}</p>
-    </UCard>
+  <MetricsShell>
+    <div class="space-y-6">
+      <UCard v-if="loading">
+        <p class="text-sm text-muted">Loading device history...</p>
+      </UCard>
+      <UCard v-else-if="error">
+        <p class="text-sm text-red-600">{{ error }}</p>
+      </UCard>
 
-    <MetricsHostSection
-      v-for="hostItem in viewHosts"
-      :key="hostItem.host || 'unknown'"
-      :host="hostItem.host || 'unknown'"
-      :devices="hostItem.devices"
-    />
+      <MetricsHostSection
+        v-for="hostItem in viewHosts"
+        :key="hostItem.host || 'unknown'"
+        :host="hostItem.host || 'unknown'"
+        :devices="hostItem.devices"
+      />
 
-    <MetricsGpuHistoryPanel
-      v-if="host"
-      :host="host"
-      :series="series"
-    />
-  </div>
+      <MetricsGpuHistoryPanel
+        v-if="host"
+        :host="host"
+        :series="series"
+      />
+    </div>
+  </MetricsShell>
 </template>

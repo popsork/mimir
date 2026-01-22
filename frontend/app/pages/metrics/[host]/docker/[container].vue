@@ -3,10 +3,6 @@ import { useContainerMetricsHistoryStore } from '../../../../stores/containerMet
 import { useContainerMetricsStore } from '../../../../stores/containerMetrics';
 import { useMetricsRefreshStore } from '../../../../stores/metricsRefresh';
 
-definePageMeta({
-  layout: 'metrics',
-});
-
 const route = useRoute();
 const containerStore = useContainerMetricsStore();
 const containerHistoryStore = useContainerMetricsHistoryStore();
@@ -61,32 +57,34 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="space-y-6">
-    <UCard v-if="loading">
-      <p class="text-sm text-muted">Loading container metrics...</p>
-    </UCard>
-    <UCard v-else-if="error">
-      <p class="text-sm text-red-600">{{ error }}</p>
-    </UCard>
-    <MetricsDockerContainerPanel
-      v-else-if="host && container"
-      :host="host"
-      :container="container"
-      type="docker"
-      :metrics="metrics"
-    />
+  <MetricsShell>
+    <div class="space-y-6">
+      <UCard v-if="loading">
+        <p class="text-sm text-muted">Loading container metrics...</p>
+      </UCard>
+      <UCard v-else-if="error">
+        <p class="text-sm text-red-600">{{ error }}</p>
+      </UCard>
+      <MetricsDockerContainerPanel
+        v-else-if="host && container"
+        :host="host"
+        :container="container"
+        type="docker"
+        :metrics="metrics"
+      />
 
-    <UCard v-if="historyLoading">
-      <p class="text-sm text-muted">Loading container history...</p>
-    </UCard>
-    <UCard v-else-if="historyError">
-      <p class="text-sm text-red-600">{{ historyError }}</p>
-    </UCard>
-    <MetricsContainerHistoryPanel
-      v-else-if="host && container"
-      :host="host"
-      :container="container"
-      :series="series"
-    />
-  </div>
+      <UCard v-if="historyLoading">
+        <p class="text-sm text-muted">Loading container history...</p>
+      </UCard>
+      <UCard v-else-if="historyError">
+        <p class="text-sm text-red-600">{{ historyError }}</p>
+      </UCard>
+      <MetricsContainerHistoryPanel
+        v-else-if="host && container"
+        :host="host"
+        :container="container"
+        :series="series"
+      />
+    </div>
+  </MetricsShell>
 </template>

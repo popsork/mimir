@@ -3,10 +3,6 @@ import { useMetricsHostsStore } from '../../../stores/metricsHosts';
 import { useMetricsRefreshStore } from '../../../stores/metricsRefresh';
 import { useMetricsStore } from '../../../stores/metrics';
 
-definePageMeta({
-  layout: 'metrics',
-});
-
 const route = useRoute();
 const hostsStore = useMetricsHostsStore();
 const refreshStore = useMetricsRefreshStore();
@@ -29,19 +25,21 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="space-y-6">
-    <UCard v-if="loading">
-      <p class="text-sm text-muted">Loading device metrics...</p>
-    </UCard>
-    <UCard v-else-if="!hostEntry">
-      <p class="text-sm text-muted">Device not found for this host.</p>
-    </UCard>
-    <MetricsHostSection
-      v-else
-      v-for="hostItem in viewHosts"
-      :key="hostItem.host || 'unknown'"
-      :host="hostItem.host || 'unknown'"
-      :devices="hostItem.devices"
-    />
-  </div>
+  <MetricsShell>
+    <div class="space-y-6">
+      <UCard v-if="loading">
+        <p class="text-sm text-muted">Loading device metrics...</p>
+      </UCard>
+      <UCard v-else-if="!hostEntry">
+        <p class="text-sm text-muted">Device not found for this host.</p>
+      </UCard>
+      <MetricsHostSection
+        v-else
+        v-for="hostItem in viewHosts"
+        :key="hostItem.host || 'unknown'"
+        :host="hostItem.host || 'unknown'"
+        :devices="hostItem.devices"
+      />
+    </div>
+  </MetricsShell>
 </template>

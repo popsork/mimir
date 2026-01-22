@@ -2,10 +2,6 @@
 import { useContainersOverviewStore } from '../../../../stores/containersOverview';
 import { useMetricsRefreshStore } from '../../../../stores/metricsRefresh';
 
-definePageMeta({
-  layout: 'metrics',
-});
-
 const route = useRoute();
 const containersStore = useContainersOverviewStore();
 const refreshStore = useMetricsRefreshStore();
@@ -35,20 +31,22 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="space-y-6">
-    <UCard v-if="loading">
-      <p class="text-sm text-muted">Loading containers...</p>
-    </UCard>
-    <UCard v-else-if="error">
-      <p class="text-sm text-red-600">{{ error }}</p>
-    </UCard>
-    <MetricsContainersOverviewPanel
-      v-else-if="host"
-      :host="host"
-      type="docker"
-      :total="total"
-      :running="running"
-      :items="items"
-    />
-  </div>
+  <MetricsShell>
+    <div class="space-y-6">
+      <UCard v-if="loading">
+        <p class="text-sm text-muted">Loading containers...</p>
+      </UCard>
+      <UCard v-else-if="error">
+        <p class="text-sm text-red-600">{{ error }}</p>
+      </UCard>
+      <MetricsContainersOverviewPanel
+        v-else-if="host"
+        :host="host"
+        type="docker"
+        :total="total"
+        :running="running"
+        :items="items"
+      />
+    </div>
+  </MetricsShell>
 </template>
