@@ -10,7 +10,9 @@ This project exposes a local MCP server that provides direct access to logs and 
 
 - `logs.query` — query log messages by time range, filters, and text search.
 - `logs.facets` — top values for a log field in a time window.
+- `metrics.catalog` — list available metrics by host/device/container within a time window.
 - `metrics.series` — time series for one or more metrics on a host/device or host/container.
+- `metrics.summary` — min/max/avg/latest for metrics on a host/device or host/container.
 - `metrics.topN` — top-N latest values for a metric grouped by host/device or host/container.
 - `metrics.gaps` — find hosts/devices/containers that stopped reporting metrics.
 - `mongo.aggregate` — run a raw MongoDB aggregation pipeline against allowed collections.
