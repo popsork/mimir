@@ -1,21 +1,20 @@
 <script setup lang="ts">
-import { useMetricsHostsStore } from '../../../stores/metricsHosts';
-import { useMetricsRefreshStore } from '../../../stores/metricsRefresh';
-import { useMetricsStore } from '../../../stores/metrics';
+import { useMetricsHostsStore } from '../../metricsHosts';
+import { useMetricsRefreshStore } from '../../metricsRefresh';
+import { useMetricsStore } from '../../metrics';
 
 const route = useRoute();
+const metricsStore = useMetricsStore();
 const hostsStore = useMetricsHostsStore();
 const refreshStore = useMetricsRefreshStore();
-const metricsStore = useMetricsStore();
 
 const host = computed(() => typeof route.params.host === 'string' ? route.params.host : null);
-const device = computed(() => typeof route.params.device === 'string' ? route.params.device : null);
+const hostEntry = computed(() => hostsStore.hostFor(host.value));
+const viewHosts = computed(() => hostsStore.hostsFor(host.value));
 
-const hostEntry = computed(() => hostsStore.hostWithDevice(host.value, device.value));
-const viewHosts = computed(() => hostEntry.value ? [hostEntry.value] : []);
-const { loading } = storeToRefs(metricsStore);
+const { loading, error } = storeToRefs(metricsStore);
 
-watch([host, device], () => {
+watch(host, () => {
   refreshStore.setRefreshers([]);
 }, { immediate: true });
 
@@ -28,10 +27,13 @@ onBeforeUnmount(() => {
   <MetricsShell>
     <div class="space-y-6">
       <UCard v-if="loading">
-        <p class="text-sm text-muted">Loading device metrics...</p>
+        <p class="text-sm text-muted">Loading host metrics...</p>
+      </UCard>
+      <UCard v-else-if="error">
+        <p class="text-sm text-red-600">{{ error }}</p>
       </UCard>
       <UCard v-else-if="!hostEntry">
-        <p class="text-sm text-muted">Device not found for this host.</p>
+        <p class="text-sm text-muted">Host not found.</p>
       </UCard>
       <MetricsHostSection
         v-else

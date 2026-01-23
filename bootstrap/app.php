@@ -16,7 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->group(__DIR__.'/../routes/ingest.php');
 
             // MCP routes.
-            \Illuminate\Support\Facades\Route::group(__DIR__.'/../routes/ai.php');
+            \Illuminate\Support\Facades\Route::group([], __DIR__.'/../routes/ai.php');
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {

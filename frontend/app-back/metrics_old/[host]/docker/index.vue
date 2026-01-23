@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useContainersOverviewStore } from '../../../../stores/containersOverview';
-import { useMetricsRefreshStore } from '../../../../stores/metricsRefresh';
+import { useContainersOverviewStore } from '../../../containersOverview';
+import { useMetricsRefreshStore } from '../../../metricsRefresh';
 
 const route = useRoute();
 const containersStore = useContainersOverviewStore();
@@ -16,7 +16,7 @@ const load = async () => {
   }
   await containersStore.fetchOverview({
     host: host.value,
-    type: 'proxmox',
+    type: 'docker',
   });
 };
 
@@ -42,7 +42,7 @@ onBeforeUnmount(() => {
       <MetricsContainersOverviewPanel
         v-else-if="host"
         :host="host"
-        type="proxmox"
+        type="docker"
         :total="total"
         :running="running"
         :items="items"

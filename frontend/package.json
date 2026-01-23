@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.12.1",
+    "@nuxtjs/i18n": "^10.2.1",
     "@types/node": "^22.13.1",
     "eslint": "^9.39.2",
     "typescript": "^5.9.3",

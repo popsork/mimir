@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useContainerMetricsHistoryStore } from '../../../../stores/containerMetricsHistory';
-import { useContainerMetricsStore } from '../../../../stores/containerMetrics';
-import { useMetricsRefreshStore } from '../../../../stores/metricsRefresh';
+import { useContainerMetricsHistoryStore } from '../../../containerMetricsHistory';
+import { useContainerMetricsStore } from '../../../containerMetrics';
+import { useMetricsRefreshStore } from '../../../metricsRefresh';
 
 const route = useRoute();
 const containerStore = useContainerMetricsStore();
@@ -26,12 +26,12 @@ const load = async () => {
     containerStore.fetchMetrics({
       host: host.value,
       container: container.value,
-      type: 'proxmox',
+      type: 'docker',
     }),
     containerHistoryStore.fetchHistory({
       host: host.value,
       container: container.value,
-      type: 'proxmox',
+      type: 'docker',
       metrics: [
         'cpu_usage_pct',
         'mem_usage_pct',
@@ -69,7 +69,7 @@ onBeforeUnmount(() => {
         v-else-if="host && container"
         :host="host"
         :container="container"
-        type="proxmox"
+        type="docker"
         :metrics="metrics"
       />
 

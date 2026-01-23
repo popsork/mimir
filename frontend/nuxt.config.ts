@@ -1,3 +1,5 @@
+import { SiteLocale } from "./app/enums/SiteLocale";
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 const apiBase = process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:42100';
 
@@ -10,7 +12,23 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@pinia/nuxt',
     '@nuxt/ui',
-    'nuxt-charts'
+    'nuxt-charts',
+    [
+      "@nuxtjs/i18n",
+      {
+        locales: Object.values(SiteLocale).map((locale) => {
+          return {
+            code: locale,
+            file: `${locale}.json`
+          };
+        }),
+        langDir: "../i18n/locales",
+        detectBrowserLanguage: false,
+        defaultLocale: SiteLocale.En,
+        customRoutes: "page",
+        strategy: "no_prefix"
+      }
+    ]
   ],
 
   devtools: {

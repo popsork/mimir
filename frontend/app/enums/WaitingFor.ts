@@ -1,3 +1,3 @@
 export enum WaitingFor {
-  Nothing = "nothing"
+  MetricsTree = "metrics-tree",
 }

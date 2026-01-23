@@ -1,0 +1,22 @@
+{
+  "metrics": {
+    "devices": {
+      "labels": {
+        "cpu": "CPU",
+        "disk": "Disk",
+        "diskio": "Disk IO",
+        "gpu0": "GPU",
+        "mem": "Memory",
+        "net": "Network",
+        "swap": "Swap",
+        "system": "System"
+      }
+    },
+    "metrics": {
+      "labels": {
+        "usage": "Usage",
+        "temp": "Temperature"
+      }
+    }
+  }
+}

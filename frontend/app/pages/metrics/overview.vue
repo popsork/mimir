@@ -3,7 +3,9 @@
 </script>
 
 <template>
-docker 2
+  <MetricsOverviewCpu />
+  <MetricsOverviewMemory />
+  <MetricsOverviewDisk />
 </template>
 
 <style scoped lang="scss">

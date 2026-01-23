@@ -1,10 +1,9 @@
 <script setup lang="ts">
 const props = defineProps<{
-  label: string,
-  value: number | null,
-  unit: string | null,
-  timestamp: string | null,
-  subText?: string | null,
+  label: string;
+  value: number | null;
+  unit: string | null;
+  timestamp: string | null;
 }>();
 
 const { formatValue, gaugePercent, gaugeTone, formatTime } = useMetricsFormatting();
@@ -25,9 +24,6 @@ const metric = computed(() => ({
         </p>
         <p class="text-lg font-semibold">
           {{ formatValue(value, unit) }}
-        </p>
-        <p class="mt-1 text-xs text-muted" v-if="props.subText">
-          {{ props.subText }}
         </p>
       </div>
       <div

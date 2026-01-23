@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useMetricsStore } from '../stores/metrics';
-import { useMetricsOverviewStore } from '../stores/metricsOverview';
-import { useMetricsRefreshStore } from '../stores/metricsRefresh';
-import { useMetricsSummaryStore } from '../stores/metricsSummary';
-import { useMetricsTreeStore } from '../stores/metricsTree';
-import { useMetricsWindowStore } from '../stores/metricsWindow';
-import type { MetricsTreeNode } from '../stores/metricsTree';
+import { useMetricsStore } from '../../app-back/metrics';
+import { useMetricsOverviewStore } from '../../app-back/metricsOverview';
+import { useMetricsRefreshStore } from '../../app-back/metricsRefresh';
+import { useMetricsSummaryStore } from '../../app-back/metricsSummary';
+import { useMetricsTreeStore } from '../../app-back/metricsTree';
+import { useMetricsWindowStore } from '../../app-back/metricsWindow';
+import type { MetricsTreeNode } from '../../app-back/metricsTree';
 import { routeFromTreeValue, treeValueFromRoute } from '../utils/metricsRouting';
 
 const metricsStore = useMetricsStore();
