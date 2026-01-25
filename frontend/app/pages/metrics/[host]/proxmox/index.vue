@@ -4,5 +4,5 @@ const host = computed(() => route.params.host as string);
 </script>
 
 <template>
-  <ContainersOverviewPanel :host="host" type="docker" />
+  <ContainersOverviewPanel :host="host" type="proxmox" />
 </template>
