@@ -1,9 +1,10 @@
 <template>
-Visa lite CPU stuff!
+<MetricsChartsNetThroughput :host="host" device="net" />
 </template>
 
 <script setup lang="ts">
-
+const route = useRoute();
+const host = computed(() => route.params.host as string);
 </script>
 
 <style scoped lang="scss">

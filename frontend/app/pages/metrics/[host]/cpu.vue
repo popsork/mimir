@@ -3,6 +3,9 @@
     <MetricsMetricGauge :host="host" device="cpu" metric="usage"/>
     <MetricsMetricGauge :host="host" device="cpu" metric="temp"/>
   </div>
+  <div>
+    <MetricsChartsCpuHistory :host="host" device="cpu" />
+  </div>
 </template>
 
 <script setup lang="ts">

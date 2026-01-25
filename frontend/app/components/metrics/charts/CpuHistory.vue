@@ -32,6 +32,14 @@ const categories = {
   temp: { name: 'CPU Temp (C)', color: '#f97316' },
 };
 
+useMetricsTicker(() => {
+  seriesStore.fetchSeries({
+    host: props.host,
+    device: props.device,
+    metrics: ['usage', 'temp'],
+  });
+});
+
 const yFormatter = (value: number) => formatNumber(value, 1);
 </script>
 
