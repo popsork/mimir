@@ -1,3 +1,5 @@
+import { resolveLogsTimeRangePreset } from '../../utils/logsTimeRangePresets';
+
 export const useLogsFiltersStore = defineStore('logs-filters', () => {
   const levels = ref<string[]>([]);
   const streams = ref<string[]>([]);
@@ -19,10 +21,33 @@ export const useLogsFiltersStore = defineStore('logs-filters', () => {
 
   const loading = ref(false);
 
-  const load = async () => {
+  const load = async (params?: { from?: string | null; to?: string | null; rangePreset?: string | null }) => {
     loading.value = true;
     try {
-      const data = await $fetch('/api/logs/filters') as {
+      const normalizeDateParam = (value: string | null | undefined) => {
+        if (!value) return null;
+        const parsed = new Date(value);
+        if (Number.isNaN(parsed.getTime())) {
+          return value;
+        }
+        return parsed.toISOString();
+      };
+
+      const requestParams: Record<string, string> = {};
+      const presetRange = resolveLogsTimeRangePreset(params?.rangePreset ?? null);
+      if (presetRange) {
+        requestParams.from = presetRange.from.toISOString();
+        requestParams.to = presetRange.to.toISOString();
+      } else {
+        const normalizedFrom = normalizeDateParam(params?.from);
+        const normalizedTo = normalizeDateParam(params?.to);
+        if (normalizedFrom) requestParams.from = normalizedFrom;
+        if (normalizedTo) requestParams.to = normalizedTo;
+      }
+
+      const data = await $fetch('/api/logs/filters', {
+        params: requestParams,
+      }) as {
         levels?: string[];
         streams?: string[];
         workloads?: string[];
@@ -32,23 +57,39 @@ export const useLogsFiltersStore = defineStore('logs-filters', () => {
         identifiers?: string[];
         loggers?: string[];
       };
-      levels.value = data.levels || [];
-      streams.value = data.streams || [];
-      workloads.value = data.workloads || [];
-      hosts.value = data.hosts || [];
-      containers.value = data.containers || [];
-      images.value = data.images || [];
-      identifiers.value = data.identifiers || [];
-      loggers.value = data.loggers || [];
+      const nextLevels = data.levels || [];
+      const nextStreams = data.streams || [];
+      const nextWorkloads = data.workloads || [];
+      const nextHosts = data.hosts || [];
+      const nextContainers = data.containers || [];
+      const nextImages = data.images || [];
+      const nextIdentifiers = data.identifiers || [];
+      const nextLoggers = data.loggers || [];
 
-      if (selectedLevels.value.length === 0) selectedLevels.value = [...levels.value];
-      if (selectedStreams.value.length === 0) selectedStreams.value = [...streams.value];
-      if (selectedWorkloads.value.length === 0) selectedWorkloads.value = [...workloads.value];
-      if (selectedHosts.value.length === 0) selectedHosts.value = [...hosts.value];
-      if (selectedContainers.value.length === 0) selectedContainers.value = [...containers.value];
-      if (selectedImages.value.length === 0) selectedImages.value = [...images.value];
-      if (selectedIdentifiers.value.length === 0) selectedIdentifiers.value = [...identifiers.value];
-      if (selectedLoggers.value.length === 0) selectedLoggers.value = [...loggers.value];
+      const reconcileSelection = (selected: string[], options: string[]) => {
+        if (options.length === 0) return [];
+        if (selected.length === 0) return [...options];
+        const next = selected.filter((item) => options.includes(item));
+        return next.length > 0 ? next : [...options];
+      };
+
+      levels.value = nextLevels;
+      streams.value = nextStreams;
+      workloads.value = nextWorkloads;
+      hosts.value = nextHosts;
+      containers.value = nextContainers;
+      images.value = nextImages;
+      identifiers.value = nextIdentifiers;
+      loggers.value = nextLoggers;
+
+      selectedLevels.value = reconcileSelection(selectedLevels.value, nextLevels);
+      selectedStreams.value = reconcileSelection(selectedStreams.value, nextStreams);
+      selectedWorkloads.value = reconcileSelection(selectedWorkloads.value, nextWorkloads);
+      selectedHosts.value = reconcileSelection(selectedHosts.value, nextHosts);
+      selectedContainers.value = reconcileSelection(selectedContainers.value, nextContainers);
+      selectedImages.value = reconcileSelection(selectedImages.value, nextImages);
+      selectedIdentifiers.value = reconcileSelection(selectedIdentifiers.value, nextIdentifiers);
+      selectedLoggers.value = reconcileSelection(selectedLoggers.value, nextLoggers);
     } finally {
       loading.value = false;
     }

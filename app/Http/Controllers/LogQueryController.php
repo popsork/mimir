@@ -13,15 +13,18 @@ class LogQueryController extends Controller
 {
     public function filters(Request $request): Response
     {
+        $from = $this->parseDate($request->query('from'));
+        $to = $this->parseDate($request->query('to'));
+
         $filters = [
-            'levels' => $this->facetValues('level'),
-            'streams' => $this->facetValues('stream'),
-            'workloads' => $this->facetValues('workload'),
-            'hosts' => $this->facetValues('host'),
-            'containers' => $this->facetValues('container'),
-            'images' => $this->facetValues('image'),
-            'identifiers' => $this->facetValues('identifier'),
-            'loggers' => $this->facetValues('logger'),
+            'levels' => $this->facetValues('level', $from, $to),
+            'streams' => $this->facetValues('stream', $from, $to),
+            'workloads' => $this->facetValues('workload', $from, $to),
+            'hosts' => $this->facetValues('host', $from, $to),
+            'containers' => $this->facetValues('container', $from, $to),
+            'images' => $this->facetValues('image', $from, $to),
+            'identifiers' => $this->facetValues('identifier', $from, $to),
+            'loggers' => $this->facetValues('logger', $from, $to),
         ];
 
         return response()->json($filters);
@@ -190,14 +193,22 @@ class LogQueryController extends Controller
         return $value->toDateTime()->format(DATE_ATOM);
     }
 
-    private function facetValues(string $type): array
+    private function facetValues(string $type, ?UTCDateTime $from = null, ?UTCDateTime $to = null): array
     {
         $collection = DB::connection('mongodb')
             ->getMongoDB()
             ->selectCollection('log_facets');
 
+        $match = ['type' => $type];
+        if ($from) {
+            $match['last_seen'] = ['$gte' => $from];
+        }
+        if ($to) {
+            $match['first_seen'] = ['$lte' => $to];
+        }
+
         $cursor = $collection->find(
-            ['type' => $type],
+            $match,
             [
                 'projection' => ['value' => 1, '_id' => 0],
                 'sort' => ['value' => 1],
